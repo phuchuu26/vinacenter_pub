@@ -1,0 +1,106 @@
+.col-item:hover{
+	border: 1px dotted #666666 !important;
+}
+hr {
+  border:none;
+  border-top:1px dotted #ccc;
+  color:#fff;
+  background-color:#fff;
+  height:1px;
+  width:100%;
+}
+.product-image-area{
+	height: 180px;*/
+	border: 1px solid #666666;
+}
+.share{
+	width: 100%;	
+}
+.share table tr td{
+	width: 100%;
+	padding-top: 10px;	
+	margin-top: 40px;
+	text-align: left;
+	text-indent: 5px;		
+}
+/**********************
+    BẢNG DANH SÁCH
+ *********************/
+.list_table /* Bảng danh sách */ {
+    border-collapse: collapse;
+    width: 95%;
+    margin: 10px auto;
+}
+.list_heading /* Dòng chứa tiêu đề bảng */ {
+    background-image: url("../images/content_bg.png");
+    border-right: 1px solid black;
+}
+.list_heading > td /* Những ô ở dòng tiêu đề */ {
+    font-weight: bold;
+    text-align: center;
+    height: 26px;
+    color: white;
+    background: url('../images/nav_sep.png') no-repeat left bottom;
+    padding: 3px;
+}
+.list_data > td /* Dòng chứa record */ {
+    border: 1px solid #eaeaea;
+    padding: 3px;
+    text-align: center;
+}
+.list_data:hover /* Dòng chứa record */ {
+    background: #f6f6f6;
+}
+.id_col /* Cột số thứ tự */ {
+    width: 35px;
+}
+.action_col /* Cột thao tác quản lý */ {
+    width: 65px;
+}
+.aligncenter {
+    text-align: center;
+}
+.alignright {
+    text-align: right;
+}
+.col-md-9 {
+  position: relative;
+}
+/*.col-md-9 strong{
+  position: absolute;
+  left: 0px;
+}*/
+.button_actions .view-cart {
+  background:#f23534;
+  width: 100%;
+  padding:10px;
+  float: center; 
+  color:#fff;
+  font-size:14px;
+  text-align:center;
+  cursor:pointer;
+  text-decoration:none;
+  float:left;
+  transition:color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0;
+  border:1px solid #f23534;
+  font-weight:700;
+  text-transform:uppercase;
+  line-height:normal
+}
+.button_actions .view-cart:hover {
+  background:#333;
+  border:1px solid #333;
+  color:#fff
+}
+.button_actions .view-cart:before {
+  content:'\e116';
+  font-family:'Glyphicons Halflings';
+  font-size:12px;
+  padding-right:8px;
+  font-weight:400
+}
+
+.short-description ul {
+    list-style-type: disc !important;
+    padding-left: 18px
+}
