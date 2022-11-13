@@ -71,11 +71,30 @@ Route::get('vnclogin',['as' => 'getLogin','uses' => 'LoginController@getLogin' ]
 Route::post('vnclogin',['as' => 'postLogin','uses' => 'LoginController@postLogin' ] );
 Route::get('logout',['as' => 'getLogout','uses' => 'LoginController@getLogout' ] );
 
+Route::group(['prefix' => 'login'],function(){
+
+    Route::group(['prefix' => 'google'],function(){
+        Route::get('/','Admin\LoginThirdPartyController@redirectToGoogle')->name('login.google');
+        Route::get('/callback','Admin\LoginThirdPartyController@googleCallback')->name('login.googleCallback');
+    });
+    
+    Route::group(['prefix' => 'facebook'],function(){
+        Route::get('/','Admin\LoginThirdPartyController@redirectToFace')->name('login.face');
+        Route::get('/callback','Admin\LoginThirdPartyController@faceCallback')->name('login.faceCallback');
+    });
+    
+    Route::get('update-info-third-party-first-login','LoginThirdParty@backupcustomer')->name('admin.backupcustomer');
+});
+
+
+
 Route::group(['middleware' => 'auth'], function () {   
     Route::group(['prefix' => 'vncadmin','namespace' => 'Admin'],function(){    	
     	Route::get('/',function(){
     		return redirect()->route('getOrderList');
     	});
+        
+        
 
         Route::get('backupcustomer','BackupController@backupcustomer')->name('admin.backupcustomer');
         Route::get('backupcustomerID','BackupController@backupcustomerID')->name('admin.backupcustomerID');

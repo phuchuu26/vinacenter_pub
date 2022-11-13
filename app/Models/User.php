@@ -16,7 +16,7 @@ class User extends Authenticatable
      */
     protected $table = 'vnc_users';
     protected $fillable = [
-        'name','username', 'password','created_at','updated_at'
+        'name','username', 'password','created_at','updated_at', 'email'
     ];
 
     /**

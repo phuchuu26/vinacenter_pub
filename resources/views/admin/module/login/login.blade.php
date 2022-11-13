@@ -39,6 +39,15 @@
               <span class="form_label"></span>
               <span class="form_item">
                                 <input type="submit" name="btnLogin" value="Đăng nhập" class="button"/>
+                                <a href="{{ route('login.google') }}" 
+                                  class="btn btn-secondary">{{ __('Google Sign in') }}</a>
+                            </span>
+                            
+                            
+                            <span class="form_item">
+                                <input type="submit" name="btnLogin" value="Đăng nhập" class="button"/>
+                                <a href="{{ route('login.face') }}" 
+                                  class="btn btn-secondary">Dang nhap face</a>
                             </span>
             </td>
           </tr>

@@ -99,4 +99,10 @@ return [
         ],
     ],
 
+    'socialite' => [
+        'drivers' => [
+            'google',
+        ],
+    ],
+
 ];
