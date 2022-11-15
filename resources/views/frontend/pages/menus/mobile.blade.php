@@ -42,7 +42,7 @@
       <i class="fas fa-caret-right" style="color: #0098da;;"></i><a class="text-info" href="{!! route('getOrderList') !!}" target="_blank"> Quản lý đơn hàng</a>
       <i class="fas fa-caret-right" style="color: #0098da;;"></i><a class="text-info" href="{!! route('getLogout') !!}"> Thoát</a>
     @else
-     <i class="fas fa-caret-right" style="color: #0098da;;"></i><a class="text-info" href="https://vinacenter.vn/vnclogin"> Đăng Nhập</a>
+     <i class="fas fa-caret-right" style="color: #0098da;;"></i><a class="text-info" href="{!! route('getLogin') !!}"> Đăng Nhập</a>
       @endif
 
 
