@@ -86,4 +86,10 @@ class LoginThirdPartyController extends Controller
     {
         return Socialite::driver('facebook')->redirect();
     }
+    
+    public function updateInfoUser()
+    {
+        dd(23);
+        return view('admin.blocks.notfind');
+    }
 }

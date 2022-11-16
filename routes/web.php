@@ -83,7 +83,7 @@ Route::group(['prefix' => 'login'],function(){
         Route::get('/callback','Admin\LoginThirdPartyController@faceCallback')->name('login.faceCallback');
     });
     
-    Route::get('update-info-third-party-first-login','LoginThirdParty@backupcustomer')->name('admin.backupcustomer');
+    Route::get('/update-info-third-party-first-login','LoginThirdParty@updateInfoUser')->name('login.update_info_user');
 });
 
 
