@@ -82,8 +82,10 @@ Route::group(['prefix' => 'login'],function(){
         Route::get('/','Admin\LoginThirdPartyController@redirectToFace')->name('login.face');
         Route::get('/callback','Admin\LoginThirdPartyController@faceCallback')->name('login.faceCallback');
     });
-    
-    Route::get('/update-info-third-party-first-login','LoginThirdParty@updateInfoUser')->name('login.update_info_user');
+    Route::get('/update-info-third-party-first-login','Admin\LoginThirdPartyController@updateInfoUser')->name('login.update_info_user');
+    Route::get('/get-district/{id}','Admin\LoginThirdPartyController@getDistrictByIdProvince')->name('login.get_district_by_id_province');
+    Route::get('/get-ward/{id}','Admin\LoginThirdPartyController@getWardByIdDistrict')->name('login.get_district_by_id_province');
+
 });
 
 

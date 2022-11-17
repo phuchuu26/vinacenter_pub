@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ImageEditRequest;
+use App\Models\District;
 use App\Models\Image;
 use App\Models\User;
+use App\Models\Province;
+use App\Models\Ward;
 use DateTime,File;
 use Socialite;
 use Zalo\Zalo;
@@ -89,7 +92,30 @@ class LoginThirdPartyController extends Controller
     
     public function updateInfoUser()
     {
-        dd(23);
-        return view('admin.blocks.notfind');
+        $user = User::find(\Auth::user()->id);
+        $info_user = $user->infoUser; 
+        $provinces = Province::all('id_province', 'str_province');
+        // dump( $user, $info_user, $provinces);
+        // \Session::flash('errors', 'This is a message!');
+        // return view('admin.module.info_account.view')->with(compact('user'))->with(compact('info_user'));
+        return view('admin.module.info_account.view', compact(['user', 'info_user', 'provinces']));
+    }
+
+    public function getDistrictByIdProvince(\Request $request, $id)
+    {
+
+        $districts = District::where('id_province', $id)->select('id_district', 'str_district')->get();
+        return \Response::json(
+            $districts
+        ); 
+    }
+    
+    public function getWardByIdDistrict(\Request $request, $id)
+    {
+
+        $wards = Ward::where('id_district', $id)->select('id_ward', 'str_ward')->get();
+        return \Response::json(
+            $wards
+        ); 
     }
 }
