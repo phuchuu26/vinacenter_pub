@@ -8,4 +8,9 @@ class Product extends Model
 {
     protected $table ='vnc_product';
     protected $guarded = [];
+
+    public function ratings()
+    {
+        return $this->hasMany('App\Models\Rating');
+    }
 }

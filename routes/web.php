@@ -56,6 +56,9 @@ Route::group(['prefix' => '/','namespace' => 'Frontend'],function(){
     //Route::get('danh-muc-san-pham/{alias}',['as' => 'getProductType','uses' => 'ProductController@getProductType']);
     Route::get('{alias}.html',['as' => 'getProductType','uses' => 'ProductController@getProductType']);
 
+    // Route::post('/message/send', ['uses' => 'FrontController@addFeedback', 'as' => 'front.fb']);
+
+
     
     
     
@@ -85,6 +88,11 @@ Route::group(['prefix' => 'login'],function(){
     Route::get('/update-info-third-party-first-login','Admin\LoginThirdPartyController@updateInfoUser')->name('login.update_info_user');
     Route::get('/get-district/{id}','Admin\LoginThirdPartyController@getDistrictByIdProvince')->name('login.get_district_by_id_province');
     Route::get('/get-ward/{id}','Admin\LoginThirdPartyController@getWardByIdDistrict')->name('login.get_district_by_id_province');
+
+
+    Route::get('/abc','Admin\LoginThirdPartyController@sendMailResetPassword')->name('login.get_district_by_id_province');
+
+    
 
 });
 

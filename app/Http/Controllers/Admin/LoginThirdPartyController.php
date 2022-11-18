@@ -118,4 +118,11 @@ class LoginThirdPartyController extends Controller
             $wards
         ); 
     }
+
+    public function sendMailResetPassword()
+    {
+        return view('admin.mail.reset_password');
+    }
+
+    
 }
