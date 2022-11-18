@@ -13,5 +13,6 @@ CREATE TABLE `thitr318_vinacenter`.`info_users`  (
   `account_name` varchar(255) NULL COMMENT 'tên tk',
   `bank_name` varchar(255) NULL COMMENT 'tên NH',
   `str_wallet_momo` varchar(255) NULL COMMENT 'số ví',
+  `str_phone` varchar(255) NULL COMMENT 'sdt',
   PRIMARY KEY (`id_user`)
 );
