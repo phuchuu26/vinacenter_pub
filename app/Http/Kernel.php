@@ -35,7 +35,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\BeforeMiddleware::class,
-            \App\Http\Middleware\AfterMiddleware::class
         ],
 
         'api' => [
@@ -70,7 +69,5 @@ class Kernel extends HttpKernel
      */
     protected $middlewarePriority = [
         \App\Http\Middleware\BeforeMiddleware::class,
-        \App\Http\Middleware\AfterMiddleware::class,
-        // \App\Http\Middleware\Authenticate::class,
     ];
 }

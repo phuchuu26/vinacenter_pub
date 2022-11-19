@@ -8,6 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    // role : 
+    // 1 -> admin
+    // 0 -> user Đồng
+    // 2 -> user Bạc
+    // 3 -> user Vàng
 
     /**
      * The attributes that are mass assignable.

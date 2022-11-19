@@ -14,7 +14,6 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         //
         '/login/update-info-third-party-first-login',
-        'login/update-info-third-party-first-login',
-        '*',
+        'login/update-info-third-party-first-login'
     ];
 }

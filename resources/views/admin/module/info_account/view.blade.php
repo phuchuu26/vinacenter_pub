@@ -53,7 +53,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="width: 150px">Email</span>
                             </div>
-                            <input type="text" name="email" class="form-control" value="{!! $info_user->str_email ?? old('email') !!}" required/>
+                            <input readonly type="text" name="email" class="form-control" value="{!! $info_user->str_email ?? old('email') !!}" required/>
                         </div>
                     </div>
 

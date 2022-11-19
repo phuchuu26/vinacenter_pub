@@ -52,6 +52,6 @@ class BeforeMiddleware
             }
         }
         
-        return $next($request);
+        return $response;
     }
 }

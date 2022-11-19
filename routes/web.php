@@ -74,7 +74,13 @@ Route::get('vnclogin',['as' => 'getLogin','uses' => 'LoginController@getLogin' ]
 Route::post('vnclogin',['as' => 'postLogin','uses' => 'LoginController@postLogin' ] );
 Route::get('logout',['as' => 'getLogout','uses' => 'LoginController@getLogout' ] );
 
+Route::get('/register', 'Admin\RegistrationController@create')->name('register');
+Route::post('/register/create', 'Admin\RegistrationController@store')->name('post_register');
+
+
+
 Route::group(['prefix' => 'login'],function(){
+
 
     Route::group(['prefix' => 'google'],function(){
         Route::get('/','Admin\LoginThirdPartyController@redirectToGoogle')->name('login.google');
