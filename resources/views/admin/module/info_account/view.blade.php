@@ -199,6 +199,7 @@
             </form>
         </div>
     </div>
+
     <script>
          var option_districs = $('#district');
          var option_wards = $('#ward');
@@ -209,8 +210,8 @@
         // getWard();
 
         function getDistrict(){
-            var id_district = '{{$info_user->id_district}}';
-
+            var id_district = '{{$info_user->id_district ?? ''}}';
+          
             $('#district').find('option').remove();
             var id_province = $('#province').children('option:selected').val();
 
@@ -242,10 +243,11 @@
 
         function getWard()
         {
-            var id_ward = '{{$info_user->id_ward}}';
+            var id_ward = '{{$info_user->id_ward ?? ''}}';
             $('#ward').find('option').remove();
             var id_district = $('#district').children('option:selected').val();
-            console.log(  id_district);
+
+         
             var url = '/login/get-ward/' + id_district;
             $.ajax({
                 type: 'GET',
