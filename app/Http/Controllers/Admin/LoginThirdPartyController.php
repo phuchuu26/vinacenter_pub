@@ -15,7 +15,11 @@ use DateTime,File;
 use Socialite;
 use Zalo\Zalo;
 use App\Services\SocialAccountService;
-
+use App\Http\Requests\InfoUserRequest;
+use App\Models\InfoUser;
+use Validator;
+use Input;
+use Symfony\Polyfill\Intl\Idn\Info;
 
 class LoginThirdPartyController extends Controller
 {
@@ -89,16 +93,65 @@ class LoginThirdPartyController extends Controller
     {
         return Socialite::driver('facebook')->redirect();
     }
-    
-    public function updateInfoUser()
+    // InfoUserRequest $request
+    public function editInfoUser()
     {
         $user = User::find(\Auth::user()->id);
         $info_user = $user->infoUser; 
         $provinces = Province::all('id_province', 'str_province');
-        // dump( $user, $info_user, $provinces);
+        return response()->view('admin.module.info_account.view', compact(['user', 'info_user', 'provinces']));
+        // return redirect()->route('login.edit_info_user')->with(['flash_level' => 'alert-danger','flash_message' => 'Cập nhật thất bại. Xin thử lại']);
+        // return redirect()->back()->withInput()->withErrors($validator->messages());
         // \Session::flash('errors', 'This is a message!');
-        // return view('admin.module.info_account.view')->with(compact('user'))->with(compact('info_user'));
-        return view('admin.module.info_account.view', compact(['user', 'info_user', 'provinces']));
+    }
+
+
+    public function updateInfoUser(Request $request)
+     {
+        $params = $request->all();
+        $validator = $this->_infoUserRule($params);
+        
+        if ($validator->fails()) {
+            // return \Redirect::back()->withErrors($validator)->withInput(\Input::all());
+            return redirect()->back()->withInput()->withErrors($validator->messages());
+        }
+
+        $update_info_user = $this->_updateInfoUser($params);
+
+
+        return redirect()->route('login.edit_info_user')->with(['flash_level' => 'result_msg','flash_message' => 'Cập nhật thành công']);
+        // return redirect()->route('login.edit_info_user')->with(['flash_level' => 'alert-danger','flash_message' => 'Cập nhật thất bại. Xin thử lại']);
+        // return redirect()->back()->withInput()->withErrors($validator->messages());
+        // \Session::flash('errors', 'This is a message!');
+    }
+
+    public function _updateInfoUser($params)
+    {
+        // dd($params);
+        $user = \Auth::user();
+        // $user->email =  data_get($params, 'email');
+        // $user->save();
+
+        if(empty($user->infoUser)){
+            $info_user = new InfoUser();
+        }else{
+            $info_user = $user->infoUser;
+        }
+
+    	$info_user->id_user = $user->id;
+    	$info_user->id_province = data_get($params, 'province');
+    	$info_user->id_district = data_get($params, 'district');
+    	$info_user->id_ward = data_get($params, 'ward');
+    	$info_user->str_address = data_get($params, 'str_address');
+    	$info_user->account_number = data_get($params, 'account_number');
+    	$info_user->account_name = data_get($params, 'account_name');
+    	$info_user->bank_name = data_get($params, 'bank_name');
+    	$info_user->str_wallet_momo = data_get($params, 'str_wallet_momo');
+    	$info_user->str_phone = data_get($params, 'str_phone');
+        $info_user->str_email =  data_get($params, 'email');
+
+    
+    	$info_user->save();
     }
 
     public function getDistrictByIdProvince(\Request $request, $id)
@@ -125,4 +178,86 @@ class LoginThirdPartyController extends Controller
     }
 
     
+     /**
+     * Update bin validation
+     * @param [array] $form_data
+     * @return array
+     * @author phucnh61
+     */
+    public function _infoUserRule($form_data, $bin = null)
+    {
+        // dd($form_data);
+        $rules = [
+            'name' => 'required',
+            'str_phone' => 'required|regex:/(0)[0-9]/',
+            'email' => 'required|email',
+            'province' => 'required',
+            'district' => 'required',
+            'ward' => 'required',
+            'str_address' => 'required',
+            'account_number' => 'required',
+            'account_name' => 'required',
+            'bank_name' => 'required',
+            'str_wallet_momo' => 'required',
+        ];
+
+        // // $is_bin_exist = $this->checkBinExist($form_data, $bin);
+        // $is_bin_exist_int = $this->bin_local_repo->checkBinExist($form_data['code']);
+        // $is_bin_exist_local = $this->bin_int_repo->checkBinExist($form_data['code']);
+
+        // if ($is_bin_exist_int || $is_bin_exist_local) {
+        //     $rules['bin_exist'] = 'required';
+        // }
+
+        // $release_region_code = config('bin.release_region_code');
+        // $release_bank = config('bin.release_bank');
+
+        // $viet_name_item = $this->getItemVietNam();
+        // // nơi phát hành là ngoài nước
+        // if ($form_data['release_region'] == $release_region_code['int']) {
+
+        //     if ($form_data['country'] == $viet_name_item->id) {
+        //         $rules['country_error'] = 'required';
+        //     }
+
+        //     if ($form_data['release_bank'] != $release_bank['INT']) {
+        //         $rules['release_bank_error'] = 'required';
+        //     }
+
+        // // if($form_data['country'] ){
+        // // }
+        // }
+
+        // if ($form_data['release_region'] == $release_region_code['local']) {
+        //     if ($form_data['country'] != $viet_name_item->id) {
+        //         $rules['country_error'] = 'required';
+        //     }
+
+        //     if ($form_data['release_bank'] == $release_bank['INT']) {
+        //         $rules['release_bank_error'] = 'required';
+        //     }
+        // }
+
+        $messages = [
+            'name.required' => 'Vui lòng nhập Họ tên.',
+            'str_phone.required' => 'Vui lòng nhập Số điện thoại.',
+            'str_phone.regex' => 'Vui lòng nhập đúng Số điện thoại.',
+            'email.email' => 'Vui lòng nhập đúng email.',
+            'province.required' => 'Vui lòng nhập Tỉnh.',
+            'district.required' => 'Vui lòng nhập Quận, huyện.',
+            'ward.required' => 'Vui lòng nhập Phường, xã.',
+            'str_address.required' => 'Vui lòng nhập Số nhà.',
+            'account_number.required' => 'Vui lòng nhập Số tài khoản.',
+            'account_name.required' => 'Vui lòng nhập Tên chủ tài khoản.',
+            'bank_name.required' => 'Vui lòng nhập Tên Ngân hàng.',
+            'str_wallet_momo.required' => 'Vui lòng nhập số Ví điện tử Momo.',
+        ];
+
+
+        return Validator::make(
+            $form_data,
+            $rules,
+            $messages
+        );
+    }
 }

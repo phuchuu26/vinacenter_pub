@@ -5,14 +5,14 @@
 @section('content')
     <div class="table-agile-info">
         <div class="panel panel-default">
-            <form action="" method="POST">
+            <form action="{{route('login.update_info_user')}}" method="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
            
-                @if(Session::has('flash_level'))
+                {{-- @if(Session::has('flash_level'))
                     <div class="alert {!! Session::get('flash_level') !!} ">
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {!! Session::get('flash_message') !!}
                     </div>
-                @endif
+                @endif --}}
 
                 {{-- @if (count($errors) > 0)
                     <div class="alert alert-danger">
@@ -48,6 +48,15 @@
                         </div>
                     </div>
 
+                    <div class="col-lg-12">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 150px">Email</span>
+                            </div>
+                            <input type="text" name="email" class="form-control" value="{!! $info_user->str_email ?? old('email') !!}" required/>
+                        </div>
+                    </div>
+
                     <br>
                     <br>
                     <br>
@@ -64,7 +73,7 @@
                                 <span class="input-group-text" style="width: 150px">Tỉnh</span>
                             </div>
 
-                            <select class="form-control" id="province" name="province">
+                            <select class="form-control" id="province" name="province" required>
                                 @foreach($provinces as $item)
                                     @if(  !empty($info_user->id_province) && $item['id_province'] == $info_user->id_province )
                                         <option value="{!! $item['id_province']!!}"
@@ -85,7 +94,7 @@
                                 <span class="input-group-text" style="width: 150px">Quận, huyện</span>
                             </div>
 
-                            <select class="form-control" id="district" name="district">
+                            <select class="form-control" id="district" name="district" required>
                                     @if(  !empty($info_user->id_district) && $item['id_district'] == $info_user->id_district )
                                         <option value="{!! $item['id_district']!!}"
                                                 selected="">{!! $item['str_district']!!}</option>
@@ -103,7 +112,7 @@
                                 <span class="input-group-text" style="width: 150px">Phường, xã</span>
                             </div>
 
-                            <select class="form-control" id="ward" name="ward">
+                            <select class="form-control" id="ward" name="ward" required>
                                     @if(  !empty($info_user->id_ward) && $item['id_ward'] == $info_user->id_ward )
                                         <option value="{!! $item['id_ward']!!}"
                                                 selected="">{!! $item['str_ward']!!}</option>
@@ -194,10 +203,17 @@
          var option_districs = $('#district');
          var option_wards = $('#ward');
 
-        $('#province').change(function(){
+       
+       
+        getDistrict();
+        // getWard();
+
+        function getDistrict(){
+            var id_district = '{{$info_user->id_district}}';
+
             $('#district').find('option').remove();
-            var id_province = $(this).children('option:selected').val();
-            console.log(  id_province);
+            var id_province = $('#province').children('option:selected').val();
+
             var url = '/login/get-district/' + id_province;
             $.ajax({
                 type: 'GET',
@@ -205,10 +221,16 @@
                 dataType: 'JSON',
                 success: function(result) {
                     var jsonData = result;
+                    
                     $.each( jsonData, function( key, value ) {
-                        option_districs.append($('<option>', {value: value.id_district, text: value.str_district}));
-                    });
+                        if(id_district != null && id_district == value.id_district){
+                            option_districs.append(  `<option selected value="${value.id_district}">${value.str_district}</option>` );
+                        }else{
+                            option_districs.append($('<option>', {value: value.id_district, text: value.str_district}));
+                        }
 
+                    });
+                    getWard();
                     option_districs.removeAttr('disabled');
                 },
                 fail: function(errors) {
@@ -216,12 +238,13 @@
                     option_districs.removeAttr('disabled');
                 }
             });
+        }
 
-        });
-
-        $('#district').change(function(){
+        function getWard()
+        {
+            var id_ward = '{{$info_user->id_ward}}';
             $('#ward').find('option').remove();
-            var id_district = $(this).children('option:selected').val();
+            var id_district = $('#district').children('option:selected').val();
             console.log(  id_district);
             var url = '/login/get-ward/' + id_district;
             $.ajax({
@@ -231,7 +254,13 @@
                 success: function(result) {
                     var jsonData = result;
                     $.each( jsonData, function( key, value ) {
-                        option_wards.append($('<option>', {value: value.id_ward, text: value.str_ward}));
+                        // option_wards.append($('<option>', {value: value.id_ward, text: value.str_ward}));
+                            
+                        if(id_ward != null && id_ward == value.id_ward){
+                            option_wards.append(  `<option selected value="${value.id_ward}">${value.str_ward}</option>` );
+                        }else{
+                            option_wards.append($('<option>', {value: value.id_ward, text: value.str_ward}));
+                        }
                     });
 
                     option_wards.removeAttr('disabled');
@@ -242,6 +271,17 @@
                 }
             });
 
+        }
+
+
+
+        $('#province').change(function(){
+            getDistrict();
+
+        });
+
+        $('#district').change(function(){
+            getWard();
         });
 
 

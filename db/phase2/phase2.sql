@@ -3,8 +3,9 @@ ADD COLUMN `email` varchar(255) NULL AFTER `updated_at`;
 
 
 
+
 CREATE TABLE `thitr318_vinacenter`.`info_users`  (
-  `id_info_user` int NULL,
+  `id_info_user` int UNSIGNED NULL AUTO_INCREMENT,
   `id_user` int NOT NULL,
   `id_province` int NULL,
   `id_district` int NULL,
@@ -15,7 +16,10 @@ CREATE TABLE `thitr318_vinacenter`.`info_users`  (
   `bank_name` varchar(255) NULL COMMENT 'tên NH',
   `str_wallet_momo` varchar(255) NULL COMMENT 'số ví',
   `str_phone` varchar(255) NULL COMMENT 'sdt',
-  PRIMARY KEY (`id_user`)
+  `str_email` varchar(255) NULL COMMENT 'sdt',
+  `created_at` timestamp(0) NULL,
+  `updated_at` timestamp(0) NULL,
+  PRIMARY KEY (`id_info_user`)
 );
 
 

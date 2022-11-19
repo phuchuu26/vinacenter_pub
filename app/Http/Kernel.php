@@ -34,6 +34,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\BeforeMiddleware::class,
             \App\Http\Middleware\AfterMiddleware::class
         ],
 
@@ -68,6 +69,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewarePriority = [
+        \App\Http\Middleware\BeforeMiddleware::class,
         \App\Http\Middleware\AfterMiddleware::class,
         // \App\Http\Middleware\Authenticate::class,
     ];
