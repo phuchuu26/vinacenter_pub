@@ -36,7 +36,7 @@ class BeforeMiddleware
             $user = Auth::user();
             $info_user = $user->infoUser;
             
-            if(empty($info_user)){
+            if(empty($info_user) || empty($info_user->id_ward)){
                 $current_path = \Request::getRequestUri();
                 // if(in_array($current_path, $except)){
                 //     return $response;

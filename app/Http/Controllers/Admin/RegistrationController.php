@@ -27,9 +27,8 @@ class RegistrationController extends Controller
             return redirect()->back()->withInput()->withErrors($validator->messages());
         }
 
-        \Log::debug('store');
         // return redirect()->route('getLogin')->with(['flash_level' => 'result_msg','flash_message' => 'Tạo tài khoản thành công']);
-        // $create_user = $this->_createUser($params);
+        $create_user = $this->_createUser($params);
 
         return redirect()->route('getLogin')->with(['flash_level' => 'result_msg','flash_message' => 'Tạo tài khoản thành công']);
     }

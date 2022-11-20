@@ -8,4 +8,6 @@ class InfoUser extends Model
 {
     protected $table ='info_users';
     protected $guarded = [];
+
+    protected $primaryKey = 'id_info_user';
 }
