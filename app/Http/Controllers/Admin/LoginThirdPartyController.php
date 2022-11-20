@@ -200,49 +200,19 @@ class LoginThirdPartyController extends Controller
             'bank_name' => 'required',
             'str_wallet_momo' => 'required',
         ];
-
-        // // $is_bin_exist = $this->checkBinExist($form_data, $bin);
-        // $is_bin_exist_int = $this->bin_local_repo->checkBinExist($form_data['code']);
-        // $is_bin_exist_local = $this->bin_int_repo->checkBinExist($form_data['code']);
-
-        // if ($is_bin_exist_int || $is_bin_exist_local) {
-        //     $rules['bin_exist'] = 'required';
-        // }
-
-        // $release_region_code = config('bin.release_region_code');
-        // $release_bank = config('bin.release_bank');
-
-        // $viet_name_item = $this->getItemVietNam();
-        // // nơi phát hành là ngoài nước
-        // if ($form_data['release_region'] == $release_region_code['int']) {
-
-        //     if ($form_data['country'] == $viet_name_item->id) {
-        //         $rules['country_error'] = 'required';
-        //     }
-
-        //     if ($form_data['release_bank'] != $release_bank['INT']) {
-        //         $rules['release_bank_error'] = 'required';
-        //     }
-
-        // // if($form_data['country'] ){
-        // // }
-        // }
-
-        // if ($form_data['release_region'] == $release_region_code['local']) {
-        //     if ($form_data['country'] != $viet_name_item->id) {
-        //         $rules['country_error'] = 'required';
-        //     }
-
-        //     if ($form_data['release_bank'] == $release_bank['INT']) {
-        //         $rules['release_bank_error'] = 'required';
-        //     }
-        // }
+        
+        $check_exist_email = InfoUser::where('str_email', data_get($form_data, 'email'))->first();
+        if(!empty($check_exist_email)){
+            $rules['email_exist'] = 'required';
+        }
 
         $messages = [
             'name.required' => 'Vui lòng nhập Họ tên.',
             'str_phone.required' => 'Vui lòng nhập Số điện thoại.',
             'str_phone.regex' => 'Vui lòng nhập đúng Số điện thoại.',
             'email.email' => 'Vui lòng nhập đúng email.',
+            'email.required' => 'Vui lòng nhập email.',
+            'email_exist.required' => 'Email không hợp lệ.',
             'province.required' => 'Vui lòng nhập Tỉnh.',
             'district.required' => 'Vui lòng nhập Quận, huyện.',
             'ward.required' => 'Vui lòng nhập Phường, xã.',

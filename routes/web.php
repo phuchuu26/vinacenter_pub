@@ -105,7 +105,7 @@ Route::group(['prefix' => 'login'],function(){
 
 
 
-Route::group(['middleware' => 'auth'], function () {   
+Route::group(['middleware' => ['auth', 'check_update_info']], function () {   
     Route::group(['prefix' => 'vncadmin','namespace' => 'Admin'],function(){    	
     	Route::get('/',function(){
     		return redirect()->route('getOrderList');
