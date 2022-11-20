@@ -10,4 +10,10 @@ class InfoUser extends Model
     protected $guarded = [];
 
     protected $primaryKey = 'id_info_user';
+    
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'id_user');
+    }
+
 }

@@ -437,7 +437,7 @@
   <![endif]-->
   </head>
   <body>
-    <span class="preheader">Use this link to reset your password. The link is only valid for 24 hours.</span>
+    <span class="preheader">Nhấp liên kết này để đặt lại mật khẩu của bạn.</span>
     <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
       <tr>
         <td align="center">
@@ -457,7 +457,7 @@
                   <tr>
                     <td class="content-cell">
                       <div class="f-fallback">
-                        <h1>Hi {{data_get($user ?? null, 'name', '')}},</h1>
+                        <h1>Xin chào {{data_get($user ?? null, 'name', '')}},</h1>
                         <p>Gần đây, bạn đã yêu cầu đặt lại mật khẩu cho tài khoản {{data_get($user ?? null, 'username', '')}} của mình. Nhấp vào nút bên dưới để đặt lại mật khẩu.</p>
                         <!-- Action -->
                         <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
@@ -468,7 +468,7 @@
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
                                   <td align="center">
-                                    <a href="{{$action_url ?? null}}" class="f-fallback button button--green" target="_blank">Đặt lại mật khẩu</a>
+                                    <a href="{{data_get($user, 'action_url', '')}}" class="f-fallback button button--green" target="_blank">Đặt lại mật khẩu</a>
                                   </td>
                                 </tr>
                               </table>
@@ -476,14 +476,14 @@
                           </tr>
                         </table>
                         <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này hoặc liên hệ với bộ phận hỗ trợ nếu bạn có thắc mắc.</p>
-                        <p>Thanks,
+                        <p> ,
                           <br>The VINACENTER team</p>
                         <!-- Sub copy -->
                         <table class="body-sub" role="presentation">
                           <tr>
                             <td>
                               <p class="f-fallback sub">Nếu bạn gặp sự cố với nút ở trên, hãy sao chép và dán URL bên dưới vào trình duyệt web của bạn.</p>
-                              <p class="f-fallback sub">{{$action_url ?? null}}</p>
+                              <p class="f-fallback sub">{{data_get($user , 'action_url', '')}}</p>
                             </td>
                           </tr>
                         </table>
@@ -501,7 +501,8 @@
                       <p class="f-fallback sub align-center">
                         2009 - 2022 © CÔNG TY TNHH TÍCH HỢP HỆ THỐNG VI NA
                         <br>38C Trần Thị Điệu, P.Phước Long B, TP.Thủ Đức, TP.HCM
-                        <br>Suite 1234
+                        <br> 093 7777 638
+                        <br> info@vinacenter.vn
                       </p>
                     </td>
                   </tr>

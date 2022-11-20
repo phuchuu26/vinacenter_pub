@@ -17,6 +17,7 @@ CREATE TABLE `thitr318_vinacenter`.`info_users`  (
   `str_wallet_momo` varchar(255) NULL COMMENT 'số ví',
   `str_phone` varchar(255) NULL COMMENT 'sdt',
   `str_email` varchar(255) NULL COMMENT 'sdt',
+  `reset_token` varchar(255) NULL,
   `created_at` timestamp(0) NULL,
   `updated_at` timestamp(0) NULL,
   PRIMARY KEY (`id_info_user`)

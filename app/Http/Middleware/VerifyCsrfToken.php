@@ -13,6 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         //
+        'forgot-password',
         '/login/update-info-third-party-first-login',
     ];
 }

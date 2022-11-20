@@ -45,9 +45,7 @@
     padding: 2px 20px;
 }
 
-legend {
-  text-align: center!important;
-}
+
 
   </style>
 </head>
@@ -58,10 +56,10 @@ legend {
   </div>
   <div id="main">
 
-    <form action="" method="POST" style="width: 650px; margin: 30px auto;">
+    <form action="{{route('post_reset_password', ['token' => data_get($info_user, 'reset_token')])}}" method="POST" style="width: 650px; margin: 30px auto;">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <fieldset>
-        <legend style="text-align: center!important;">Thông Tin Đăng Nhập</legend>
+        <legend>Thông Tin Đặt lại mật khẩu</legend>
         <table>
             <tr>
                 <td></td>
@@ -74,73 +72,45 @@ legend {
             <td class="login_img"></td>
             <td>
 
-            <span class="form_label">User name:</span>
+            <span class="form_label">Địa chỉ Email:</span>
             <span class="form_item">
-                            <input type="text" name="txtUser" class="textbox"/>
-                        </span><br/>
-            <span class="form_label">Password:</span>
-            <span class="form_item">
-                            <input type="password" name="txtPass" class="textbox"/>
-                        </span><br/>
+                            <input readonly type="text" value="{{data_get($info_user, 'str_email')}}" name="email" class="textbox"/>
+                        </span><br/><br/>
 
-			{{-- <span class="form_label"></span> --}}
-			<div style="float: right" class="forget_password">
-				<a href="{{route('forgot_password')}}" class="forget-pass">Quên mật khẩu?</a>
-            </div>
-			<br/>
+                        {{-- --- --}}
+                        
+                        
+            {{-- <span class="form_label">Mật khẩu cũ:</span>
+            <span class="form_item">
+                            <input type="password" id="old_password" name="old_password" required class="textbox"/>
+            </span><br/><br/> --}}
+
+                        {{-- --- --}}
+
+
+            <span class="form_label">Mật khẩu mới:</span>
+            <span class="form_item">
+                            <input  type="password" class="textbox" id="password" name="password" required/>
+            </span><br/><br/>
+
+
+            {{-- --- --}}
+
+
+            <span class="form_label">Nhập lại khẩu mới:</span>
+            <span class="form_item">
+                            <input  type="password" class="textbox" id="repassword" name="repassword" required/>
+            </span><br/><br/>
+
+                        {{-- --- --}}
 
             <span class="form_label"></span>
             <span class="form_item">
-                <input type="submit" name="btnLogin" value="Đăng nhập" class="button"/>
+                <input type="submit" name="btnLogin" value="Đặt lại mật khẩu" class="button"/>
             </span>
-            <br>
-            <br>
+
+		
       
-
-            <div class="separator">
-                <hr>
-                <a >hoặc</a>
-                <hr>
-            
-            </div>
-            <br>
-            <br>
-            <br>
-
-            <div class="row">
-                <div style="max-width: 299px" class="col-md-6">
-                  <a class="btn btn-outline-dark" href="{{ route('login.google') }}" role="button" style="text-transform:none; min-width: 433px">
-                    <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="{{asset('/public/images/Google__G__Logo.svg.png')}}" />
-                    Đăng nhập bằng tài khoản Google
-                  </a>
-                </div>
-            </div>
-
-            <br/>
-
-            <div class="row">
-                <div  class="col-md-6">
-                  <a class="btn btn-outline-dark" href="{{ route('login.face') }}" role="button" style="text-transform:none; min-width: 433px">
-                    <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="{{asset('/public/images/Facebook_f_logo_(2019).svg.png')}}" />
-                    Đăng nhập bằng tài khoản Facebook
-                  </a>
-                </div>
-              </div>
-              
-            <br>  
-
-            <div class="row">
-                <div  class="col-md-3">
-                </div>
-                <p class="col-md-6">Bạn chưa có tài khoản?
-                  <a href="{{route('register')}}">
-                    Đăng ký ngay
-                  </a>
-                </p>
-          
-            </div>
-              
-
             {{-- <span class="form_item">
                 <input type="submit" name="btnLogin" value="Đăng nhập" class="button"/>
                 <a href="{{ route('login.google') }}" 

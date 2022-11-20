@@ -74,6 +74,17 @@ Route::get('vnclogin',['as' => 'getLogin','uses' => 'LoginController@getLogin' ]
 Route::post('vnclogin',['as' => 'postLogin','uses' => 'LoginController@postLogin' ] );
 Route::get('logout',['as' => 'getLogout','uses' => 'LoginController@getLogout' ] );
 
+
+//forget password
+Route::get('/forgot-password', function () {
+    return view('admin.module.reset_password.forget_password');
+})->middleware('guest')->name('forgot_password');
+
+//forget password
+Route::post('forgot-password',['as' => 'post_forgot_password','uses' => 'LoginController@sendMailReset' ] );
+Route::get('reset-password/{token}',['as' => 'reset_password','uses' => 'LoginController@resetPassword' ] );
+Route::post('post-reset-password/{token}',['as' => 'post_reset_password','uses' => 'LoginController@postResetPassword' ] );
+
 Route::get('/register', 'Admin\RegistrationController@create')->name('register');
 Route::post('/register/create', 'Admin\RegistrationController@store')->name('post_register');
 

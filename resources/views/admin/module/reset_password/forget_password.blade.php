@@ -45,9 +45,7 @@
     padding: 2px 20px;
 }
 
-legend {
-  text-align: center!important;
-}
+
 
   </style>
 </head>
@@ -58,10 +56,10 @@ legend {
   </div>
   <div id="main">
 
-    <form action="" method="POST" style="width: 650px; margin: 30px auto;">
+    <form action="{{route('post_forgot_password')}}" method="POST" style="width: 650px; margin: 30px auto;">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <fieldset>
-        <legend style="text-align: center!important;">Thông Tin Đăng Nhập</legend>
+        <legend>Thông Tin Đặt lại mật khẩu</legend>
         <table>
             <tr>
                 <td></td>
@@ -74,27 +72,17 @@ legend {
             <td class="login_img"></td>
             <td>
 
-            <span class="form_label">User name:</span>
+            <span class="form_label">Địa chỉ Email:</span>
             <span class="form_item">
-                            <input type="text" name="txtUser" class="textbox"/>
-                        </span><br/>
-            <span class="form_label">Password:</span>
-            <span class="form_item">
-                            <input type="password" name="txtPass" class="textbox"/>
-                        </span><br/>
-
-			{{-- <span class="form_label"></span> --}}
-			<div style="float: right" class="forget_password">
-				<a href="{{route('forgot_password')}}" class="forget-pass">Quên mật khẩu?</a>
-            </div>
-			<br/>
+                            <input type="text" name="email" class="textbox"/>
+                        </span><br/><br/>
 
             <span class="form_label"></span>
             <span class="form_item">
-                <input type="submit" name="btnLogin" value="Đăng nhập" class="button"/>
+                <input type="submit" name="btnLogin" value="Đặt lại mật khẩu" class="button"/>
             </span>
-            <br>
-            <br>
+
+		
       
 
             <div class="separator">
