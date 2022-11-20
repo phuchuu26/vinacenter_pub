@@ -129,8 +129,9 @@ class LoginThirdPartyController extends Controller
     {
         // dd($params);
         $user = \Auth::user();
+        $user->name = data_get($params, 'name');
         // $user->email =  data_get($params, 'email');
-        // $user->save();
+        $user->save();
 
         if(empty($user->infoUser)){
             $info_user = new InfoUser();
@@ -201,9 +202,14 @@ class LoginThirdPartyController extends Controller
             'str_wallet_momo' => 'required',
         ];
         
+        
         $check_exist_email = InfoUser::where('str_email', data_get($form_data, 'email'))->first();
         if(!empty($check_exist_email)){
-            $rules['email_exist'] = 'required';
+            $user = \Auth::user();
+            $info_user = $user->infoUser ?? null;
+            if(!empty($info_user->str_email) &&  $info_user->str_email != data_get($form_data, 'email') ){
+                $rules['email_exist'] = 'required';
+            }
         }
 
         $messages = [
