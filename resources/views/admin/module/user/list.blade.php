@@ -23,11 +23,18 @@
                     <tr class="list_data">
                         <td class="list_td aligncenter">{!! $item['username'] !!}</td>
                         <td class="list_td aligncenter">
-                            @if($item['role'] ==1)
+                            {{-- @if($item['role'] ==1)
                                 Admin
                             @else
                                 User
-                            @endif
+                            @endif --}}
+                            @foreach ($roles as $key => $role )
+                                    
+                                @if($key == data_get($item, 'role'))
+                                    {{$role}}
+                                @endif
+                            @endforeach
+
                         </td>
                         <td class="list_td aligncenter">{!! $item['created_at'] !!}</td>
 

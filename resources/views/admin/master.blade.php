@@ -127,6 +127,14 @@
                             <li><a href="{!! route('getBonusOrder') !!}">Chiếc khấu</a></li>
                         </ul>
                     </li>
+                   
+                    <li class="nav-item">
+                        <a class="nav-links" href="{!! route('login.edit_info_user') !!}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Thông tin cá nhân</span>
+                        </a>
+                    </li>
+
                     @if(Auth::user()->role == 1)
                     <li>
                         <a href="{!! route('getContactList') !!}">

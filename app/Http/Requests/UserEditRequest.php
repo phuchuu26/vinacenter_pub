@@ -25,7 +25,7 @@ class UserEditRequest extends FormRequest
     {
         return [
             'txtUsername' => 'required',
-            'txtPass' => 'required',
+            // 'txtPass' => 'required',
             'txtRepass' =>'same:txtPass',
         ];
     }
@@ -33,7 +33,7 @@ class UserEditRequest extends FormRequest
     {
         return [
             'txtUsername.required' => 'Vui lòng nhập họ tên User.',
-            'txtPass.required' => 'Vui lòng nhập password.',
+            // 'txtPass.required' => 'Vui lòng nhập password.',
             'txtRepass.same' =>'Hai password không giống nhau.',
         ];
     }

@@ -29,8 +29,9 @@ class UserController extends Controller
     	return redirect()->route('getUserList')->with(['flash_level' => 'result_msg','flash_message' => 'Thêm thành công']);
     }
     public function getUserList(){
+		$roles	 = config('config.role'); 
     	$data = User::select('id','name','username','role','created_at')->get()->toArray();
-    	return view('admin.module.user.list',['data' => $data]);
+    	return view('admin.module.user.list',['data' => $data, 'roles' => $roles]);
     }
     public function getUserDelete($id){
     	if(Auth::user()->role==0)
@@ -49,7 +50,8 @@ class UserController extends Controller
     	if(Auth::user()->role==0)
         return redirect()->route('getUserList');
         $data= User::findOrFail($id)->toArray();
-    	return view('admin.module.user.edit',['data' => $data]);
+		$roles	 = config('config.role');  
+    	return view('admin.module.user.edit',['data' => $data, 'roles' => $roles]);
     }
     public function postUserEdit(UserEditRequest $request,$id){
     	$user_curent_login = Auth::user()->id;
@@ -61,7 +63,15 @@ class UserController extends Controller
     		$user->updated_at = new DateTime();
     		$user->save();
     		return redirect()->route('getUserList')->with(['flash_level' => 'result_msg','flash_message' => 'Cập nhật User thành công']);	
-    	}else{
+    	}
+		elseif(Auth::user()->role==1){
+			$user = User::find($id);
+			$user->role = $request->txtRole;
+			$user->updated_at = new DateTime();
+    		$user->save();
+    		return redirect()->route('getUserList')->with(['flash_level' => 'result_msg','flash_message' => 'Cập nhật User thành công']);	
+		}
+		else{
     		return redirect()->route('getUserList')->with(['flash_level' => 'error_msg','flash_message' => 'Bạn không được phép cập nhật User này.']);
     	}   	
     }
