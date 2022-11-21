@@ -43,7 +43,7 @@ class CheckUpdateInfoUserMiddleware
                 foreach($except as $ex){
                     // dd(str_contains($current_path, $ex), $current_path, $ex);
                     if(str_contains($current_path, $ex)){
-                        return $next($request);
+                        return $response;
                     }
                 }
                 return redirect()->route('login.edit_info_user');
