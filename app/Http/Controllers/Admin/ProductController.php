@@ -84,10 +84,21 @@ class ProductController extends Controller
         if(isset($keyword) && $keyword != null){
             $product = Product::select('id','title','created_at','user_id','is_hot')
             ->where('title', 'LIKE', '%'.$keyword.'%')
+			->where( function($query){
+				if(\Auth::user()->role != 1){
+					$query->where('user_id', \Auth::user()->username);
+				}
+			 })
             ->orderBy('id','DESC')->paginate(25);
         }
         else{
-            $product = Product::select('id','title','created_at','user_id','is_hot')->orderBy('id','DESC')->paginate(25);
+            $product = Product::select('id','title','created_at','user_id','is_hot')->orderBy('id','DESC')
+			->where( function($query){
+				if(\Auth::user()->role != 1){
+					$query->where('user_id', \Auth::user()->username);
+				}
+			 })
+			->paginate(25);
         }
     	
         $productoption = ProductOption::select('id' ,'product_id')->get()-> toArray();
@@ -175,5 +186,48 @@ class ProductController extends Controller
             }
     	}
     	return redirect()->route('getProductList')->with(['flash_level' => 'alert-success','flash_message' => 'Cập nhật thành công']);
+    }
+
+	//page admin role
+	public function getProductListApprove(Request $request){
+        $keyword = $request->only('keyword')['keyword'];
+
+        if(isset($keyword) && $keyword != null){
+            $productoption = ProductOption::select('id','name','created_at','user_id')
+            ->where('title', 'LIKE', '%'.$keyword.'%')
+            ->where('is_approved', '0')
+            ->orderBy('id','DESC')->paginate(25);
+        }
+        else{
+            $productoption = ProductOption::select('id','name','created_at','user_id')
+						->where('is_approved', '0')
+						->orderBy('id','DESC')->paginate(25);
+        }
+    	$productName = Product::findOrFail($id);    	
+        // $productoption = ProductOption::select('id' ,'product_id')->get()-> toArray();
+    	return view('admin.module.productoptions.list_approve',['productOption' => $productOption, 'productName' => $productoption]);
+    }
+
+
+	//page user role
+	public function getProductListApproveUser(Request $request){
+        $keyword = $request->only('keyword')['keyword'];
+
+        if(isset($keyword) && $keyword != null){
+            $productoption = ProductOption::select('*')
+						->where('title', 'LIKE', '%'.$keyword.'%')
+						->where('user_id', \Auth::user()->username)
+						// ->where('is_approved', '0')
+						->orderBy('id','DESC')->paginate(25);
+        }
+        else{
+            $productoption = ProductOption::select('*')
+			            ->where('user_id', \Auth::user()->username)
+						// ->where('is_approved', '0')
+						->orderBy('id','DESC')->paginate(25);
+        }
+    	// $productName = Product::findOrFail($id);    	
+        // $productoption = ProductOption::select('id' ,'product_id')->get()-> toArray();
+    	return view('admin.module.productoptions.list_approve_user',['productOption' => $productoption]);
     }
 }

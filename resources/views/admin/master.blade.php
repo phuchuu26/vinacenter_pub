@@ -134,7 +134,6 @@
                             <span>Thông tin cá nhân</span>
                         </a>
                     </li>
-
                     @if(Auth::user()->role == 1)
                     <li>
                         <a href="{!! route('getContactList') !!}">
@@ -150,6 +149,7 @@
                         <ul class="sub">
                             <li><a href="{!! route('getCateList') !!}">Loại sản phẩm</a></li>
                             <li><a href="{!! route('getProductList') !!}">Danh sách</a></li>
+                            <li><a href="{!! route('getProductListApprove') !!}">Duyệt sản phẩm</a></li>
 
                         </ul>
                     </li>
@@ -201,6 +201,22 @@
                             <span>User </span>
                         </a>
                     </li>
+                    @else
+
+                        {{-- user bronze, silver, gold --}}
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                                <span>Sản phẩm </span>
+                            </a>
+                            <ul class="sub">
+                                {{-- <li><a href="{!! route('getCateList') !!}">Loại sản phẩm</a></li> --}}
+                                <li><a href="{!! route('getProductList') !!}">Danh sách</a></li>
+                                <li><a href="{!! route('getProductListApproveUser') !!}">Duyệt sản phẩm</a></li>
+
+                            </ul>
+                        </li>
+
                     @endif
                     <li>
                         <a href="{!! url('logout') !!}">

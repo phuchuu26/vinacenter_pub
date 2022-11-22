@@ -54,6 +54,11 @@ class ProductOptionController extends Controller
 	    	$productoption->created_at        = new DateTime;            
             $productoption->indextop          = $request->txtindextop;
 
+            $productoption->is_approved = '0';
+            if(\Auth::user()->role == 1){
+                $productoption->is_approved = '1';
+            }
+
 	    	$productoption->save();
 	    	try{
 	    		$productOption = ProductOption::where('product_id',$id)->orderBy('id','DESC')->paginate(15);

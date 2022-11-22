@@ -34,3 +34,8 @@ CREATE TABLE `vn_ct`.`ratings`  (
   `created_at` int NULL,
   PRIMARY KEY (`id`)
 );
+
+
+ALTER TABLE `thitr318_vinacenter`.`product_option` 
+ADD COLUMN `is_approved` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 0 AFTER `updated_at`;
+UPDATE product_option set is_approved = '1'
