@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cate;
 use App\Models\Product;
+use App\Models\ProductCollection;
 use App\Models\ProductImage;
 use App\Models\ProductOption;
+use App\Models\ProductType;
 use DateTime,File;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class ProductController extends Controller
 {
@@ -193,19 +197,19 @@ class ProductController extends Controller
         $keyword = $request->only('keyword')['keyword'];
 
         if(isset($keyword) && $keyword != null){
-            $productoption = ProductOption::select('id','name','created_at','user_id')
+            $productoption = ProductOption::select('*')
             ->where('title', 'LIKE', '%'.$keyword.'%')
             ->where('is_approved', '0')
             ->orderBy('id','DESC')->paginate(25);
         }
         else{
-            $productoption = ProductOption::select('id','name','created_at','user_id')
+            $productoption = ProductOption::select('*')
 						->where('is_approved', '0')
 						->orderBy('id','DESC')->paginate(25);
         }
-    	$productName = Product::findOrFail($id);    	
+    	// $productName = Product::findOrFail($id);    	
         // $productoption = ProductOption::select('id' ,'product_id')->get()-> toArray();
-    	return view('admin.module.productoptions.list_approve',['productOption' => $productOption, 'productName' => $productoption]);
+    	return view('admin.module.productoptions.list_approve',['productOption' => $productoption]);
     }
 
 
@@ -230,4 +234,38 @@ class ProductController extends Controller
         // $productoption = ProductOption::select('id' ,'product_id')->get()-> toArray();
     	return view('admin.module.productoptions.list_approve_user',['productOption' => $productoption]);
     }
+
+	public function getProductViewApprove($id,$pro_id){
+        try{
+            $productType = ProductType::get()->toArray();
+            $productCollection = ProductCollection::get()->toArray();
+            $data = ProductOption::findOrFail($id)->toArray();
+            $productImg = ProductImage::where('product_id',$pro_id)->get()->toArray();
+            return view('admin.module.productoptions.view_approve',[
+                'productoption'     => $data,
+                'productImg'        => $productImg,
+                'productType'       => $productType,
+                'productCollection' => $productCollection,
+				'id' => $id,
+				'pro_id' => $pro_id
+            ]);
+        }catch(ModelNotFoundException $e) {
+             return redirect()->back();
+        }     
+    }
+
+	public function postProductViewApprove($id,$pro_id)
+	{
+		$product_option = ProductOption::find($id);
+
+		if(empty($product_option)){
+			return redirect()->route('getProductListApprove')->with(['flash_level' => 'alert-danger','flash_message' => 'Duyệt Option Sản phẩm thất bại. Xin thử lại']);
+		}
+
+		$product_option->is_approved = '1';
+		$product_option->save();
+
+
+		return redirect()->route('getProductListApprove')->with(['flash_level' => 'alert-success','flash_message' => 'Duyệt Option Sản phẩm thành công']);
+	}
 }

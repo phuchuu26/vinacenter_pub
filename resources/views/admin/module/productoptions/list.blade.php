@@ -22,6 +22,10 @@
                         <th>Giá Dealer</th>
                         <th>Giá web</th>
                         <th>Thời Gian Bảo Hành</th>
+                        @if (\Auth::user()->role != '1')
+                            <th>Trạng thái</th>
+                        @endif
+                        
                         <th>Ngày thêm</th>
                         <th class="action_col" colspan="2"></th>
                     </tr>
@@ -33,6 +37,16 @@
                             <td class="list_td aligncenter">{!! number_format($item["dealer"]) !!}</td>
                             <td class="list_td aligncenter">{!! number_format($item["value"]) !!}</td>
                             <td class="list_td aligncenter">{!! number_format($item["warranty"]).' tháng' !!}</td>
+                            @if (\Auth::user()->role != '1')
+                                <td class="list_td aligncenter">
+
+                                    @if ($item["is_approved"] == '1')
+                                    <button type="button" class="btn btn-success">Đã duyệt</button>
+                                    @else
+                                    <button type="button" class="btn btn-warning">Chờ xét duyệt</button>
+                                    @endif
+                                </td>
+                            @endif
                             <td class="list_td aligncenter">
                                 <?php \Carbon\Carbon::setLocale('vi'); ?>
                                 {!! \Carbon\Carbon::createFromTimeStamp(strtotime($item["created_at"]))->diffForHumans() !!}

@@ -44,11 +44,7 @@
                                 <?php \Carbon\Carbon::setLocale('vi'); ?>
                                 {!! \Carbon\Carbon::createFromTimeStamp(strtotime($item["created_at"]))->diffForHumans() !!}
                             </td>
-                            <td class="list_td aligncenter">
-                                <a href="{!! route('getProductOptionEdit',['id' => $item["id"],'pro_id' => $product['id']]) !!}"><img
-                                            src="{!! asset('/public/vnc_admin/images/edit.png') !!}"/></a>&nbsp;&nbsp;&nbsp;
-
-                            </td>
+                           
 
                             <td class="list_td aligncenter">
                                     
@@ -59,7 +55,12 @@
                                 @endif
 
                             </td>
+                            
+                            <td class="list_td aligncenter">
+                                <a href="{!! route('getProductOptionEdit',['id' => $item["id"],'pro_id' => $product['id']]) !!}"><img
+                                            src="{!! asset('/public/vnc_admin/images/edit.png') !!}"/></a>&nbsp;&nbsp;&nbsp;
 
+                            </td>
 
                             <td class="list_td aligncenter">
                                 <a href="{!! route('getProductOptionDelete',['id' => $item["id"]]) !!}"

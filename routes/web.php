@@ -161,6 +161,8 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
     		Route::get('list',['as' => 'getProductList','uses' => 'ProductController@getProductList']);
     		Route::get('list-approve',['as' => 'getProductListApprove','uses' => 'ProductController@getProductListApprove']);
     		Route::get('list-approve-user',['as' => 'getProductListApproveUser','uses' => 'ProductController@getProductListApproveUser']);
+    		Route::get('view-approve/{id}/{pro_id}',['as' => 'getProductViewApprove','uses' => 'ProductController@getProductViewApprove']);
+    		Route::post('view-approve/{id}/{pro_id}',['as' => 'postProductViewApprove','uses' => 'ProductController@postProductViewApprove']);
             Route::get('delete/{id}',['as' => 'getProductDelete','uses' => 'ProductController@getProductDelete'])->where('id','[0-9]+');
             Route::get('edit/{id}',['as' => 'getProductEdit','uses' => 'ProductController@getProductEdit'])->where('id','[0-9]+');
             Route::post('edit/{id}',['as' => 'postProductEdit','uses' => 'ProductController@postProductEdit'])->where('id','[0-9]+');

@@ -30,7 +30,7 @@ class UserController extends Controller
     }
     public function getUserList(){
 		$roles	 = config('config.role'); 
-    	$data = User::select('id','name','username','role','created_at')->get()->toArray();
+    	$data = User::all();
     	return view('admin.module.user.list',['data' => $data, 'roles' => $roles]);
     }
     public function getUserDelete($id){

@@ -13,6 +13,9 @@
                 <thead>
                 <tr class="list_heading">
                     <th>Username</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
                     <th>Loại</th>
                     <th>Ngày tạo</th>
                     <th class="action_col">Quản lý</th>
@@ -20,8 +23,14 @@
                 </thead>
 
                 @foreach($data as $item)
+                @php
+                    $info_user = $item->infoUser;
+                @endphp
                     <tr class="list_data">
-                        <td class="list_td aligncenter">{!! $item['username'] !!}</td>
+                        <td class="list_td aligncenter">{!! data_get($item, 'username')!!}</td>
+                        <td class="list_td aligncenter">{!! data_get($item, 'name') !!}</td>
+                        <td class="list_td aligncenter">{!! data_get($item, 'email') !!}</td>
+                        <td class="list_td aligncenter">{!! data_get($info_user, 'str_phone', '') !!}</td>
                         <td class="list_td aligncenter">
                             {{-- @if($item['role'] ==1)
                                 Admin

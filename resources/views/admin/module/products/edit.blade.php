@@ -83,9 +83,11 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <button type="submit" class="btn btn-success pull-right"><i class="fa fa-plus" aria-hidden="true"></i> Tạo</button>
-                </div>
+                @if(\Auth::user()->role == '1')
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-success pull-right"><i class="fa fa-plus" aria-hidden="true"></i> Tạo</button>
+                    </div>
+                @endif
             </div>
         </form>
     </div>

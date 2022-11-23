@@ -4,17 +4,15 @@
     <div class="form-w3layouts">
         <div class="row">
             <div class="col-lg-12">
-                <a href="{!! route('getProductOptionAdd',['id' => $productName["id"]]) !!}">
-                    <button type="button" name="btnProAdd" value="Thêm mới Option" class="btn btn-success">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i> Thêm
-                    </button>
-                </a>
+                    {{-- <button type="button" name="btnProAdd" value="Thêm mới Option" class="btn btn-success">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i> Danh sách duyệt sản phẩm
+                    </button> --}}
             </div>
             <div class="col-lg-12">
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th colspan="10"><h6>{!! $productName['title'] !!}</h6></th>
+                        <th colspan="10"><h6>Danh sách duyệt sản phẩm</h6></th>
                     </tr>
                     <tr class="list_heading">
                         <th>Tên sản phẩm</th>
@@ -22,23 +20,30 @@
                         <th>Giá Dealer</th>
                         <th>Giá web</th>
                         <th>Thời Gian Bảo Hành</th>
+                        <th>Người tạo</th>
                         <th>Ngày thêm</th>
                         <th class="action_col" colspan="2"></th>
                     </tr>
                     </thead>
                     @foreach($productOption as $item)
+                        @php
+                        $product = $item->product;
+                        // dd($product, $item);
+                        @endphp
+
                         <tr class="list_data">
                             <td class="list_td aligncenter">{!! str_limit($item["name"], $limit = 50, $end = '...') !!}</td>
                             <td class="list_td aligncenter">{!! $item["amount"] !!}</td>
                             <td class="list_td aligncenter">{!! number_format($item["dealer"]) !!}</td>
                             <td class="list_td aligncenter">{!! number_format($item["value"]) !!}</td>
                             <td class="list_td aligncenter">{!! number_format($item["warranty"]).' tháng' !!}</td>
+                            <td class="list_td aligncenter">{!! data_get($item, 'user_id')!!}</td>
                             <td class="list_td aligncenter">
                                 <?php \Carbon\Carbon::setLocale('vi'); ?>
                                 {!! \Carbon\Carbon::createFromTimeStamp(strtotime($item["created_at"]))->diffForHumans() !!}
                             </td>
                             <td class="list_td aligncenter">
-                                <a href="{!! route('getProductOptionEdit',['id' => $item["id"],'pro_id' => $productName['id']]) !!}"><img
+                                <a href="{!! route('getProductViewApprove',['id' => $item["id"],'pro_id' => $product['id']]) !!}"><img
                                             src="{!! asset('/public/vnc_admin/images/edit.png') !!}"/></a>&nbsp;&nbsp;&nbsp;
 
                             </td>
