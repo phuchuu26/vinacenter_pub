@@ -77,6 +77,14 @@
                             <input readonly type="text" value="{{data_get($info_user, 'str_email')}}" name="email" class="textbox"/>
                         </span><br/><br/>
 
+            <span class="form_label">Username:</span>
+            @php
+              $user = $info_user->user;
+            @endphp
+            <span class="form_item">
+                            <input readonly type="text" value="{{data_get($user, 'username')}}" name="username" class="textbox"/>
+                        </span><br/><br/>
+
                         {{-- --- --}}
                         
                         
