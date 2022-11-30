@@ -50,6 +50,12 @@ class LoginController extends Controller
     {
         $email = $request->email;
         $info_user = InfoUser::where('str_email', $email)->first();
+        
+        if(empty($info_user)){
+            return redirect()->route('forgot_password')->with(['flash_level' => 'alert-danger',
+            'flash_message' => 'Không tồn tại email trong hệ thống!']);
+        }
+
         $reset_token = str_random(30);
         $info_user->reset_token = $reset_token;
         $info_user->save();
