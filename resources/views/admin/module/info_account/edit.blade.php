@@ -191,13 +191,16 @@
                         </div>
                     </div>
 
-                
-                    <div class="col-lg-12">
-                        @if (\Auth::user()->id == data_get($user, 'id'))
-                            <a class="btn btn-info pull-right" href="{{route('login.edit_info_user')}}">Chỉnh sửa thông tin</a>
-                        @endif
-                        {{-- <input type="submit" name="btnUserAdd" value="Cập nhật thông tin" class="btn btn-success pull-right"/> --}}
+                      
+                    <div class="col-md-9">
+                        <a class="btn btn-info pull-left" href="{{route('login.info_user')}}">Quay lại</a>
                     </div>
+                    
+                    <div class="col-md-3">
+                            <input type="submit" name="btnUserAdd" value="Cập nhật thông tin" class="btn btn-success pull-right"/>
+                    </div>
+                    
+                       
                 </div>
             </form>
         </div>

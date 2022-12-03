@@ -99,7 +99,7 @@ class LoginThirdPartyController extends Controller
         $user = User::find(\Auth::user()->id);
         $info_user = $user->infoUser; 
         $provinces = Province::all('id_province', 'str_province');
-        return response()->view('admin.module.info_account.view', compact(['user', 'info_user', 'provinces']));
+        return response()->view('admin.module.info_account.edit', compact(['user', 'info_user', 'provinces']));
         // return redirect()->route('login.edit_info_user')->with(['flash_level' => 'alert-danger','flash_message' => 'Cập nhật thất bại. Xin thử lại']);
         // return redirect()->back()->withInput()->withErrors($validator->messages());
         // \Session::flash('errors', 'This is a message!');
@@ -236,4 +236,16 @@ class LoginThirdPartyController extends Controller
             $messages
         );
     }
+
+        // InfoUserRequest $request
+        public function getInfoUser()
+        {
+            $user = User::find(\Auth::user()->id);
+            $info_user = $user->infoUser; 
+            $provinces = Province::all('id_province', 'str_province');
+            return response()->view('admin.module.info_account.view', compact(['user', 'info_user', 'provinces']));
+            // return redirect()->route('login.edit_info_user')->with(['flash_level' => 'alert-danger','flash_message' => 'Cập nhật thất bại. Xin thử lại']);
+            // return redirect()->back()->withInput()->withErrors($validator->messages());
+            // \Session::flash('errors', 'This is a message!');
+        }
 }

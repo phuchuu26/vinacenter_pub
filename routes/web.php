@@ -102,6 +102,7 @@ Route::group(['prefix' => 'login'],function(){
         Route::get('/','Admin\LoginThirdPartyController@redirectToFace')->name('login.face');
         Route::get('/callback','Admin\LoginThirdPartyController@faceCallback')->name('login.faceCallback');
     });
+    Route::get('/info-third-party-first-login','Admin\LoginThirdPartyController@getInfoUser')->name('login.info_user');
     Route::get('/update-info-third-party-first-login','Admin\LoginThirdPartyController@editInfoUser')->name('login.edit_info_user');
     Route::post('/update-info-third-party-first-login','Admin\LoginThirdPartyController@updateInfoUser')->name('login.update_info_user');
     Route::get('/get-district/{id}','Admin\LoginThirdPartyController@getDistrictByIdProvince')->name('login.get_district_by_id_province');
@@ -138,6 +139,7 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
     		Route::get('delete/{id}',['as' => 'getUserDelete','uses' => 'UserController@getUserDelete'])->where('id','[0-9]+');
     		Route::get('edit/{id}',['as' => 'getUserEdit','uses' => 'UserController@getUserEdit'])->where('id','[0-9]+');
     		Route::post('edit/{id}',['as' => 'postUserEdit','uses' => 'UserController@postUserEdit'])->where('id','[0-9]+');
+    		Route::get('view/{id}',['as' => 'getUserView','uses' => 'UserController@getUserView'])->where('id','[0-9]+');
     	});
     	Route::group(['prefix' => 'category'],function(){
     		Route::get('add',['as' => 'getCateAdd','uses' => 'CateController@getCateAdd']);

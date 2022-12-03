@@ -129,7 +129,7 @@
                     </li>
                    
                     <li class="nav-item">
-                        <a class="nav-links" href="{!! route('login.edit_info_user') !!}">
+                        <a class="nav-links" href="{!! route('login.info_user') !!}">
                             <i class="fa fa-dashboard"></i>
                             <span>Thông tin cá nhân</span>
                         </a>

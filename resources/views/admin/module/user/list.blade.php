@@ -49,7 +49,14 @@
 
                         <td class="list_td aligncenter">
                             @if(Auth::user()->role==1)
-                                <a href="{!! route('getUserEdit',['id' => $item["id"]]) !!}"><img
+                            <a style="    background-color: #C4D5EB;
+                            border-radius: 22px;" href="{!! route('getUserView',['id' => $item["id"]]) !!}">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            &nbsp;
+                                    
+                            <a href="{!! route('getUserEdit',['id' => $item["id"]]) !!}"><img
                                             src="{!! asset('/public/vnc_admin/images/edit.png') !!}"/></a>&nbsp;&nbsp;
                                 &nbsp;
                                 <a href="{!! route('getUserDelete',['id' => $item["id"]]) !!}"

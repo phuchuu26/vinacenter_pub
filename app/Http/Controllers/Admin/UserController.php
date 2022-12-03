@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserAddRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Province;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use DateTime;
@@ -74,5 +75,17 @@ class UserController extends Controller
 		else{
     		return redirect()->route('getUserList')->with(['flash_level' => 'error_msg','flash_message' => 'Bạn không được phép cập nhật User này.']);
     	}   	
+    }
+
+	public function getUserView($id){
+    	if(Auth::user()->role==0)
+        return redirect()->route('getUserList');
+		
+		$user = User::find($id);
+		$info_user = $user->infoUser; 
+		$provinces = Province::all('id_province', 'str_province');
+		return response()->view('admin.module.info_account.view', compact(['user', 'info_user', 'provinces']));
+		
+    	// return view('admin.module.user.edit',['data' => $data, 'roles' => $roles]);
     }
 }
