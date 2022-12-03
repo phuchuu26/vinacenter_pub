@@ -57,6 +57,16 @@
   <link href="{!! asset('public/frontend/css/style_optimize.scss.css') !!}" rel="stylesheet" type="text/css">
   <link href="{!! asset('public/frontend/css/mycss.css') !!}" rel="stylesheet" type="text/css">
   <link href="{!! asset('public/frontend/css/phone.css') !!}" rel="stylesheet" type="text/css">
+  <link href="{!! asset('frontend/css/preview.css') !!}" rel="stylesheet" type="text/css">
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/css/star-rating.min.css" />
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+  
+  <script src="{!! asset('frontend/js/star-rating.min.js') !!}" type="text/javascript"></script>
+
+  
   <!-- JavaScript -->
   <script type="text/javascript" async="" src="{!! asset('public/frontend/js/analytics.js') !!}"></script>
   <script async="" src="{!! asset('public/frontend/js/gtm.js') !!}"></script>

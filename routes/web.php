@@ -52,7 +52,8 @@ Route::group(['prefix' => '/','namespace' => 'Frontend'],function(){
     Route::get('san-pham-noi-bat',['as' => 'getProductTop','uses' => 'ProductController@getProductTop']);
     Route::get('san-pham-khuyen-mai',['as' => 'getProductSales','uses' => 'ProductController@getProductSales']);
     Route::get('san-pham/{alias}',['as' => 'getProductDetail','uses' => 'ProductController@getProductDetail']);
-   
+
+    Route::post('posts', 'ProductController@postPost')->name('posts.post');
     //Route::get('danh-muc-san-pham/{alias}',['as' => 'getProductType','uses' => 'ProductController@getProductType']);
     Route::get('{alias}.html',['as' => 'getProductType','uses' => 'ProductController@getProductType']);
 

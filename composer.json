@@ -9,6 +9,8 @@
         "gloudemans/shoppingcart": "^2.3",
         "laravel/framework": "5.4.*",
         "laravel/socialite": "*",
+        "laravel/tinker": "*",
+        "willvincent/laravel-rateable": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

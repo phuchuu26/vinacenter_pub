@@ -42,7 +42,18 @@
       <div class="row">
         <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
           <h3 itemprop="name"><i class="fas fa-cart-arrow-down"></i> {!! $data['name'] !!}</h3>
-        </div>
+		  
+		 	@if($data->ratings->count() > 0)
+				<input id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-show-caption="false" data-step="0.1" value="{{ $data->averageRating }}" data-size="xs" disabled=""> 
+				{{-- | Đánh giá --}}
+				<span class="review-no">
+				<p>
+					{{ $data->ratings->count() }} lượt đánh giá
+				</p>
+				</span>
+			@endif
+
+		</div>
         <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="float: right;">
           <div class="share mb-4">
             <table>
@@ -179,8 +190,122 @@
               </div>
             </div>
           </div>
-          <div class="fb-comments" data-href="{{url()->current()}}" data-width="" data-numposts="5"></div>
-          <div class="index-large col-lg-12 col-md-8 col-sm-12 col-xs-12">
+
+
+          <div class="fb-comments" data-href="{{url()->current()}}" data-width="" data-numdatas="5"></div>
+
+     
+		  <div class="index-large col-lg-12 col-md-8 col-sm-12 col-xs-12">
+			  <section class="main-container col1-layout home-content-container">
+				<br>
+			
+				<div class="new_title center">
+					<h2>ĐÁNH GIÁ SẢN PHẨM</h2>
+					<a href="#"></a></div>
+					<td colspan="2">
+						@include('admin.blocks.error')
+						@include('admin.blocks.flash')
+					</td>
+					
+				<form action="{{ route('posts.post') }}" method="POST">
+
+					{{ csrf_field() }}
+		{{-- {{dd( $data->ratings)}} --}}
+
+					<div class="rating">
+
+						<input id="input-1" name="rate" class="rating rating-loading" data-min="0" data-max="5" data-step="1" value="{{ $data->userAverageRating }}" data-size="xs">
+
+						<input type="hidden" name="id" required="" value="{{ $data->id }}">
+
+						<textarea  rows="4" cols="11" placeholder="Hãy chia sẻ những điều bạn thích về sản phẩm này với những người mua khác nhé." 
+						id="review" name="review">
+							
+						</textarea>
+						
+						{{-- <span class="review-no">{{ $data->ratings->groupBy('user_id')->count('user_id') }} lượt đánh giá</span> --}}
+						{{-- <span class="review-no">{{ $data->ratings->count() }} lượt đánh giá</span> --}}
+
+						<br/>
+						<br/>
+
+						<button class="btn btn-success">Đánh giá</button>
+					</div>
+				</form>
+				<hr>	
+<br>
+				@if (!empty($data->ratings))
+				{{-- {{dd($data->ratings)}} --}}
+					@foreach ($data->ratings as $rating )
+            {{-- @if (!empty($rating->user)) --}}
+            <div class="col-sm-8">
+                <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
+					@if (!empty($rating->user))
+						<li class="active"><a href="#product_tabs_description" data-toggle="tab">{{ $rating->user->name }}</a></li>
+					@else
+						<li class="active"><a href="#product_tabs_description" data-toggle="tab">GUEST</a></li>
+					@endif
+                  <!--<li> <a href="#product_tabs_custom" data-toggle="tab">Thông tin thanh toán</a> </li>
+                  <li> <a href="#product_tabs_custom1" data-toggle="tab">Hướng dẫn mua hàng</a> </li>-->
+                </ul>
+                <div id="productTabContent" class="tab-content">
+                  <div class="tab-pane fade in active" id="product_tabs_description">
+					<div class="std rte">
+						<input id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-show-caption="false" data-step="0.1" value="{{ $rating->rating }}" data-size="xs" disabled="">
+						<span class="review-no">{{$rating->created_at}}</span>
+					</div>
+					<div class="std rte">
+						<h5>{!! $rating->review !!}</span>
+					</div>
+
+                  </div>
+            
+               
+                </div>
+			</div>
+
+				{{-- @else
+
+					<ul id="product-detail-tab" class="nav nav-tabs product-tabs">
+					<li class="active"><a href="#product_tabs_description" data-toggle="tab">GUEST </a></li>
+					<!--<li> <a href="#product_tabs_custom" data-toggle="tab">Thông tin thanh toán</a> </li>
+					<li> <a href="#product_tabs_custom1" data-toggle="tab">Hướng dẫn mua hàng</a> </li>-->
+					</ul>
+					<div id="productTabContent" class="tab-content">
+					<div class="tab-pane fade in active" id="product_tabs_description">
+					<div class="std rte">
+						{!! $rating !!}
+					</div>
+					</div>
+					<div class="tab-pane fade" id="product_tabs_custom">
+					<div class="product-tabs-content-inner clearfix"> {!! $rating !!}</div>
+					</div>
+					<div class="tab-pane fade" id="product_tabs_custom1">
+					<div class="product-tabs-content-inner clearfix"> {!! $rating !!}</div>
+					</div>
+					</div>
+					</div>
+				
+				@endif --}}
+            
+				
+
+					@endforeach
+					
+				@endif
+				
+
+			</section>
+			<br>
+		
+		
+		</div>
+	
+	
+	
+		
+		<div class="index-large col-lg-12 col-md-8 col-sm-12 col-xs-12">
+			<hr>
             <section class="main-container col1-layout home-content-container">
               <div class="slider-items-products">
                 <div class="new_title center">
@@ -225,4 +350,13 @@
       </div>
     </div>
   </div>
+
+  <script type="text/javascript">
+
+$("#review").val("");
+    // $("#input-id").rating();
+
+</script>
+
+
 @endsection

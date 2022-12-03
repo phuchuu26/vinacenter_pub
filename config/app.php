@@ -192,6 +192,8 @@ return [
         App\Providers\HelperServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
 
+        Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
+        willvincent\Rateable\RateableServiceProvider::class,
     ],
 
     /*

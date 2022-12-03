@@ -12,6 +12,8 @@ use App\Models\Cate;
 use App\Models\Statics;
 use App\Models\News;
 use App\Models\OrderDetail;
+use Validator;
+
 
 class ProductController extends Controller
 {
@@ -276,5 +278,59 @@ class ProductController extends Controller
             'cate2' => $array2,
             'title' => $title
         ]);
+    }
+
+    public function postPost(Request $request)
+    {
+        $params = $request->all();
+        $validator = $this->_ratingRule($params);
+        
+        if ($validator->fails()) {
+            // return \Redirect::back()->withErrors($validator)->withInput(\Input::all());
+            return redirect()->back()->withInput()->withErrors($validator->messages());
+        }
+        // request()->validate(['rate' => 'required']);
+        $product_option = ProductOption::find($request->id);
+
+
+        $rating = new \willvincent\Rateable\Rating;
+
+        $rating->rating = $request->rate;
+        $rating->review = $request->review;
+
+        if(empty(\Auth::user())){
+            $rating->user_id = null;
+        }else{
+            $rating->user_id = auth()->user()->id;
+        }
+
+
+        $product_option->ratings()->save($rating);
+
+
+
+        return redirect()->back();
+
+    }
+
+    public function _ratingRule($form_data, $product_option = null)
+    {
+        // dd($form_data);
+        $rules = [
+            'rate' => 'required',
+            'review' => 'required',
+        ];
+        
+        $messages = [
+            'rate.required' => 'Vui lòng nhập chọn sao.',
+            'review.required' => 'Vui lòng nhập đánh giá.',
+        ];
+
+
+        return Validator::make(
+            $form_data,
+            $rules,
+            $messages
+        );
     }
 }
