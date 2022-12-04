@@ -50,13 +50,14 @@
                     </thead>
                     <tbody>
                     @foreach($content as $key => $item)
+                    {{-- {{dd($item)}} --}}
                         <tr>
                             <td width="40%">{!! $item->name !!}</td>
                             <td width="20%">{!! number_format($item->price) !!}đ</td>
-                            <td width="20%">
+                            <td id="qty_{{$item->rowId}}" width="20%">
                                 {!! $item->qty !!}
                             </td>
-                            <td width="20%">{!! number_format($item->summary) !!}đ</td>
+                            <td id="summary_{{$item->rowId}}" width="20%">{!! number_format($item->summary) !!}đ</td>
                             <td width="10%">
                                 <div class="d-flex text-white">
                                     <a class="btn btn-info btn-sm" data-toggle="collapse" href="#collapse{{$key}}">

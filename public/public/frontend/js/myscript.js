@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     $('.input_number').keyup(function (event) {
-
+        console.log('.input_number');
         // skip for arrow keys
         if (event.which >= 37 && event.which <= 40) return;
 
@@ -15,7 +15,7 @@ $(document).ready(function () {
     });
 
     $('.btn_update_price').on('input', function (e) {
-
+        console.log('.btn_update_price')
         if (e.which >= 37 && e.which <= 40) return;
 
         let frm = $(this).attr('frm');
@@ -33,6 +33,8 @@ $(document).ready(function () {
                 data: $('#' + frm).serialize(),
                 success: function (response) {
                     console.log(response);
+                    console.log(response['summary']);
+                    $(`#summary_${response['rowId']}`).html(response['summary']);
                 },
                 error: function (response) {
                     ;
@@ -46,11 +48,11 @@ $(document).ready(function () {
     });
 
     $('.btn_update_qty').on('input', function (e) {
-
+        console.log('.btn_update_qty');
         let frm = $(this).attr('frm');
 
         var url = $('#' + frm).attr('data-action');
-
+        console.log(url)
         var txtQty = parseInt($("#" + frm + " input[id='txtQty']").val());
         var txtqty_max = parseInt($("#" + frm + " input[id='txtqty_max']").val());
 
@@ -61,7 +63,9 @@ $(document).ready(function () {
                 method: "POST",
                 data: $('#' + frm).serialize(),
                 success: function (response) {
-                    console.log(response);
+                   
+                    $(`#qty_${response['rowId']}`).html(response['qty']);
+                    $(`#summary_${response['rowId']}`).html(response['summary']);
                 },
                 error: function (response) {
                     ;
@@ -72,6 +76,8 @@ $(document).ready(function () {
     });
 
     $('.btn_update').click(function (e) {
+        console.log('.btn_update');
+
         var dealer = parseInt($("input[id='dealer']").val());
         var yprice = parseInt($("input[id='yprice']").val());
 
@@ -88,6 +94,7 @@ $(document).ready(function () {
         controlNav: "thumbnails"
     });
     $('.updatecart').click(function (e) {
+        console.log('updatecart')
         var rowid = $(this).attr('id');
         //window.alert(rowid);
         //var qty = $(this).parent().find(".qty").val();
@@ -113,6 +120,7 @@ $(document).ready(function () {
         });
     });
     $(".qty").keypress(function (e) {
+        console.log('.qty')
         if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) return false;
     });
 });

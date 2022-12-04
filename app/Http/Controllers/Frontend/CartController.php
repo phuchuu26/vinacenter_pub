@@ -266,8 +266,12 @@ class CartController extends Controller
         $item = Cart::get($id);
         $option = $item->options->merge(['yprice'=>$yprice,'ycoc'=>$ycoc]);
 
+        // dump($item);
         Cart::update($id, ['options'=>$option]);
-        return response()->json(['success' => true, 'cat_id' => $id]);
+        $item = Cart::get($id);
+        $summary = $yprice * $item->qty; 
+        // dd($item);
+        return response()->json(['success' => true, 'rowId' => $id, 'summary' =>number_format($summary) .'đ']);
     }
 
     public function getUpdateQty(Request $request)
@@ -276,9 +280,12 @@ class CartController extends Controller
         $qty = $request->only('txtQty')['txtQty'];
 
         $item = Cart::get($id);
-
         Cart::update($id, ['qty'=>$qty]);
-        return response()->json(['success' => true, 'cat_id' => $id]);
+        $item = Cart::get($id);
+        $options = data_get($item, 'options'); 
+
+        $summary = $item->qty * (!empty(data_get($options, 'yprice')) ? data_get($options, 'yprice') : $item->price);
+        return response()->json(['success' => true, 'rowId' => $id, 'qty' => $item->qty, 'summary' => number_format($summary) .'đ']);
     }
 
 }
