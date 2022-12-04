@@ -4,6 +4,19 @@
 @section('image',$data['image'])
 @section('content')
   <!--Start main-container -->
+  <head>
+	<style>
+		.col-sm-8.rating_com {
+			border-radius: 21px;
+			margin-bottom: 8px;
+			background-color: #f5f5f5;
+		}
+		.delete_rating:hover {
+			background-color: red!important;
+			color: white!important;
+		}
+	</style>
+  </head>
 
   <section class="breadcrumbs">
     <div class="container">
@@ -235,60 +248,48 @@
 				<hr>	
 <br>
 				@if (!empty($data->ratings))
-				{{-- {{dd($data->ratings)}} --}}
+
 					@foreach ($data->ratings as $rating )
-            {{-- @if (!empty($rating->user)) --}}
-            <div class="col-sm-8">
-                <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
-					@if (!empty($rating->user))
-						<li class="active"><a href="#product_tabs_description" data-toggle="tab">{{ $rating->user->name }}</a></li>
-					@else
-						<li class="active"><a href="#product_tabs_description" data-toggle="tab">GUEST</a></li>
-					@endif
-                  <!--<li> <a href="#product_tabs_custom" data-toggle="tab">Thông tin thanh toán</a> </li>
-                  <li> <a href="#product_tabs_custom1" data-toggle="tab">Hướng dẫn mua hàng</a> </li>-->
-                </ul>
-                <div id="productTabContent" class="tab-content">
-                  <div class="tab-pane fade in active" id="product_tabs_description">
-					<div class="std rte">
-						<input id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-show-caption="false" data-step="0.1" value="{{ $rating->rating }}" data-size="xs" disabled="">
-						<span class="review-no">{{$rating->created_at}}</span>
-					</div>
-					<div class="std rte">
-						<h5>{!! $rating->review !!}</span>
-					</div>
+        
+						<div class="col-sm-8 rating_com">
+							<div class="a">
+							<ul id="ratings_comment" class="nav nav-tabs">
+									@if (!empty($rating->user))
+										<li style="margin-left: -14px;" class="active"><a href="#product_tabs_description" data-toggle="tab">{{ $rating->user->name }}</a></li>
+									@else
+										<li style="margin-left: -14px;" class="active"><a href="#product_tabs_description" data-toggle="tab">GUEST</a>
+										</li>
+									@endif
 
-                  </div>
-            
-               
-                </div>
-			</div>
+									@if (\Auth::check() && \Auth::user()->role == 1)
+										<li style="margin-left: auto;" class="">
+											<a style="margin-left: auto;" class="delete_rating" href="{{route('delete.post', ['id_rating' => $rating->id])}}">
+												<i class="fa fa-trash" aria-hidden="true">
 
-				{{-- @else
+												</i>
+												Xóa đánh giá
+											</a>
+										</li>
+									@endif
 
-					<ul id="product-detail-tab" class="nav nav-tabs product-tabs">
-					<li class="active"><a href="#product_tabs_description" data-toggle="tab">GUEST </a></li>
-					<!--<li> <a href="#product_tabs_custom" data-toggle="tab">Thông tin thanh toán</a> </li>
-					<li> <a href="#product_tabs_custom1" data-toggle="tab">Hướng dẫn mua hàng</a> </li>-->
-					</ul>
-					<div id="productTabContent" class="tab-content">
-					<div class="tab-pane fade in active" id="product_tabs_description">
-					<div class="std rte">
-						{!! $rating !!}
-					</div>
-					</div>
-					<div class="tab-pane fade" id="product_tabs_custom">
-					<div class="product-tabs-content-inner clearfix"> {!! $rating !!}</div>
-					</div>
-					<div class="tab-pane fade" id="product_tabs_custom1">
-					<div class="product-tabs-content-inner clearfix"> {!! $rating !!}</div>
-					</div>
-					</div>
-					</div>
-				
-				@endif --}}
-            
-				
+								</ul>
+								
+							</div>
+							<div id="productTabContent" class="tab-content">
+							<div class="tab-pane fade in active" id="product_tabs_description">
+								<div class="std rte">
+									<input id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-show-caption="false" data-step="0.1" value="{{ $rating->rating }}" data-size="xs" disabled="">
+									<span class="review-no">{{$rating->created_at}}</span>
+								</div>
+								<div class="std rte">
+									<h5>{!! $rating->review !!}</span>
+								</div>
+
+							</div>
+						
+						
+							</div>
+						</div>
 
 					@endforeach
 					

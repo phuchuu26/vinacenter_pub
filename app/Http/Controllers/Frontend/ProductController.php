@@ -280,7 +280,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function postPost(Request $request)
+    public function postRating(Request $request)
     {
         $params = $request->all();
         $validator = $this->_ratingRule($params);
@@ -291,7 +291,6 @@ class ProductController extends Controller
         }
         // request()->validate(['rate' => 'required']);
         $product_option = ProductOption::find($request->id);
-
 
         $rating = new \willvincent\Rateable\Rating;
 
@@ -332,5 +331,23 @@ class ProductController extends Controller
             $rules,
             $messages
         );
+    }
+
+    public function deleteRating(Request $request, $id_rating)
+    {
+        if (empty( $id_rating)) {
+            return redirect()->back()->withInput()->withErrors(['Không tồn tại đánh giá.']);
+        }
+        if(!\Auth::check() || \Auth::user()->role != 1 ){
+            return redirect()->back()->withInput()->withErrors(['Không có quyền xóa đánh giá.']);
+        }
+
+        $rating = new \willvincent\Rateable\Rating;
+        $rating =  $rating->where('id', $id_rating)->first();
+        $rating->delete();
+
+        return redirect()->back()->with(['flash_level' => 'alert-success',
+        'flash_message' => 'Xóa bình luận thành công.']) ;
+
     }
 }
