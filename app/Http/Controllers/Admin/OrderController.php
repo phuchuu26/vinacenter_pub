@@ -25,7 +25,7 @@ class OrderController extends Controller
 
         $data = '';
         $total = 0;
-        if (Auth::user()->role == 0) {
+        if (Auth::user()->role != 1) {
             $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : null;
             $from = isset($_GET['from']) ? $_GET['from'] : null;
             $to = isset($_GET['to']) ? $_GET['to'] : null;
