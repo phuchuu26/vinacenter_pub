@@ -145,7 +145,7 @@
           @if($total > 0)
             <div class="add-to-box">
               <div class="add-to-cart">
-                <a href="{!! url('mua-hang',[$data["id"],$data["alias"]]) !!}" readonly class="btn btn-info btn-add-cart"
+                <a href="{!! url('mua-hang',[$data["id"],$data["alias"]]) !!}" readonly class="btn btn-info"
                    role="button"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
                 <a href="{!! url('mua-ngay',[$data["id"],$data["alias"]]) !!}" class="btn btn-danger" role="button"><i
                       class="fas fa-shopping-cart"></i> Mua ngay</a>
