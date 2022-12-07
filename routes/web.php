@@ -38,6 +38,7 @@ Route::group(['prefix' => '/','namespace' => 'Frontend'],function(){
     Route::post('cap-nhat-don-hang/',['as' => 'postCartUpdate','uses' => 'CartController@postCartUpdate']);
     Route::post('cap-nhat-gia',['as' => 'getUpdatePrice','uses' => 'CartController@getUpdatePrice']);
     Route::post('cap-nhat-so-luong',['as' => 'getUpdateQty','uses' => 'CartController@getUpdateQty']);
+    Route::post('get-total-cart',['as' => 'getTotalCart','uses' => 'CartController@getTotalCart']);
     Route::get('dat-hang',['as' => 'getCartOrderComplete','uses' => 'CartController@getCartOrderComplete']);
     Route::post('dat-hang',['as' => 'postCartOrderComplete','uses' => 'CartController@postCartOrderComplete']);
     Route::get('mua-ngay/{id}/{tensanpham}',['as' => 'getBuyNow','uses' => 'CartController@getBuyNow']);

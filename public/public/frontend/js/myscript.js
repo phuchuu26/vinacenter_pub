@@ -1,7 +1,7 @@
 $(document).ready(function () {
+    $("#getCartOrderComplete")[0].reset(); //<-- Should return all input elements in that specific form.
 
     $('.input_number').keyup(function (event) {
-        console.log('.input_number');
         // skip for arrow keys
         if (event.which >= 37 && event.which <= 40) return;
 
@@ -15,7 +15,6 @@ $(document).ready(function () {
     });
 
     $('.btn_update_price').on('input', function (e) {
-        console.log('.btn_update_price')
         if (e.which >= 37 && e.which <= 40) return;
 
         let frm = $(this).attr('frm');
@@ -32,9 +31,8 @@ $(document).ready(function () {
                 method: "POST",
                 data: $('#' + frm).serialize(),
                 success: function (response) {
-                    console.log(response);
-                    console.log(response['summary']);
-                    $(`#summary_${response['rowId']}`).html(response['summary']);
+                    getTotalCart()
+                    $(`#summary_${response['rowId']}`).html(response['summary'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
                 },
                 error: function (response) {
                     ;
@@ -48,11 +46,9 @@ $(document).ready(function () {
     });
 
     $('.btn_update_qty').on('input', function (e) {
-        console.log('.btn_update_qty');
         let frm = $(this).attr('frm');
 
         var url = $('#' + frm).attr('data-action');
-        console.log(url)
         var txtQty = parseInt($("#" + frm + " input[id='txtQty']").val());
         var txtqty_max = parseInt($("#" + frm + " input[id='txtqty_max']").val());
 
@@ -63,9 +59,9 @@ $(document).ready(function () {
                 method: "POST",
                 data: $('#' + frm).serialize(),
                 success: function (response) {
-                   
                     $(`#qty_${response['rowId']}`).html(response['qty']);
-                    $(`#summary_${response['rowId']}`).html(response['summary']);
+                    $(`#summary_${response['rowId']}`).html(response['summary'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+                    getTotalCart()
                 },
                 error: function (response) {
                     ;
@@ -76,8 +72,6 @@ $(document).ready(function () {
     });
 
     $('.btn_update').click(function (e) {
-        console.log('.btn_update');
-
         var dealer = parseInt($("input[id='dealer']").val());
         var yprice = parseInt($("input[id='yprice']").val());
 
@@ -94,15 +88,11 @@ $(document).ready(function () {
         controlNav: "thumbnails"
     });
     $('.updatecart').click(function (e) {
-        console.log('updatecart')
         var rowid = $(this).attr('id');
-        //window.alert(rowid);
-        //var qty = $(this).parent().find(".qty").val();
         var qty = $("input[name='" + rowid + "']").val();
         var token = $("input[name='_token']").val();
 
         var formData = {_token: token, id: rowid, qty: qty};
-        //alert(formData);
         var url = 'cap-nhat/' + rowid + '/' + qty;
 
         $.ajax({
@@ -111,7 +101,6 @@ $(document).ready(function () {
             data: formData,
             dataType: 'json',
             success: function (data) {
-                console.log('success');
                 window.location = "gio-hang"
             },
             error: function (data) {
@@ -120,7 +109,6 @@ $(document).ready(function () {
         });
     });
     $(".qty").keypress(function (e) {
-        console.log('.qty')
         if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) return false;
     });
 });
@@ -128,3 +116,24 @@ $(document).ready(function () {
 $(".qty").change(function () {
     alert("Handler for .change() called.");
 });
+
+
+function getTotalCart(e)
+{
+        let frm = $(e).attr('frm');
+
+        var url = $('#urlGetTotalCart').val();
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: $('#' + frm).serialize(),
+                success: function (response) {
+                    $(`#span_total`).html(response['summary'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+                },
+                error: function (response) {
+                    ;
+                }
+            });
+
+}

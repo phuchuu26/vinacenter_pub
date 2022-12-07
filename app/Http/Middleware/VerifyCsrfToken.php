@@ -15,5 +15,6 @@ class VerifyCsrfToken extends BaseVerifier
         //
         'forgot-password',
         '/login/update-info-third-party-first-login',
+        '/get-total-cart'
     ];
 }

@@ -136,6 +136,10 @@ class CartController extends Controller
                     ->withInput();
             }
 
+            if(empty( (int) Cart::total()  )){
+                return Redirect::back()->with(['flash_level' => 'error_msg','flash_message' => 'Đơn hàng rỗng.']);
+            }
+
             $view_ = "";
             $atm = "";
             $data = "";
@@ -271,7 +275,7 @@ class CartController extends Controller
         $item = Cart::get($id);
         $summary = $yprice * $item->qty; 
         // dd($item);
-        return response()->json(['success' => true, 'rowId' => $id, 'summary' =>number_format($summary) .'đ']);
+        return response()->json(['success' => true, 'rowId' => $id, 'summary' => $summary]);
     }
 
     public function getUpdateQty(Request $request)
@@ -285,7 +289,33 @@ class CartController extends Controller
         $options = data_get($item, 'options'); 
 
         $summary = $item->qty * (!empty(data_get($options, 'yprice')) ? data_get($options, 'yprice') : $item->price);
-        return response()->json(['success' => true, 'rowId' => $id, 'qty' => $item->qty, 'summary' => number_format($summary) .'đ']);
+        return response()->json(['success' => true, 'rowId' => $id, 'qty' => $item->qty, 'summary' => $summary]);
+        // return response()->json(['success' => true, 'rowId' => $id, 'qty' => $item->qty, 'summary' => number_format($summary) .'đ']);
+    }
+
+    public function getTotalCart(Request $request)
+    {
+        $total = Cart::total();
+        $content = Cart::content();
+        $total = 0;
+        foreach( $content as $key => $value ){
+            $options = data_get($value, 'options');
+            $yprice = data_get($options, 'yprice');
+            if(empty(  $yprice)){
+                $yprice = data_get($value, 'price');
+            }
+
+            $amout = $yprice * (int) data_get($value, 'qty');
+            $total =  $total + $amout;
+        }
+        // dd($total );
+        // $id = $request->only('txtId')['txtId'];
+
+        // $item = Cart::get($id);
+        // dd($item );
+        // $summary = $item->qty * (!empty(data_get($options, 'yprice')) ? data_get($options, 'yprice') : $item->price);
+        return response()->json(['success' => true, 'summary' => $total]);
+        // return response()->json(['success' => true, 'rowId' => $id, 'qty' => $item->qty, 'summary' => number_format($summary) .'đ']);
     }
 
 }

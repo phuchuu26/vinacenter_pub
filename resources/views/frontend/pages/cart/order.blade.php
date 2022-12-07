@@ -21,11 +21,13 @@
         </div>
     </section>
     <!-- main-container -->
+   
     <div class="main container">
         <div class="row">
             <div class="col-lg-2">
                 <h4>Thông tin đơn hàng</h4>
             </div>
+            @include('admin.blocks.flash')
             <div class="col-lg-10" style="float: right">
                 <a href="{!! url('gio-hang') !!}" class="btn btn-warning" role="button"
                    style="float: right; margin: 10px">
@@ -53,11 +55,11 @@
                     {{-- {{dd($item)}} --}}
                         <tr>
                             <td width="40%">{!! $item->name !!}</td>
-                            <td width="20%">{!! number_format($item->price) !!}đ</td>
+                            <td width="20%">{!! number_format($item->price) !!} VNĐ</td>
                             <td id="qty_{{$item->rowId}}" width="20%">
                                 {!! $item->qty !!}
                             </td>
-                            <td id="summary_{{$item->rowId}}" width="20%">{!! number_format($item->summary) !!}đ</td>
+                            <td class="summary" id="summary_{{$item->rowId}}" width="20%">{!! number_format($item->summary) !!} VNĐ</td>
                             <td width="10%">
                                 <div class="d-flex text-white">
                                     <a class="btn btn-info btn-sm" data-toggle="collapse" href="#collapse{{$key}}">
@@ -135,13 +137,18 @@
 
                     @endforeach
                     </tbody>
+                    <input hidden id="urlGetTotalCart" value="{{route('getTotalCart')}}" type="text">
                 </table>
             </div>
             <div class="col-lg-12">
-                <span style="float: right">- Tổng cộng : {!! $total.'₫' !!}</span>
+                <span  style="float: right; display: -webkit-inline-box;">- Tổng cộng :  &nbsp
+                    <p id="span_total">
+                        {!! $total.' VNĐ' !!}
+                    </p>
+                </span>
             </div>
         </div>
-        <form action="{{ route('getCartOrderComplete') }}" method="POST">
+        <form id="getCartOrderComplete" name="getCartOrderComplete" action="{{ route('getCartOrderComplete') }}" method="POST">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="row">
                 <div class="col-lg-12">
