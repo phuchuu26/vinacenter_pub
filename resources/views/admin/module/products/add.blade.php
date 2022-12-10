@@ -5,17 +5,24 @@
         <form action="" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Loại Sản phẩm</span>
+                
+                @if (\Auth::user()->role == 1))
+                    <div class="col-lg-12">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Loại Sản phẩm</span>
+                            </div>
+                                <select name="sltCate" class="form-control" required>
+                                    <option value="">--- ROOT ---</option>
+                                    <?php menuMulti($dataCate, 0, $str = "", old('sltCate'));?>
+                                </select>
                         </div>
-                        <select name="sltCate" class="form-control" required>
-                            <option value="">--- ROOT ---</option>
-                            <?php menuMulti($dataCate, 0, $str = "", old('sltCate'));?>
-                        </select>
                     </div>
-                </div>
+                @else
+                    <input hidden name="sltCate" value="{{data_get($cate_diendan, 'id')}}">
+                @endif
+                    
+
                 <div class="col-lg-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">

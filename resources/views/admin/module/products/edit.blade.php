@@ -10,10 +10,17 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Loại Sản phẩm</span>
                         </div>
-                        <select name="sltCate" class="form-control" required>
-                            <option value="">--- ROOT ---</option>
-                            <?php menuMulti($parent, 0, $str = "---|", $product['category_id']);?>
-                        </select>
+                        @if (\Auth::user()->role == 1))
+                            <select name="sltCate" class="form-control" required>
+                                <option value="">--- ROOT ---</option>
+                                <?php menuMulti($parent, 0, $str = "---|", $product['category_id']);?>
+                            </select>
+                        @else
+
+                            <input readonly type="text" name="sltCate" class="form-control"
+                            value="{!! $product->cate->name !!}" required/>
+
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-12">

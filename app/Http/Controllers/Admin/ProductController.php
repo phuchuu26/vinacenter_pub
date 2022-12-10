@@ -22,7 +22,8 @@ class ProductController extends Controller
 {
     public function getProductAdd(){
     	$data = Cate::select('id','name','parent_id')->get()-> toArray();
-    	return view('admin.module.products.add',['dataCate' => $data]);
+		$cate_diendan = Cate::where('name','DIỄN ĐÀN')->first();
+    	return view('admin.module.products.add',['dataCate' => $data, 'cate_diendan' => $cate_diendan]);
     }
     public function postProductAdd(ProductAddRequest $request){  
         $product_id ="";
@@ -88,25 +89,27 @@ class ProductController extends Controller
         if(isset($keyword) && $keyword != null){
             $product = Product::select('id','title','created_at','user_id','is_hot')
             ->where('title', 'LIKE', '%'.$keyword.'%')
-			->where( function($query){
-				if(\Auth::user()->role != 1){
-					$query->where('user_id', \Auth::user()->username);
-				}
-			 })
-            ->orderBy('id','DESC')->paginate(25);
+            ->orderBy('id','DESC');
+
+			if(\Auth::user()->role != 1){
+				$product->where('user_id', \Auth::user()->username);
+			}
+			
+			$product = $product->paginate(25);
         }
         else{
-            $product = Product::select('id','title','created_at','user_id','is_hot')->orderBy('id','DESC')
-			->where( function($query){
-				if(\Auth::user()->role != 1){
-					$query->where('user_id', \Auth::user()->username);
-				}
-			 })
-			->paginate(25);
+            $product = Product::select('id','title','created_at','user_id','is_hot')->orderBy('id','DESC');
+			
+			if(\Auth::user()->role != 1){
+				$product->where('user_id', \Auth::user()->username);
+			}
+
+			$product = $product->paginate(25);
+			// dd($product);
         }
     	
         $productoption = ProductOption::select('id' ,'product_id')->get()-> toArray();
-    	return view('admin.module.products.list',['product' => $product,'productoption' => $productoption]);
+		return view('admin.module.products.list',['product' => $product,'productoption' => $productoption]);
     }
     public function getProductDelete($id){
         

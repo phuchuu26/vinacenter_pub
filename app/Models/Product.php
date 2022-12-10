@@ -16,4 +16,9 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\Rating');
     }
+
+    public function cate()
+    {
+        return $this->hasOne(Cate::class, 'id', 'category_id');
+    }
 }

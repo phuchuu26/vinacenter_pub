@@ -154,13 +154,14 @@
           @foreach($ct as $it)
             @if($it['is_active'] != 0)
               <li class="level0 drop-menu">
-                <a href="#"><span>{!! $it["name"] !!}</span> </a>
+                {{-- {{dump( $it["name"] == 'DIỄN ĐÀN' ? route('getProductType',['alias' => $it["alias"]]) : '' )}} --}}
+                <a href="{!!  $it["name"] == 'DIỄN ĐÀN' ? route('getProductType',['alias' => $it["alias"]]) : '#' !!}"><span>{!! $it["name"] !!}</span> </a>
                 <ul class="level1" style="display: none;">
                     <?php $children = App\Models\Cate::where('parent_id', $it["id"])->orderby('is_index','asc')->get()->toArray(); ?>
                   @foreach($children as $item)
                     <li class="level drop-menu ml-2">
                       <a href="{!!route('getProductType',['alias' => $item["alias"]])!!}">
-                        <span>{!! $item["name"]!!}</span>
+                        <span>{!! $item["name"]!!} </span>
                       </a>
                         <?php $children1 = App\Models\Cate::where('parent_id', $item["id"])->where('is_active', 1)->get()->toArray(); ?>
                       @if(count($children1) > 0)
