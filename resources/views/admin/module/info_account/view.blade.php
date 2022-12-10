@@ -207,10 +207,10 @@
          var option_districs = $('#district');
          var option_wards = $('#ward');
 
-       
+        $( "input" ).prop( "disabled", true );
+        $( "select" ).prop( "disabled", true );
        
         getDistrict();
-        // getWard();
 
         function getDistrict(){
             var id_district = '{{$info_user->id_district ?? ''}}';
@@ -235,7 +235,7 @@
 
                     });
                     getWard();
-                    option_districs.removeAttr('disabled');
+                    // option_districs.removeAttr('disabled');
                 },
                 fail: function(errors) {
                     alert(errors);
@@ -268,7 +268,7 @@
                         }
                     });
 
-                    option_wards.removeAttr('disabled');
+                    // option_wards.removeAttr('disabled');
                 },
                 fail: function(errors) {
                     alert(errors);
@@ -277,19 +277,6 @@
             });
 
         }
-
-
-
-        $('#province').change(function(){
-            getDistrict();
-
-        });
-
-        $('#district').change(function(){
-            getWard();
-        });
-
-
         
     </script>
 @endsection
