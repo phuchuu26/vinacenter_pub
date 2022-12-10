@@ -8,10 +8,13 @@ use App\Models\ProductOption;
 use Cart;
 use App\Models\OrderProduct;
 use App\Models\Customer;
+use App\Models\District;
 use App\Models\OrderDetail;
+use App\Models\Province;
 use Illuminate\Http\Request;
 use App\Models\Statics;
 use App\Models\User;
+use App\Models\Ward;
 use DateTime;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -88,6 +91,8 @@ class CartController extends Controller
 
     public function getCartOrderComplete()
     {
+        $provinces = Province::all('id_province', 'str_province');
+
         $data = [];
         $content = Cart::content();
         foreach ($content as $item) {
@@ -107,30 +112,52 @@ class CartController extends Controller
         return view('frontend.pages.cart.order', [
             'content' => $data,
             'total' => $total,
-            'user' => $user
+            'user' => $user,
+            'provinces' => $provinces
         ]);
     }
 
     public function postCartOrderComplete(Request $request)
     {
+        $id_province = $request->province;
+        $id_district = $request->district;
+        $id_ward = $request->ward;
+        $str_address = $request->str_address;
+
+        $province = Province::where('id_province', $id_province)->first();
+        $district = District::where('id_district', $id_district)->first();
+        $ward = Ward::where('id_ward', $id_ward)->first();
+
+        $request['txtAddress'] = $str_address   . ', '.  data_get($ward, 'str_ward')   . ', '. data_get($district, 'str_district') . 
+        ', '. data_get($province, 'str_province');
+       
         $flag = $request->input('btn_update');
         if ($flag == null) {
+            
+            $rules = array(
+                'txtName' => 'required',
+                // 'txtAddress' => 'required',
+                'txtPhone' => 'required|regex:/[0-9]{10}/|digits:10',
+                'txtUser' => 'required',
+            );
+
+            if(empty($ward) || empty($str_address)){
+                $rules['txtAddress_complete'] = 'required';
+            }
+
             $validator = Validator::make($request->all(),
-                array(
-                    'txtName' => 'required',
-                    'txtAddress' => 'required',
-                    'txtPhone' => 'required|regex:/[0-9]{10}/|digits:10',
-                    'txtUser' => 'required',
-                ),
+                $rules,
                 [
                     'txtName.required' => 'Vui lòng nhập Họ tên!',
-                    'txtAddress.required' => 'Vui lòng nhập địa chỉ!',
+                    'txtAddress_complete.required' => 'Vui lòng nhập địa chỉ!',
                     'txtPhone.required' => 'Vui lòng Nhập số điện thoại!',
                     'txtUser.required' => 'Vui lòng chọn người bán!',
                     'txtPhone.regex' => 'Số điện thoại không hợp lệ!',
                     'txtPhone.digits' => 'Số điện thoại không hợp lệ!'
                 ]
             );
+
+
             if ($validator->fails()) {
                 return Redirect::back()->withErrors($validator)
                     ->withInput();

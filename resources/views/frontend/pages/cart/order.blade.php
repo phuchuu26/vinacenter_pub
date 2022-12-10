@@ -1,6 +1,13 @@
 @extends('frontend.master')
 @section('title',"Đặt hàng")
 @section('content')
+    <head>
+        <style>
+            .input-group.mb-3 {
+                margin-left: 191px;
+            }
+        </style>
+    </head>
     <section class="breadcrumbs">
         <div class="container">
             <div class="row">
@@ -174,20 +181,80 @@
                     </div>
                     <div class="row" style="margin-top: 10px">
 
-                        <div class="col-lg-2">
+                        <div class="col-lg-8">
                             <label for="txtAddress">- Địa chỉ liên lạc: <span style="color: red">*</span></label>
                         </div>
                         <div class="col-lg-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 150px">Tỉnh</span>
+                                </div>
+    
+                                <select style="height: auto" class="form-control" id="province" name="province" required>
+                                    @foreach($provinces as $item)
+                                        <option value="{!! $item['id_province']!!}">{!! $item['str_province']!!}</option>
+                                    @endforeach
+                                </select>
+                                
+                            </div>
+                        </div>
+                        
+                       
+                        <div class="col-lg-3">
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 150px">Quận, huyện</span>
+                                </div>
+    
+                                <select  style="height: auto" class="form-control" id="district" name="district" required>
+                                        <option value=""></option>
+                                </select>
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                        </div>
+    
+                        <div class="col-lg-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 150px">Phường, xã</span>
+                                </div>
+    
+                                <select  style="height: auto" class="form-control" id="ward" name="ward" required>
+                                        <option value=""></option>
+                                </select>
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                        </div>
+    
+                        <div class="col-lg-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 150px">Số nhà</span>
+                                </div>
+                                <input type="text" name="str_address" class="form-control" value="{!! old('str_address') !!}" required/>
+                            </div>
+                        </div>
+
+{{-- 
+                        <div class="col-lg-6">
                             <input type="text" class="form-control" name="txtAddress" id="txtAddress"
                                    maxlength="200" value="{!! old('txtAddress') !!}">
-
-                        </div>
+                        </div> --}}
+                        
                         <div class="col-lg-4">
-                            @if($errors->has('txtAddress'))
-                                <div class="error">{{ $errors->first('txtAddress') }}</div>
+                            @if($errors->has('txtAddress_complete'))
+                                <div class="error">{{ $errors->first('txtAddress_complete') }}</div>
                             @endif
                         </div>
                     </div>
+
                     <div class="row" style="margin-top: 10px">
                         <div class="col-lg-2">
                             <label for="txtPhone">- Số điện thoại: <span style="color: red">*</span></label>
@@ -318,5 +385,97 @@
             </div>
         </form>
     </div>
+
+    <script>
+        var option_districs = $('#district');
+        var option_wards = $('#ward');
+
+      
+      
+       getDistrict();
+       // getWard();
+
+       function getDistrict(){
+           var id_district = '{{$info_user->id_district ?? ''}}';
+         
+           $('#district').find('option').remove();
+           var id_province = $('#province').children('option:selected').val();
+
+           var url = '/login/get-district/' + id_province;
+           $.ajax({
+               type: 'GET',
+               url: url,
+               dataType: 'JSON',
+               success: function(result) {
+                   var jsonData = result;
+                   
+                   $.each( jsonData, function( key, value ) {
+                       if(id_district != null && id_district == value.id_district){
+                           option_districs.append(  `<option selected value="${value.id_district}">${value.str_district}</option>` );
+                       }else{
+                           option_districs.append($('<option>', {value: value.id_district, text: value.str_district}));
+                       }
+
+                   });
+                   getWard();
+                   option_districs.removeAttr('disabled');
+               },
+               fail: function(errors) {
+                   alert(errors);
+                   option_districs.removeAttr('disabled');
+               }
+           });
+       }
+
+       function getWard()
+       {
+           var id_ward = '{{$info_user->id_ward ?? ''}}';
+           $('#ward').find('option').remove();
+           var id_district = $('#district').children('option:selected').val();
+
+        
+           var url = '/login/get-ward/' + id_district;
+           $.ajax({
+               type: 'GET',
+               url: url,
+               dataType: 'JSON',
+               success: function(result) {
+                   var jsonData = result;
+                   $.each( jsonData, function( key, value ) {
+                       // option_wards.append($('<option>', {value: value.id_ward, text: value.str_ward}));
+                           
+                       if(id_ward != null && id_ward == value.id_ward){
+                           option_wards.append(  `<option selected value="${value.id_ward}">${value.str_ward}</option>` );
+                       }else{
+                           option_wards.append($('<option>', {value: value.id_ward, text: value.str_ward}));
+                       }
+                   });
+
+                   option_wards.removeAttr('disabled');
+               },
+               fail: function(errors) {
+                   alert(errors);
+                   option_districs.removeAttr('disabled');
+               }
+           });
+
+       }
+
+
+
+       $('#province').change(function(){
+           getDistrict();
+
+       });
+
+       $('#district').change(function(){
+           getWard();
+       });
+
+
+       
+   </script>
+
+   
     <!--End main-container -->
 @endsection
