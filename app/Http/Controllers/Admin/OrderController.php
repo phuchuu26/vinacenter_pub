@@ -161,7 +161,7 @@ class OrderController extends Controller
     public function getArrayOrderById($id)
     {
         return DB::table('order_detail')
-            ->select('order_detail.*', 'product_option.warranty')
+            ->select('order_detail.*', 'product_option.warranty', 'order_detail.voucher_code',  'order_detail.bonus')
             ->join('product_option', 'product_option.id', '=', 'order_detail.product_id')
             ->where('order_detail.order_id', $id)
             ->get();

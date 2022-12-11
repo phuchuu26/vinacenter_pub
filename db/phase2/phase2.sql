@@ -38,4 +38,9 @@ CREATE TABLE `vn_ct`.`ratings`  (
 
 ALTER TABLE `thitr318_vinacenter`.`product_option` 
 ADD COLUMN `is_approved` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 0 AFTER `updated_at`;
-UPDATE product_option set is_approved = '1'
+UPDATE product_option set is_approved = '1';
+
+
+
+ALTER TABLE `thitr318_vinacenter`.`order_detail` 
+ADD COLUMN `voucher_code` varchar(255) NULL AFTER `updated_at`;

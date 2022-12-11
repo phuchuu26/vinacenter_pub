@@ -35,6 +35,7 @@ Route::group(['prefix' => '/','namespace' => 'Frontend'],function(){
     Route::get('xoa-san-pham/{id}',['as' => 'getCartDel','uses' => 'CartController@getCartDel']);
     Route::get('xoa-sp/{id}',['as' => 'getCartDel1','uses' => 'CartController@getCartDel1']);
     Route::get('cap-nhat/{id}/{qty}',['as' => 'getCartUpdate','uses' => 'CartController@getCartUpdate']);
+    Route::post('cap-nhat-voucher/{id}/{voucher}',['as' => 'getCartUpdateVoucher','uses' => 'CartController@getCartUpdateVoucher']);
     Route::post('cap-nhat-don-hang/',['as' => 'postCartUpdate','uses' => 'CartController@postCartUpdate']);
     Route::post('cap-nhat-gia',['as' => 'getUpdatePrice','uses' => 'CartController@getUpdatePrice']);
     Route::post('cap-nhat-so-luong',['as' => 'getUpdateQty','uses' => 'CartController@getUpdateQty']);
@@ -179,7 +180,7 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
         Route::group(['prefix' => 'productoption'],function(){       
             Route::get('list/{id}',['as' => 'getProductOptionList','uses' => 'ProductOptionController@getProductOptionList']);
             Route::get('add/{id}',['as' => 'getProductOptionAdd','uses' => 'ProductOptionController@getProductOptionAdd']);
-            Route::post('add/{id}',['as' => 'postProductOptionAdd','uses' => 'ProductOptionController@postProductOptionAdd']);
+            Route::post('add/{id}',['as' => 'postProductOptionAdd','uses' => 'ProductOptionController@postgio-hangProductOptionAdd']);
             Route::get('delete/{id}',['as' => 'getProductOptionDelete','uses' => 'ProductOptionController@getProductOptionDelete'])->where('id','[0-9]+');
             Route::get('edit/{id}/{pro_id}',['as' => 'getProductOptionEdit','uses' => 'ProductOptionController@getProductOptionEdit'])->where('id','[0-9]+');
             Route::post('edit/{id}/{pro_id}',['as' => 'postProductOptionEdit','uses' => 'ProductOptionController@postProductOptionEdit'])->where('id','[0-9]+');

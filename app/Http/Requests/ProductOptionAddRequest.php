@@ -27,7 +27,7 @@ class ProductOptionAddRequest extends FormRequest
             'txtName' => 'required|unique:product_option,name',
             'txtValue' => 'required|integer',
             'txtIntro' => 'required',
-            
+            'amount_discount' => 'required_with:code|integer'
         ];
     }
     public function messages()
@@ -38,6 +38,7 @@ class ProductOptionAddRequest extends FormRequest
             'txtValue.required' => 'Vui lòng nhập giá trị option.',
             'txtValue.integer' => 'Giá trị chỉ được nhập số nguyên.',
             'txtIntro.required' => 'Vui lòng nhập mô tả.',            
+            'amount_discount.required_with' => 'Vui lòng nhập số tiền giảm giá.',            
         ];
     }
 }

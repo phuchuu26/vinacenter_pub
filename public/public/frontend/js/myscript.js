@@ -1,5 +1,8 @@
 $(document).ready(function () {
-    $("#getCartOrderComplete")[0].reset(); //<-- Should return all input elements in that specific form.
+    // console.log($("#getCartOrderComplete")[0]);
+    if($("#getCartOrderComplete")[0] != undefined){
+        $("#getCartOrderComplete")[0].reset(); //<-- Should return all input elements in that specific form.
+    }
 
     $('.input_number').keyup(function (event) {
         // skip for arrow keys
@@ -88,6 +91,7 @@ $(document).ready(function () {
         controlNav: "thumbnails"
     });
     $('.updatecart').click(function (e) {
+        // console.log('updatecart');
         var rowid = $(this).attr('id');
         var qty = $("input[name='" + rowid + "']").val();
         var token = $("input[name='_token']").val();
@@ -130,6 +134,50 @@ function getTotalCart(e)
                 data: $('#' + frm).serialize(),
                 success: function (response) {
                     $(`#span_total`).html(response['summary'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+                },
+                error: function (response) {
+                    ;
+                }
+            });
+
+}
+
+
+$(".voucher-code").keypress(function (e) {
+    // applyVoucher(e);
+});
+
+$(".voucher-code").change(function (e) {
+    applyVoucher(e);
+});
+
+function applyVoucher(e)
+{
+
+        var element = $(e).attr('currentTarget');
+        let frm = $(element).attr('frm');
+        var rowid = $(element).attr("id")
+        var voucher = $(element).val()
+        var url = 'cap-nhat-voucher/' + rowid + '/' + voucher;
+
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: $('#' + frm).serialize(),
+                success: function (response) {
+                    console.log(response);
+                    if(!response['success']){
+                        console.log(`error_des_${response['rowId']}`);
+                        $(`#error_des_${response['rowId']}`).css('color', 'red');
+                        $(`#error_des_${response['rowId']}`).html(response['description']);
+                    }else{
+                        $(`#error_des_${response['rowId']}`).css('color', '#5bc0de');
+                        $(`#summary_${response['rowId']}`).html(response['summary'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+                        $(`#error_des_${response['rowId']}`).html(response['description']);
+                        getTotalCart()
+                    }
+                    // $(`#span_total`).html(response['summary'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
                 },
                 error: function (response) {
                     ;

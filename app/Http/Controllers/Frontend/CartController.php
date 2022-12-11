@@ -14,6 +14,7 @@ use App\Models\Province;
 use Illuminate\Http\Request;
 use App\Models\Statics;
 use App\Models\User;
+use App\Models\Voucher;
 use App\Models\Ward;
 use DateTime;
 use Illuminate\Support\Facades\Redirect;
@@ -65,6 +66,7 @@ class CartController extends Controller
         return response()->json($id);
     }
 
+
     public function postCartUpdate(Request $request)
     {
         $id = $request->only('txtId')['txtId'];
@@ -98,7 +100,6 @@ class CartController extends Controller
         foreach ($content as $item) {
             $count_option = ProductOption::select('amount','value')->where('id', $item->id)->first();
             $count_order_detail = OrderDetail::where('product_id', $item->id)->get()->sum('qty');
-
             $total = $count_option['amount'] - $count_order_detail;
             $amount = $total > 0 ? $total : 0;
 
@@ -130,7 +131,7 @@ class CartController extends Controller
 
         $request['txtAddress'] = $str_address   . ', '.  data_get($ward, 'str_ward')   . ', '. data_get($district, 'str_district') . 
         ', '. data_get($province, 'str_province');
-       
+        // dd($request->all(), Cart::total());
         $flag = $request->input('btn_update');
         if ($flag == null) {
             
@@ -203,7 +204,11 @@ class CartController extends Controller
 
             $order->express_human = $request->express_human;
             $order->payment_id = $atm;
-            $order->total = Cart::total();
+            // $order->total = Cart::total();
+            $total = $this->getTotalCart()->getData();
+            $total =  data_get($total, 'success') == true ? data_get($total, 'summary') : Cart::total();
+            $order->total = $total;
+
             $order->created_at = new DateTime();
             $order->status = 0;
 
@@ -217,6 +222,16 @@ class CartController extends Controller
                     $price = 0;
                     $cart = new OrderDetail;
                     $cart->product_name = $item->name;
+                    if(data_get($item->options, 'is_apply_voucher') == true){
+                        $product_option = ProductOption::where('id', $item->id)->first();
+                        $voucher = $product_option->voucher;
+                        $voucher_code = data_get($voucher, 'code');
+                        $cart->voucher_code = $voucher_code;
+                        $cart->bonus =data_get($voucher, 'amount_discount') * $item->qty;
+                    }else{
+                        $cart->voucher_code = null;
+                    }
+
                     $cart->dealer = $item->options->dealer;
                     $cart->price = $item->price;
                     $cart->qty = $item->qty;
@@ -226,10 +241,9 @@ class CartController extends Controller
                     $cart->product_id = $item->id;
                     $cart->created_at = new DateTime();
                     $cart->save();
-                    
                     $price = $item->options->yprice != "" ? $item->options->yprice : $item->price;
                     
-                    $total = $total + ($item->qty * $price);
+                    // $total =$total 
                     
                 }
                 if ($pay == 0) {
@@ -320,7 +334,7 @@ class CartController extends Controller
         // return response()->json(['success' => true, 'rowId' => $id, 'qty' => $item->qty, 'summary' => number_format($summary) .'đ']);
     }
 
-    public function getTotalCart(Request $request)
+    public function getTotalCart(Request $request = null)
     {
         $total = Cart::total();
         $content = Cart::content();
@@ -335,7 +349,7 @@ class CartController extends Controller
             $amout = $yprice * (int) data_get($value, 'qty');
             $total =  $total + $amout;
         }
-        // dd($total );
+        // dd($content );
         // $id = $request->only('txtId')['txtId'];
 
         // $item = Cart::get($id);
@@ -343,6 +357,40 @@ class CartController extends Controller
         // $summary = $item->qty * (!empty(data_get($options, 'yprice')) ? data_get($options, 'yprice') : $item->price);
         return response()->json(['success' => true, 'summary' => $total]);
         // return response()->json(['success' => true, 'rowId' => $id, 'qty' => $item->qty, 'summary' => number_format($summary) .'đ']);
+    }
+
+    
+    public function getCartUpdateVoucher(Request $request)
+    {
+        $id = $request->id;
+        $voucher = $request->voucher;
+        $voucher = Voucher::where('code', $voucher )->first();
+        if(empty($voucher)){
+            return response()->json(['success' => false, 'description' => 'Mã voucher không tồn tại', 'rowId' => $id ]);
+        }
+        // dd($check_voucher);
+        $item = Cart::get($id);
+        $is_apply_voucher = data_get($item->options, 'is_apply_voucher');
+        // dd( $item);
+        if($is_apply_voucher == true){
+            // $current_price = data_get($item->options, 'yprice') != '' ? data_get($item->options, 'yprice') : data_get($item, 'price');
+            // $price_after_apply_voucher = $current_price - ($voucher->amount_discount);
+            $summary = data_get($item->options, 'yprice')  * data_get($item, 'qty');
+            return response()->json(['success' => true, 'description' => "Đã áp dụng mã voucher giảm ". number_format($voucher->amount_discount) .' VND', 'rowId' => $id, 'summary' => $summary]);
+        }
+        // dd($item );
+        // dd( data_get($item, 'summary') - $voucher->amount_discount * data_get($item, 'qty'));
+
+        $current_price = data_get($item->options, 'yprice') != '' ? data_get($item->options, 'yprice') : data_get($item, 'price');
+ 
+        $price_after_apply_voucher = $current_price - ($voucher->amount_discount);
+        $summary = $price_after_apply_voucher  * data_get($item, 'qty');
+        $option = $item->options->merge(['is_apply_voucher' => true, 'yprice' => $price_after_apply_voucher]);
+
+        Cart::update($id, ['options'=>$option, 'summary'=>$summary]);
+
+        
+        return response()->json(['success' => true, 'description' => "Đã áp dụng mã voucher giảm ". number_format($voucher->amount_discount) .' VND', 'rowId' => $id, 'summary' => $summary]);
     }
 
 }

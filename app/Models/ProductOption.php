@@ -17,4 +17,9 @@ class ProductOption extends Model
         return $this->hasOne(Product::class, 'id', 'product_id');
     }
 
+    public function voucher()
+    {
+        return $this->belongsTo(Voucher::class, 'id', 'id_product_option');
+    }
+
 }

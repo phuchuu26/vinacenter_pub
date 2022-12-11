@@ -22,6 +22,7 @@
                         <th>Giá Dealer</th>
                         <th>Giá web</th>
                         <th>Thời Gian Bảo Hành</th>
+                        <th>Voucher Code</th>
                         @if (\Auth::user()->role != '1')
                             <th>Trạng thái</th>
                         @endif
@@ -37,6 +38,7 @@
                             <td class="list_td aligncenter">{!! number_format($item["dealer"]) !!}</td>
                             <td class="list_td aligncenter">{!! number_format($item["value"]) !!}</td>
                             <td class="list_td aligncenter">{!! number_format($item["warranty"]).' tháng' !!}</td>
+                            <td class="list_td aligncenter">{!! $item->voucher->code ?? '' !!}</td>
                             @if (\Auth::user()->role != '1')
                                 <td class="list_td aligncenter">
 

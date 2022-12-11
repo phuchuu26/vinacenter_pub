@@ -91,6 +91,7 @@
                                 <th>SL</th>
                                 <th>Giá dealer</th>
                                 <th>Giá web</th>
+                                <th>Voucher Code</th>
                                 <th>Giá sale</th>
                                 <th>Thành tiền</th>
                                 <th>Chiếc khấu</th>
@@ -116,6 +117,13 @@
                                     <td>
                                         {!! number_format($detail->price) !!}
                                     </td>
+                                    
+                                    <td>
+                                        @if(!empty($detail->voucher_code))
+                                        {{$detail->voucher_code }} ( giảm   {!! number_format($detail->bonus) !!} đ)
+                                        @endif
+                                    </td>
+                                    
                                     <td>
                                         {!! number_format($detail->real_price) !!}
                                     </td>
@@ -151,7 +159,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td colspan="4" class="text-center font-weight-bold">Tổng cộng</td>
+                                <td colspan="4" class="text-center font-weight-bold"></td>
+                                <td colspan="1" class="text-left font-weight-bold">Tổng cộng</td>
+                                {{-- <td></td> --}}
 
                                 <td>{!! number_format($customer->prices) !!}</td>
                                 <td colspan="2">{!! number_format($customer->bon) !!}</td>
@@ -172,7 +182,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td colspan="4" class="text-center font-weight-bold">- Đã thanh toán</td>
+                                <td colspan="4" class="text-center font-weight-bold">- </td>
+                                <td colspan="1" class="text-left font-weight-bold">- Đã thanh toán</td>
+                                {{-- <td></td> --}}
                                 <td colspan="3">
                                     {!! isset($customer->deposit) ? number_format($customer->deposit) : number_format($customer->depo) !!}
                                 </td>
@@ -188,7 +200,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td colspan="2" class="text-center font-weight-bold">Loại thanh toán</td>
+                                <td colspan="2" class="text-center font-weight-bold"></td>
+                                <td colspan="1" class="text-left font-weight-bold">Loại thanh toán</td>
+                                {{-- <td></td> --}}
                                 <td>{{$customer->pay_type}}</td>
                                 <td class="font-weight-bold">Thành tiền</td>
                                 <td colspan="2">
@@ -229,7 +243,7 @@
                                 <div class="row mt-2">
                                     <div class="col-lg-12">
                                         Mã vận đơn:
-                                        <input type="text" name="lading_code" class="form-control">
+                                        <input  value="{!! isset($customer->lading_code) ? $customer->lading_code : null !!}" type="text" name="lading_code" class="form-control">
                                     </div>
                                     <div class="col-lg-12">
                                         <hr></div>

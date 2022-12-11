@@ -91,6 +91,11 @@
               <td data-th="Quantity">
                 <input id="{!! $item->rowId !!}" name="{!! $item->rowId !!}" type="number" class="form-control text-center" value="{!! $item->qty !!}" size="1" maxlength="2">
               </td>
+
+              {{-- <td data-th="Voucher">
+                <input id="{!! $item->rowId !!}" name="{!! $item->rowId !!}" type="text" class="voucher-code form-control text-center" value="{!! $item->voucher ?? '' !!}" >
+              </td> --}}
+
               <td data-th="Subtotal" class="text-center">{!! number_format($item->price*$item->qty) !!}₫</td>
               <td class="actions" data-th="">
                 <a href="#" class="updatecart" id="{!! $item->rowId !!}">

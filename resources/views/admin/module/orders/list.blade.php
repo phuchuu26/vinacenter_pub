@@ -94,6 +94,7 @@
                       <th>SL</th>
                       <th>Giá dealer</th>
                       <th>Giá web</th>
+                      <th>Voucher Code</th>
                       <th>Giá sale</th>
                       <th>Thành tiền</th>
                       <th>Chiếc khấu</th>
@@ -119,6 +120,15 @@
                         <td>
                           {!! number_format($detail->price) !!}
                         </td>
+
+
+                          <td>
+                            @if(!empty($detail->voucher_code))
+                              {{$detail->voucher_code }} ( giảm   {!! number_format($detail->bonus) !!} đ)
+                            @endif
+                          </td>
+
+                       
                         <td>
                           {!! number_format($detail->real_price) !!}
                         </td>
@@ -154,7 +164,9 @@
                           </div>
                         </div>
                       </td>
-                      <td colspan="4" class="text-center font-weight-bold">Tổng cộng</td>
+                      <td></td>
+                      <td colspan="3" class="text-left font-weight-bold"></td>
+                      <td colspan="" class="text-left font-weight-bold">Tổng cộng</td>
 
                       <td>{!! number_format($item->total) !!}</td>
                       <td colspan="2">{!! number_format($item->bon) !!}</td>
@@ -175,7 +187,9 @@
                           </div>
                         </div>
                       </td>
-                      <td colspan="4" class="text-center font-weight-bold">Đặt cọc</td>
+                      <td></td>
+                      <td colspan="3" class="text-right font-weight-bold"></td>
+                      <td colspan="1" class="text-left font-weight-bold">Đặt cọc</td>
                       <td colspan="3">
                         {!! isset($item->deposit) ? number_format($item->deposit) : number_format($item->depo) !!}
                       </td>
@@ -191,10 +205,12 @@
                           </div>
                         </div>
                       </td>
-                      <td colspan="2" class="text-center font-weight-bold">Loại thanh toán</td>
+                      <td></td>
+                      <td colspan="1" class="text-left font-weight-bold">Loại thanh toán</td>
                       <td>{{$item->pay_type}}</td>
+                      <td class="font-weight-bold"></td>
                       <td class="font-weight-bold">Thành tiền</td>
-                      <td colspan="2">
+                      <td colspan="3">
                         {!! isset($item->deposit) ? number_format($item->total - $item->deposit) : number_format($item->total - $item->depo) !!}
                       </td>
                     </tr>

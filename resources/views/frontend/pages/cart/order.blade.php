@@ -53,6 +53,7 @@
                         <th>Tên sản phẩm</th>
                         <th>Đơn giá</th>
                         <th>Số lượng</th>
+                        <th>Mã giảm giá</th>
                         <th>Thành tiền</th>
                         <th></th>
                     </tr>
@@ -61,11 +62,18 @@
                     @foreach($content as $key => $item)
                     {{-- {{dd($item)}} --}}
                         <tr>
-                            <td width="40%">{!! $item->name !!}</td>
+                            <td width="30%">{!! $item->name !!}</td>
                             <td width="20%">{!! number_format($item->price) !!} VNĐ</td>
-                            <td id="qty_{{$item->rowId}}" width="20%">
+                            <td id="qty_{{$item->rowId}}" width="10%">
                                 {!! $item->qty !!}
                             </td>
+
+                            <td id="" class="" width="20%">
+                                <input  class="voucher-code form-control" id="{{$item->rowId}}" name="voucher"
+                                value="{{$item->voucher_code ?? ''}}">
+                                <span style="" id="error_des_{{$item->rowId}}"></span>
+                            </td>
+
                             <td class="summary" id="summary_{{$item->rowId}}" width="20%">{!! number_format($item->summary) !!} VNĐ</td>
                             <td width="10%">
                                 <div class="d-flex text-white">
@@ -97,6 +105,13 @@
                                                 <input type="hidden" class="form-control" id="txtqty_old"
                                                        name="txtqty_old"
                                                        value="{{$item->qty}}">
+
+                                               
+                                                       {{-- <td data-th="Voucher">
+                                                        <input id="{!! $item->rowId !!}" name="{!! $item->rowId !!}" type="text" 
+                                                        class="voucher-code form-control text-center" value="{!! $item->voucher ?? '' !!}" >
+                                                      </td> --}}
+                                        
 
                                                 <div class="form-group">
                                                     <span class="text-secondary">SL(còn lại {{$item->amount}} sp)</span>

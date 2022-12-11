@@ -60,6 +60,20 @@
 					<input type="text" name="txtindextop" class="form-control" value="{!! old('txtindextop',isset($productoption["indextop"]) ? $productoption["indextop"] : null) !!}" />
 				</div>
 			</div>
+			
+			<div class="col-lg-12">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text" style="width: 200px">Voucher Code</span>
+					</div>
+					<input type="text" name="code" class="form-control" value="{!! $voucher->code ?? '' !!}"/>
+					<div class="input-group-prepend">
+						<span class="input-group-text" style="width: 200px">Số tiền giảm giá</span>
+					</div>
+					<input type="number" name="amount_discount" class="form-control" value="{!! $voucher->amount_discount ?? '' !!}"/>
+				</div>
+			</div>
+
 			<div class="col-lg-12">
 				<div class="form-group">
 					<label for="usr">Mô tả</label>

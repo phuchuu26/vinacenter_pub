@@ -10,7 +10,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Loại Sản phẩm</span>
                         </div>
-                        @if (\Auth::user()->role == 1))
+                        @if (\Auth::user()->role == 1)
                             <select name="sltCate" class="form-control" required>
                                 <option value="">--- ROOT ---</option>
                                 <?php menuMulti($parent, 0, $str = "---|", $product['category_id']);?>

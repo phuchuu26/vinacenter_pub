@@ -13,6 +13,7 @@ use App\Models\ProductCollection;
 use App\Models\ProductType;
 use App\Models\ProductOption;
 use App\Models\ProductImage;
+use App\Models\Voucher;
 use DateTime;
 
 class ProductOptionController extends Controller
@@ -35,7 +36,9 @@ class ProductOptionController extends Controller
     	
     }
     public function postProductOptionAdd(ProductOptionAddRequest $request,$id){
+        // dd($id, $request->all());
     	try{
+
 	    	$productoption =  new ProductOption;
 	    	$productoption->name              = $request->txtName;
             $productoption->alias             = str_slug($request->txtName).'.html';
@@ -60,6 +63,16 @@ class ProductOptionController extends Controller
             }
 
 	    	$productoption->save();
+
+            if( !empty($request->code) ){
+                $voucher =  new Voucher();
+                $voucher->code = $request->code;
+                $voucher->amount_discount = $request->amount_discount;
+                $voucher->id_product_option = $productoption->id;
+                $voucher->save();
+            }
+
+        
 	    	try{
 	    		$productOption = ProductOption::where('product_id',$id)->orderBy('id','DESC')->paginate(15);
 	    		$productName = Product::findOrFail($id);    	
@@ -103,12 +116,14 @@ class ProductOptionController extends Controller
             $productType = ProductType::get()->toArray();
             $productCollection = ProductCollection::get()->toArray();
             $data = ProductOption::findOrFail($id)->toArray();
+            $voucher = ProductOption::findOrFail($id)->voucher;
             $productImg = ProductImage::where('product_id',$pro_id)->get()->toArray();
             return view('admin.module.productoptions.edit',[
                 'productoption'     => $data,
                 'productImg'        => $productImg,
                 'productType'       => $productType,
                 'productCollection' => $productCollection,
+                'voucher' => $voucher,
             ]);
         }catch(ModelNotFoundException $e) {
              return redirect()->back();
@@ -132,6 +147,22 @@ class ProductOptionController extends Controller
         $productoption->indextop = $request->txtindextop;
 
         $productoption->save();
+        
+        $voucher = Voucher::where('id_product_option', $id)->first();
+        if( !empty($request->code) ){
+            if(empty($voucher)){
+                $voucher =  new Voucher();
+            }
+            $voucher->code = $request->code;
+            $voucher->amount_discount = $request->amount_discount;
+            $voucher->id_product_option = $productoption->id;
+            // dd($voucher);
+            $voucher->save();
+        }else{
+            if(!empty($voucher)){
+                $voucher->delete();
+            }
+        }
 
         try{
             $productOption = ProductOption::where('product_id',$product_id)->orderBy('id','DESC')->paginate(15);
