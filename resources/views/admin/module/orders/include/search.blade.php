@@ -33,7 +33,7 @@
                             <input type="date" class="form-control" name="to" id="to" value="{{ Request::get('to') }}">
                         </div>
                     </td>
-                    @if(Auth::user()->role > 0)
+                    @if(Auth::user()->role == 1)
                     <td>
                         <div class="form-group">
                             <select class="form-control" id="username" name="username">

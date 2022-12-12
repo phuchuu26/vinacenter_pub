@@ -125,6 +125,9 @@
                         <ul class="sub">
 							<li><a href="{!! route('getOrderList') !!}">Danh sách</a></li>
                             <li><a href="{!! route('getBonusOrder') !!}">Chiếc khấu</a></li>
+                            @if (\Auth::user()->role == 1)
+                                <li><a href="{!! route('createOrder') !!}">Tạo đơn hàng</a></li>
+                            @endif
                         </ul>
                     </li>
                    

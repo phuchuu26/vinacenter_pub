@@ -1,10 +1,10 @@
-ALTER TABLE `thitr318_vinacenter`.`vnc_users` 
+ALTER TABLE `thitr318_vinacenter_demo`.`vnc_users` 
 ADD COLUMN `email` varchar(255) NULL AFTER `updated_at`;
 
 
 
 
-CREATE TABLE `thitr318_vinacenter`.`info_users`  (
+CREATE TABLE `thitr318_vinacenter_demo`.`info_users`  (
   `id_info_user` int UNSIGNED NULL AUTO_INCREMENT,
   `id_user` int NOT NULL,
   `id_province` int NULL,
@@ -36,11 +36,11 @@ CREATE TABLE `vn_ct`.`ratings`  (
 );
 
 
-ALTER TABLE `thitr318_vinacenter`.`product_option` 
+ALTER TABLE `thitr318_vinacenter_demo`.`product_option` 
 ADD COLUMN `is_approved` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 0 AFTER `updated_at`;
 UPDATE product_option set is_approved = '1';
 
 
 
-ALTER TABLE `thitr318_vinacenter`.`order_detail` 
+ALTER TABLE `thitr318_vinacenter_demo`.`order_detail` 
 ADD COLUMN `voucher_code` varchar(255) NULL AFTER `updated_at`;

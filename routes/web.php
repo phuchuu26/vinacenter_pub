@@ -202,6 +202,7 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
         });
         Route::group(['prefix' => 'order'],function(){       
             Route::get('list',['as' => 'getOrderList','uses' => 'OrderController@getOrderList']);
+            Route::get('create-order',['as' => 'createOrder','uses' => 'OrderController@createOrder']);
             Route::get('view/{id}',['as' => 'getOrderDetail','uses' => 'OrderController@getOrderDetail']);
             Route::post('view/{id}',['as' => 'postOrderDetail','uses' => 'OrderController@postOrderDetail']);
             Route::get('delete/{id}',['as' => 'getOrderDelete','uses' => 'OrderController@getOrderDelete']);

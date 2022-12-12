@@ -458,4 +458,23 @@ class OrderController extends Controller
 
         }
     }
+
+    public function createOrder(Request $request)
+    {
+        $params = $request->all();
+
+        $keyword = '%'.$params['keyword'].'%';
+		$data = ProductOption::where('name', 'LIKE', $keyword)->orderBy('id','DESC')->paginate(16);
+        // dd($data);
+        try {
+            return view('admin.module.orders.create_order', [
+                'data' => $data ?? [],
+                // 'data' => $detail->toArray(),
+                // 'user' => $user,
+                // 'order_id' => $id
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back();
+        }
+    }
 }
