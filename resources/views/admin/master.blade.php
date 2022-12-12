@@ -152,6 +152,7 @@
                         <ul class="sub">
                             <li><a href="{!! route('getCateList') !!}">Loại sản phẩm</a></li>
                             <li><a href="{!! route('getProductList') !!}">Danh sách</a></li>
+                            <li><a href="{!! route('getListVoucher') !!}">Quản lý voucher</a></li>
                             <li><a href="{!! route('getProductListApprove') !!}">Duyệt sản phẩm</a></li>
 
                         </ul>

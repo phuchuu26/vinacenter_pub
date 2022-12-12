@@ -10,4 +10,14 @@ class Voucher extends Model
     protected $guarded = [];
 
     protected $primaryKey = 'id_voucher';
+    
+    public function productOption()
+    {
+        return $this->hasOne(ProductOption::class, 'id', 'id_product_option');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
 }

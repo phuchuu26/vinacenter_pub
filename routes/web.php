@@ -153,6 +153,15 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
     		Route::get('edit/{id}',['as' => 'getCateEdit','uses' => 'CateController@getCateEdit'])->where('id','[0-9]+');
     		Route::post('edit/',['as' => 'postCateEdit','uses' => 'CateController@postCateEdit'])->where('id','[0-9]+');
     	});
+
+        Route::group(['prefix' => 'voucher'],function(){
+    		Route::get('add',['as' => 'getVoucherAdd','uses' => 'VoucherController@getVoucherAdd']);
+    		Route::post('add',['as' => 'postVoucherAdd','uses' => 'VoucherController@postVoucherAdd']);
+    		Route::get('list',['as' => 'getListVoucher','uses' => 'VoucherController@getListVoucher']);
+    		Route::get('delete/{id}',['as' => 'getVoucherDelete','uses' => 'VoucherController@getVoucherDelete'])->where('id','[0-9]+');
+    		Route::get('edit/{id}',['as' => 'getVoucherEdit','uses' => 'VoucherController@getVoucherEdit'])->where('id','[0-9]+');
+    		Route::post('edit/',['as' => 'postVoucherEdit','uses' => 'VoucherController@postVoucherEdit'])->where('id','[0-9]+');
+    	});
     	Route::group(['prefix' => 'news'],function(){
     		Route::get('add',['as' => 'getNewsAdd','uses' => 'NewsController@getNewsAdd']);
     		Route::post('add',['as' => 'postNewsAdd','uses' => 'NewsController@postNewsAdd']);
