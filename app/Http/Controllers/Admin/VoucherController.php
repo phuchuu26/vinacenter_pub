@@ -18,7 +18,8 @@ class VoucherController extends Controller
 
     public function getVoucherAdd(){
         $producOption = ProductOption::select('id', 'name')->orderBy('name', 'ASC')->get()->toArray();
-		// dd($data);
+		// $producOption[] = ['id' => '', 'name' => '------ Chọn sản phẩm khuyến mãi ------'];
+		// dd($producOption);
     	return view('admin.module.voucher.add',['producOption' => $producOption]);
     }
 

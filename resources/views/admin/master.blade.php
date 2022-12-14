@@ -36,6 +36,9 @@
     <link rel="stylesheet" href="{!! asset('public/vnc_admin/css/morris.css') !!}" type="text/css"/>
     <!-- calendar -->
     <link rel="stylesheet" href="{!! asset('public/vnc_admin/css/monthly.css') !!}">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- //calendar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.11/tinymce.min.js" integrity="sha512-3tlegnpoIDTv9JHc9yJO8wnkrIkq7WO7QJLi5YfaeTmZHvfrb1twMwqT4C0K8BLBbaiR6MOo77pLXO1/PztcLg==" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{!! asset('public/vnc_admin/templates/js/plugin/ckeditor/ckeditor.js') !!}"></script>
@@ -45,6 +48,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="{!! asset('public/vnc_admin/templates/js/myscript.js') !!}" type="text/javascript" charset="utf-8"></script>
+    <script defer src="{!! asset('public/vnc_admin/templates/js/myscript.js') !!}?v=
+    <?php if( file_exists(public_path('public/vnc_admin/templates/js/myscript.js') )) echo filemtime( public_path('public/vnc_admin/templates/js/myscript.js')  ) ?>"
+     type="text/javascript"></script>
+
+
     <script src="{!! asset('public/vnc_admin/js/raphael-min.js') !!}"></script>
     <script src="{!! asset('public/vnc_admin/js/morris.js') !!}"></script>
     <script src="{!! asset('public/vnc_admin/js/myscript.js') !!}"></script>
@@ -251,6 +259,7 @@
     </section>
     <!--main content end-->
 </section>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{!! asset('public/vnc_admin/js/bootstrap.js') !!}"></script>
 <script src="{!! asset('public/vnc_admin/js/jquery.dcjqaccordion.2.7.js') !!}"></script>
 <script src="{!! asset('public/vnc_admin/js/scripts.js') !!}"></script>

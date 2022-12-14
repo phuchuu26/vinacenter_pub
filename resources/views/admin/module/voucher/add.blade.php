@@ -28,11 +28,15 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" style="width: 150px">Sản phẩm áp dụng</span>
                                     </div>
+                                    {{-- {{dd($producOption)}} --}}
                                     <select class="form-control" id="id_product_option" name="id_product_option" required>
                                         @foreach($producOption as $option)
                                             <option value="{!! $option['id']!!}"> {{$option['name'] }}</option>
                                         @endforeach
                                     </select>
+
+                                    {{-- <input  style="width: 750px"class="form-control" name="mySelect2" type="hidden" id="mySelect2"> --}}
+
 
                                 
                                 </div>
@@ -60,4 +64,11 @@
             </div>
         </div>
     </form>
+
+    <script>
+        $(document).ready(function() {
+            searchProductOption()
+        });
+
+    </script>
 @endsection

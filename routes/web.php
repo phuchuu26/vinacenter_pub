@@ -193,6 +193,7 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
             Route::get('delete/{id}',['as' => 'getProductOptionDelete','uses' => 'ProductOptionController@getProductOptionDelete'])->where('id','[0-9]+');
             Route::get('edit/{id}/{pro_id}',['as' => 'getProductOptionEdit','uses' => 'ProductOptionController@getProductOptionEdit'])->where('id','[0-9]+');
             Route::post('edit/{id}/{pro_id}',['as' => 'postProductOptionEdit','uses' => 'ProductOptionController@postProductOptionEdit'])->where('id','[0-9]+');
+            Route::get('search-product-option',['as' => 'searchProductOption','uses' => 'ProductOptionController@searchProductOption']);
         });
         Route::group(['prefix' => 'statics'],function(){       
             Route::get('list',['as' => 'getStaticsList','uses' => 'StaticsController@getStaticsList']);

@@ -175,4 +175,21 @@ class ProductOptionController extends Controller
              return view('admin.blocks.notfind');
         }
     }
+    public function searchProductOption(Request $request)
+    {
+        $term = $request->term;
+        $keyword = data_get($term, 'term');
+        $keyword = '%'.$keyword.'%';
+		$data = ProductOption::where('name', 'LIKE', $keyword)->limit(20)->orderBy('id','DESC')->select('name', 'value', 'id', 'amount')->get()->toArray();
+        foreach ($data as &$value){
+            $value['name'] = $value['name'] . ' | Giá bán : ' . number_format($value['value']) .' đ | Số lượng : ' . (int)$value['amount'];
+            unset($value['value']);
+            unset($value['amount']);
+        } 
+        try {
+            return response()->json($data, 200);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back();
+        }
+    }
 }
