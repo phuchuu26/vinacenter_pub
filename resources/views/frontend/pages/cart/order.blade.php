@@ -69,7 +69,7 @@
                             </td>
 
                             <td id="" class="" width="20%">
-                                <input  class="voucher-code form-control" id="{{$item->rowId}}" name="voucher"
+                                <input placeholder="Nhập mã giảm giá" class="voucher-code form-control" id="{{$item->rowId}}" name="voucher"
                                 value="{{$item->voucher_code ?? ''}}">
                                 <span style="" id="error_des_{{$item->rowId}}"></span>
                             </td>

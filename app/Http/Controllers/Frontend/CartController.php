@@ -223,10 +223,11 @@ class CartController extends Controller
                     $cart = new OrderDetail;
                     $cart->product_name = $item->name;
                     if(data_get($item->options, 'is_apply_voucher') == true){
-                        $product_option = ProductOption::where('id', $item->id)->first();
-                        $voucher = $product_option->voucher;
-                        $voucher_code = data_get($voucher, 'code');
-                        $cart->voucher_code = $voucher_code;
+                        // $product_option = ProductOption::where('id', $item->id)->first();
+                        // $voucher = $product_option->voucher;
+                        // $voucher_code = data_get($voucher, 'code');
+                        $voucher = Voucher::where('id_voucher', data_get($item->options, 'id_voucher'))->first();
+                        $cart->voucher_code = data_get($item->options, 'id_voucher');
                         $cart->bonus =data_get($voucher, 'amount_discount') * $item->qty;
                     }else{
                         $cart->voucher_code = null;
@@ -373,6 +374,8 @@ class CartController extends Controller
         $is_apply_voucher = data_get($item->options, 'is_apply_voucher');
         // dd( $item);
         if($is_apply_voucher == true){
+            //  $option = $item->options->merge(['id_voucher' => data_get($voucher, 'id_voucher'), 'yprice' => $price_after_apply_voucher]);
+
             // $current_price = data_get($item->options, 'yprice') != '' ? data_get($item->options, 'yprice') : data_get($item, 'price');
             // $price_after_apply_voucher = $current_price - ($voucher->amount_discount);
             $summary = data_get($item->options, 'yprice')  * data_get($item, 'qty');
@@ -385,8 +388,8 @@ class CartController extends Controller
  
         $price_after_apply_voucher = $current_price - ($voucher->amount_discount);
         $summary = $price_after_apply_voucher  * data_get($item, 'qty');
-        $option = $item->options->merge(['is_apply_voucher' => true, 'yprice' => $price_after_apply_voucher]);
-
+        $option = $item->options->merge(['is_apply_voucher' => true, 'id_voucher' => data_get($voucher, 'id_voucher'), 'yprice' => $price_after_apply_voucher]);
+// dd( $option );
         Cart::update($id, ['options'=>$option, 'summary'=>$summary]);
 
         
