@@ -46,12 +46,12 @@ class VoucherController extends Controller
     public function getVoucherEdit($id_voucher){
     	if(Auth::user()->role==0)
         return redirect()->route('getListVoucher');
-        $data = Voucher::find($id_voucher)->first();
+        $data = Voucher::where('id_voucher', $id_voucher)->first();
 		$producOption = ProductOption::select('id', 'name')->orderBy('name', 'ASC')->get()->toArray();
     	return view('admin.module.voucher.edit',['data' =>$data,'producOption' => $producOption]);
     }
     public function postVoucherEdit(VoucherEditRequest $request){
-    	$cate = Voucher::find($request->id_voucher);
+    	$cate = Voucher::where('id_voucher', $request->id_voucher)->first();
 		$cate->code = $request->code;
     	$cate->amount_discount = $request->amount_discount;
     	$cate->id_product_option = $request->id_product_option;
