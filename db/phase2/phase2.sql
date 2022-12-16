@@ -44,3 +44,6 @@ UPDATE product_option set is_approved = '1';
 
 ALTER TABLE `thitr318_vinacenter_demo`.`order_detail` 
 ADD COLUMN `voucher_code` varchar(255) NULL AFTER `updated_at`;
+
+ALTER TABLE `thitr318_vinacenter`.`order_detail` 
+ADD COLUMN `discount` float NULL AFTER `voucher_code`;

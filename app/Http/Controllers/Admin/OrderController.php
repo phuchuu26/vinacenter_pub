@@ -148,7 +148,7 @@ class OrderController extends Controller
                 } else {
                     $price_ = $de->price;
                 }
-                $bon = $bon + $de->qty * ($price_ - $de->dealer);
+                $bon = $bon + $de->qty * ($price_ - $de->dealer) + $de->discount;
                 $prices = $prices + ($price_ * $de->qty);
             }
             $item->total = $prices;
@@ -161,7 +161,7 @@ class OrderController extends Controller
     public function getArrayOrderById($id)
     {
         return DB::table('order_detail')
-            ->select('order_detail.*', 'product_option.warranty', 'order_detail.voucher_code',  'order_detail.bonus', 'voucher.code', 'voucher.amount_discount')
+            ->select('order_detail.*', 'product_option.warranty', 'order_detail.voucher_code',  'order_detail.discount', 'voucher.code', 'voucher.amount_discount')
             ->join('product_option', 'product_option.id', '=', 'order_detail.product_id')
             ->leftJoin('voucher', 'voucher.id_voucher', '=', 'order_detail.voucher_code')
             ->where('order_detail.order_id', $id)
@@ -222,7 +222,10 @@ class OrderController extends Controller
                 } else {
                     $price_ = $de->price;
                 }
-                $bon = $bon + $de->qty * ($price_ - $de->dealer);
+                // $bon = $bon + $de->qty * ($price_ - $de->dealer + $de->bonus);
+                $bon = $bon + $de->qty * ($price_ - $de->dealer ) + $de->discount;
+                // {{number_format($detail->qty*($price_ - $detail->dealer ) + $detail->discount )}}
+
                 $prices = $prices + ($price_ * $de->qty);
             }
             $customer->bon = $bon;

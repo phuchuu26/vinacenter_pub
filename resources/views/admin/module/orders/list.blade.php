@@ -124,7 +124,7 @@
 
                           <td>
                             @if(!empty($detail->voucher_code))
-                              {{$detail->code }} ( giảm   {!! number_format($detail->bonus) !!} đ)
+                              {{$detail->code }} ( giảm   {!! number_format($detail->discount) !!} đ)
                             @endif
                           </td>
 
@@ -138,7 +138,8 @@
                         </td>
                         <td>
                           <span class="badge badge-success">
-                            {{number_format($detail->qty*($price_ - $detail->dealer))}}
+                            
+                            {{number_format($detail->qty*($price_ - $detail->dealer) + $detail->discount )}}
                           </span>
                         </td>
                         <td>

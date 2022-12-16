@@ -228,7 +228,7 @@ class CartController extends Controller
                         // $voucher_code = data_get($voucher, 'code');
                         $voucher = Voucher::where('id_voucher', data_get($item->options, 'id_voucher'))->first();
                         $cart->voucher_code = data_get($item->options, 'id_voucher');
-                        $cart->bonus =data_get($voucher, 'amount_discount') * $item->qty;
+                        $cart->discount =data_get($voucher, 'amount_discount') * $item->qty;
                     }else{
                         $cart->voucher_code = null;
                     }
