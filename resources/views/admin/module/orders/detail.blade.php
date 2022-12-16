@@ -120,7 +120,7 @@
                                     
                                     <td>
                                         @if(!empty($detail->voucher_code))
-                                        {{$detail->voucher_code }} ( giảm   {!! number_format($detail->discount) !!} đ)
+                                        {{$detail->code }} ( giảm   {!! number_format($detail->discount) !!} đ)
                                         @endif
                                     </td>
                                     

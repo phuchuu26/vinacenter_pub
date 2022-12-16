@@ -145,7 +145,7 @@
                                                 </div>
                                             </form>
                                         </div>
-
+                                        <span class="text-danger disable_update_price" style="display:none" id="alert_yprice_1">(Đơn hàng đã áp dụng mã voucher, không thực hiện thay đổi số lượng, giá sale. Vui lòng xóa và tạo lại đơn hàng)</span>
 
                                     </div>
 

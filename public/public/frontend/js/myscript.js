@@ -151,6 +151,33 @@ $(".voucher-code").change(function (e) {
     applyVoucher(e);
 });
 
+// $(".txtQty1").change(function (e) {
+   
+//     let frm = $(this).attr('frm');
+
+//     var url = $('#' + frm).attr('data-action');
+//     var txtQty = parseInt($("#" + frm + " input[id='txtQty']").val());
+//     var txtqty_max = parseInt($("#" + frm + " input[id='txtqty_max']").val());
+
+
+//     if (!isNaN(txtQty) && txtQty <= txtqty_max) {
+//         $.ajax({
+//             url: url,
+//             method: "POST",
+//             data: $('#' + frm).serialize(),
+//             success: function (response) {
+//                 $(`#qty_${response['rowId']}`).html(response['qty']);
+//                 $(`#summary_${response['rowId']}`).html(response['summary'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+//                 getTotalCart()
+//             },
+//             error: function (response) {
+//                 ;
+//             }
+//         });
+//     }
+
+// });
+
 function applyVoucher(e)
 {
 
@@ -176,6 +203,10 @@ function applyVoucher(e)
                         $(`#summary_${response['rowId']}`).html(response['summary'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
                         $(`#error_des_${response['rowId']}`).html(response['description']);
                         getTotalCart()
+                        $('#' + frm + ' #alert_yprice').removeClass("d-none");
+                        $("#alert_yprice_1").css("display", "block")
+                        $("#txtQty").prop('disabled', true);
+                        $("#yprice").prop('disabled', true);
                     }
                     // $(`#span_total`).html(response['summary'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
                 },
