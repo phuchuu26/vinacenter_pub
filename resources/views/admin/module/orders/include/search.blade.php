@@ -50,7 +50,7 @@
                     @endif
                     <td>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success">
+                            <button style="line-height: 10px;" type="submit" class="btn btn-success">
                                 <i class="fa fa-filter" aria-hidden="true"></i> Lọc
                             </button>
                         </div>
