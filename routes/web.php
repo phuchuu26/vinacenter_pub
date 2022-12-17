@@ -194,6 +194,7 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
             Route::get('edit/{id}/{pro_id}',['as' => 'getProductOptionEdit','uses' => 'ProductOptionController@getProductOptionEdit'])->where('id','[0-9]+');
             Route::post('edit/{id}/{pro_id}',['as' => 'postProductOptionEdit','uses' => 'ProductOptionController@postProductOptionEdit'])->where('id','[0-9]+');
             Route::get('search-product-option',['as' => 'searchProductOption','uses' => 'ProductOptionController@searchProductOption']);
+            Route::get('get-price-product-option/{id_product_option}',['as' => 'getPriceProductOption','uses' => 'ProductOptionController@getPriceProductOption']);
         });
         Route::group(['prefix' => 'statics'],function(){       
             Route::get('list',['as' => 'getStaticsList','uses' => 'StaticsController@getStaticsList']);
@@ -212,7 +213,12 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
         });
         Route::group(['prefix' => 'order'],function(){       
             Route::get('list',['as' => 'getOrderList','uses' => 'OrderController@getOrderList']);
+            // Route::get('create-order',['as' => 'createOrder','uses' => 'OrderController@createOrder']);
             Route::get('create-order',['as' => 'createOrder','uses' => 'OrderController@createOrder']);
+            Route::post('create-order',['as' => 'createOrder','uses' => 'OrderController@postCreateOrder']);
+            Route::post('add-product-order/{id_order}',['as' => 'addProductOrder','uses' => 'OrderController@addProductOrder']);
+            Route::get('cancel-order-draft',['as' => 'cancelOrderDraft','uses' => 'OrderController@cancelOrderDraft']);
+            Route::get('delete-order-detail/{id_order_detail}',['as' => 'deleteOrderDetail','uses' => 'OrderController@deleteOrderDetail']);
             Route::get('view/{id}',['as' => 'getOrderDetail','uses' => 'OrderController@getOrderDetail']);
             Route::post('view/{id}',['as' => 'postOrderDetail','uses' => 'OrderController@postOrderDetail']);
             Route::get('delete/{id}',['as' => 'getOrderDelete','uses' => 'OrderController@getOrderDelete']);

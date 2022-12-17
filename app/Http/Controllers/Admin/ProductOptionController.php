@@ -192,4 +192,17 @@ class ProductOptionController extends Controller
             return redirect()->back();
         }
     }
+
+     public function getPriceProductOption(Request $request, $id_product_option)
+    {
+        // $id_product_option = $request->id_product_option;
+        $price = ProductOption::where('id', $id_product_option)->select( 'value')->first();
+
+        //  dd(    $price['value']);
+        try {
+            return response()->json($price['value'], 200);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back();
+        }
+    }
 }

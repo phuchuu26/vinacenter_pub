@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\District;
 use App\Models\OrderDetail;
 use App\Models\OrderProduct;
 use App\Models\ProductOption;
+use App\Models\Province;
 use App\Models\User;
+use App\Models\Ward;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
@@ -34,6 +40,7 @@ class OrderController extends Controller
                     ->select('order_product.*', 'customer.fullname', 'customer.phone', 'customer.email', 'customer.address')
                     ->join('customer', 'customer.id', '=', 'order_product.customer_id')
                     ->where('user_id', Auth::user()->username)
+                    ->where('is_draft', 0)
                     ->where(function ($queryChild) use ($keyword) {
                         $queryChild->where('customer.phone', 'LIKE', '%' . $_GET['keyword'] . '%');
                         $queryChild->orWhere('customer.email', 'LIKE', '%' . $_GET['keyword'] . '%');
@@ -47,6 +54,7 @@ class OrderController extends Controller
                     ->select('order_product.*', 'customer.fullname', 'customer.phone', 'customer.email', 'customer.address')
                     ->join('customer', 'customer.id', '=', 'order_product.customer_id')
                     ->where('order_product.user_id', Auth::user()->username)
+                    ->where('is_draft', 0)
                     ->where(function ($queryChild) use ($from, $to) {
                         $queryChild->whereBetween('order_product.created_at', [$from . " 00:00:00", $to . " 23:59:59"]);
                     })
@@ -57,6 +65,7 @@ class OrderController extends Controller
                 $data = DB::table('order_product')
                     ->select('order_product.*', 'customer.fullname', 'customer.phone', 'customer.email', 'customer.address')
                     ->join('customer', 'customer.id', '=', 'order_product.customer_id')
+                    ->where('is_draft', 0)
                     ->where('user_id', Auth::user()->username)
                     ->orderBy('order_product.created_at', 'DESC')
                     ->paginate(20);
@@ -75,6 +84,7 @@ class OrderController extends Controller
                         $queryChild->orWhere('customer.email', 'LIKE', '%' . $keyword . '%');
                         $queryChild->orWhere('order_product.user_id', 'LIKE', '%' . $keyword . '%');
                     })
+                    ->where('is_draft', 0)
                     ->orderBy('order_product.created_at', 'DESC')
                     ->paginate(20);
                 $data->appends(['keyword' => $keyword]);
@@ -84,6 +94,7 @@ class OrderController extends Controller
                     ->select('order_product.*', 'customer.fullname', 'customer.phone', 'customer.email', 'customer.address')
                     ->join('customer', 'customer.id', '=', 'order_product.customer_id')
                     ->where('order_product.user_id', $username)
+                    ->where('is_draft', 0)
                     ->where(function ($queryChild) use ($from, $to) {
                         $queryChild->whereBetween('order_product.created_at', [$from . " 00:00:00", $to . " 23:59:59"]);
                     })
@@ -95,6 +106,7 @@ class OrderController extends Controller
                     ->select('order_product.*', 'customer.fullname', 'customer.phone', 'customer.email', 'customer.address')
                     ->join('customer', 'customer.id', '=', 'order_product.customer_id')
                     ->where('order_product.user_id', $username)
+                    ->where('is_draft', 0)
                     ->where(function ($queryChild) use ($from, $to) {
                         $queryChild->whereBetween('order_product.created_at', [$from . " 00:00:00", $to . " 23:59:59"]);
                     })
@@ -124,6 +136,7 @@ class OrderController extends Controller
                 $data = DB::table('order_product')
                     ->select('order_product.*', 'customer.fullname', 'customer.phone', 'customer.email', 'customer.address')
                     ->join('customer', 'customer.id', '=', 'order_product.customer_id')
+                    ->where('is_draft', 0)
                     ->orderBy('order_product.created_at', 'DESC')
                     ->paginate(20);
             }
@@ -205,7 +218,7 @@ class OrderController extends Controller
                 ->select('order_detail.*','product_option.warranty', 'voucher.code')
                 ->join('product_option', 'product_option.id', '=', 'order_detail.product_id')
                 ->leftJoin('voucher', 'voucher.id_voucher', '=', 'order_detail.voucher_code')
-                ->where('order_detail.order_id', $id)
+                ->where('order_detail.order_id', $id)  
                 ->orderBy('id', 'DESC')
                 ->get();
 
@@ -466,14 +479,31 @@ class OrderController extends Controller
 
     public function createOrder(Request $request)
     {
-        $params = $request->all();
+        $id_order = $request->id_order;
+        $order = [];
 
-        $keyword = '%'.$params['keyword'].'%';
-		$data = ProductOption::where('name', 'LIKE', $keyword)->orderBy('id','DESC')->paginate(16);
-        // dd($data);
+        if(!empty($id_order)){
+            $order = OrderProduct::where('id', $id_order)->first();
+        }else{
+            $order = OrderProduct::where('is_draft', 1)->first();
+        }
+
+        $customer = $order->customer ?? [];
+
+        // $params = $request->all();
+
+        // $keyword = '%'.$params['keyword'].'%';
+		// $data = ProductOption::where('name', 'LIKE', $keyword)->orderBy('id','DESC')->paginate(16);
+        $provinces = Province::all('id_province', 'str_province');
+        $user = User::select('id', 'name', 'username')->orderBy('id', 'ASC')->get()->toArray();
         try {
-            return view('admin.module.orders.create_order', [
+            // return view('admin.module.orders.create_order', [
+            return view('admin.module.orders.create_detail', [
                 'data' => $data ?? [],
+                'user' => $user ?? [],
+                'provinces' => $provinces ?? [],
+                'order' => $order ?? [],
+                'customer' => $customer ?? [],
                 // 'data' => $detail->toArray(),
                 // 'user' => $user,
                 // 'order_id' => $id
@@ -482,4 +512,302 @@ class OrderController extends Controller
             return redirect()->back();
         }
     }
+
+    public function cancelOrderDraft(Request $request)
+    {
+        $id_order = $request->id_order;
+        if(!empty($id_order)){
+            $order = OrderProduct::where('id', $id_order)->first();
+            $customer = $order->customer ;
+            $orderDetail = $order->orderDetail;
+            // dd($order, $orderDetail, !empty($orderDetail)  );
+            if(!empty($orderDetail) && count($orderDetail) > 0){
+                foreach($orderDetail as $de){
+                    $de->delete();
+                }
+            }
+            $order->delete();
+            $customer->delete();
+        }else{
+            return Redirect::back()->with(['flash_level' => 'error_msg','flash_message' => 'Có lỗi xảy ra.']);
+        }
+
+        $provinces = Province::all('id_province', 'str_province');
+        $user = User::select('id', 'name', 'username')->orderBy('id', 'ASC')->get()->toArray();
+        try {
+            // return view('admin.module.orders.create_order', [
+            return view('admin.module.orders.create_detail', [
+                'data' => $data ?? [],
+                'user' => $user ?? [],
+                'provinces' => $provinces ?? [],
+                // 'data' => $detail->toArray(),
+                // 'user' => $user,
+                // 'order_id' => $id
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back();
+        }
+    }
+    
+    public function deleteOrderDetail(Request $request)
+    {
+        $id_order_detail = $request->id_order_detail;
+        if(!empty($id_order_detail)){
+            $order_detail = OrderDetail::where('id', $id_order_detail)->first();
+            $order_detail->delete();
+
+            return Redirect::back()->with(['flash_level' => 'result_msg','flash_message' => 'Xóa sản phẩm khỏi đơn hàng thành công.']);
+        }else{
+            return Redirect::back()->with(['flash_level' => 'error_msg','flash_message' => 'Có lỗi xảy ra.']);
+        }
+    }
+
+    public function postCreateOrder(Request $request)
+    {
+        
+        // dd($params);
+
+        $id_province = $request->province;
+        $id_district = $request->district;
+        $id_ward = $request->ward;
+        $str_address = $request->str_address;
+
+        $province = Province::where('id_province', $id_province)->first();
+        $district = District::where('id_district', $id_district)->first();
+        $ward = Ward::where('id_ward', $id_ward)->first();
+
+        if(empty($request['txtAddress'])){
+            $request['txtAddress'] = $str_address   . ', '.  data_get($ward, 'str_ward')   . ', '. data_get($district, 'str_district') . 
+            ', '. data_get($province, 'str_province');
+        }else{
+            $str_address = 1;
+            $ward = 1;
+        }
+        // dd($request->all(), Cart::total());
+        // $flag = $request->input('btn_update');
+            
+            $rules = array(
+                'txtName' => 'required',
+                // 'txtAddress' => 'required',
+                'txtPhone' => 'required|regex:/[0-9]{10}/|digits:10',
+                'txtUser' => 'required',
+            );
+
+            if(empty($ward) || empty($str_address) ){
+                $rules['txtAddress_complete'] = 'required';
+            }
+
+            $validator = Validator::make($request->all(),
+                $rules,
+                [
+                    'txtName.required' => 'Vui lòng nhập Họ tên!',
+                    'txtAddress_complete.required' => 'Vui lòng nhập địa chỉ!',
+                    'txtPhone.required' => 'Vui lòng Nhập số điện thoại!',
+                    'txtUser.required' => 'Vui lòng chọn người bán!',
+                    'txtPhone.regex' => 'Số điện thoại không hợp lệ!',
+                    'txtPhone.digits' => 'Số điện thoại không hợp lệ!'
+                ]
+            );
+
+
+            if ($validator->fails()) {
+                return Redirect::back()->withErrors($validator)
+                    ->withInput();
+            }
+
+            // if(empty( (int) Cart::total()  )){
+            //     return Redirect::back()->with(['flash_level' => 'error_msg','flash_message' => 'Đơn hàng rỗng.']);
+            // }
+            $params = $request->all();
+         
+
+            if(!empty($params['id_order'])){
+                $order = OrderProduct::where('id', $params['id_order'])->first();
+                $customer = $order->customer;
+            }else{
+                $order = new OrderProduct;
+                $customer = new Customer;
+            }
+
+            $view_ = "";
+            $atm = "";
+            $data = "";
+            $detail = "";
+            $total = 0;
+
+
+            $customer->fullname = $request->txtName;
+            $customer->address = $request->txtAddress;
+            $customer->phone = $request->txtPhone;
+            $customer->email = $request->txtEmail;
+       
+
+            $result = $customer->save();
+            $order->customer_id = $customer->id;
+            $order->is_draft = 1;
+           
+
+         
+
+            
+
+            //save customer
+            
+            $pay = $request->rdopay;
+            $order->note = $request->txtNote;
+            $order->sendby = $request->optradio;
+            $order->user_id = $request->txtUser;
+            $order->deposit = isset($request->deposit) ? str_replace(',', '', $request->deposit) : 0;
+
+           
+            $order->payment = $pay;
+            
+
+            $atm = rand(6, 1000000);
+            $d_atm['atm'] = $atm;
+
+            $order->express_human = $request->express_human;
+            $order->payment_id = $atm;
+            
+            $total = $this->getTotalAmountDetailOrder($order->id);
+            $order->total = $total;
+            $order->created_at = new DateTime();
+            $order->status = 0;
+
+            $order->save();
+            
+            // dd($params, $customer, $order,  $order->orderDetail, count( $order->orderDetail));
+            $save_success = $order->save();
+            if($params['add_product'] == 1){
+                $producOption = ProductOption::select('id', 'name')->orderBy('name', 'ASC')->get()->toArray();
+                return view('admin.module.orders.add_product', ['producOption' => $producOption, 'order' => $order]);
+            }
+
+            if(  count( $order->orderDetail) == 0){
+                return Redirect::back()->with(['flash_level' => 'error_msg','flash_message' => 'Đơn hàng rỗng.']);
+            }
+
+            $order->is_draft = 0;
+            $order->save();
+
+            return redirect()->route('getOrderList')->with(['flash_level' => 'error_msg', 'flash_message' => 'Hoàn tất đơn hàng thành công.']);
+
+
+            // if ($save_success) {
+            //     $order_id = $order->id;
+            //     //save detail
+            //     $detail = Cart::content();
+            //     foreach ($detail as $item) {
+            //         $price = 0;
+            //         $cart = new OrderDetail;
+            //         $cart->product_name = $item->name;
+            //         if(data_get($item->options, 'is_apply_voucher') == true){
+            //             // $product_option = ProductOption::where('id', $item->id)->first();
+            //             // $voucher = $product_option->voucher;
+            //             // $voucher_code = data_get($voucher, 'code');
+            //             $voucher = Voucher::where('id_voucher', data_get($item->options, 'id_voucher'))->first();
+            //             $cart->voucher_code = data_get($item->options, 'id_voucher');
+            //             $cart->discount =data_get($voucher, 'amount_discount') * $item->qty;
+            //         }else{
+            //             $cart->voucher_code = null;
+            //         }
+
+            //         $cart->dealer = $item->options->dealer;
+            //         $cart->price = $item->price;
+            //         $cart->qty = $item->qty;
+            //         $cart->order_id = $order_id;
+            //         $cart->real_price = $item->options->yprice != ""  ? $item->options->yprice : 0;
+            //         $cart->deposit = $item->options->ycoc > 0 ? $item->options->ycoc : 0;
+            //         $cart->product_id = $item->id;
+            //         $cart->created_at = new DateTime();
+            //         $cart->save();
+            //         $price = $item->options->yprice != "" ? $item->options->yprice : $item->price;
+                    
+            //         // $total =$total 
+                    
+            //     }
+            //     if ($pay == 0) {
+            //         $id = 4;
+            //         $data = Statics::findOrFail($id)->toArray();
+            //         $view_ = 'frontend.pages.cart.successatm';
+            //     } else {
+            //         $view_ = 'frontend.pages.cart.success';
+            //     }
+
+            // } else {
+            //     return redirect()->route('getProductList')->with(['flash_level' => 'error_msg', 'flash_message' => 'Hoàn tất đơn hàng thất bại. Xin thử lại']);
+            // }
+
+
+
+            // return view($view_, [
+            //     'atm' => $d_atm['atm'],
+            //     'data' => $data,
+            //     'total' => $total,
+            //     'detail' => $detail,
+            // ]);
+        // else{
+        //     $qty = $request->only($flag)[$flag];
+        //     Cart::update($flag, $qty);
+        //     return redirect()->route('getCartOrderComplete')->withInput();
+        // }
+    }
+
+    public function getTotalAmountDetailOrder($id_order){
+        if(empty($id_order)){
+            return 0;
+        }
+        $total =0;
+        $order = OrderProduct::where('id', $id_order)->first();
+        $order_details = $order->orderDetail;
+        foreach($order_details as $de){
+            $p = !empty($de->real_price) ? $de->real_price : $de->price;
+            $total += ($p * $de->qty);
+        }
+        return $total;
+    }
+
+    public function addProductOrder(Request $request){
+        $params = $request->all();
+        $id_order = $request->id_order ?? '';
+
+        if(empty($id_order)){
+            return Redirect::back()->with(['flash_level' => 'error_msg','flash_message' => 'Có lỗi xảy ra.']);
+        }
+
+        if(empty($id_order)){
+            return Redirect::back()->with(['flash_level' => 'error_msg','flash_message' => 'Có lỗi xảy ra.']);
+        }
+
+        
+        if(empty($params['qty']) || empty($params['id_product_option']) || empty($params['real_price']) ){
+            return Redirect::back()->with(['flash_level' => 'error_msg','flash_message' => 'Nhập thiếu thông tin.']);
+        }
+
+        $order = OrderProduct::where('id', $id_order)->first();
+        $product_option = ProductOption::where('id', $params['id_product_option'])->first();
+        // dd(  $order, $params, $product_option);
+
+        $order_id = $order->id;
+    
+        $cart = new OrderDetail;
+        $cart->product_name = $product_option->name;
+        $cart->dealer = $product_option->dealer;
+        $cart->price = $product_option->value;
+        $cart->qty = $product_option->qty;
+        $cart->order_id = $order_id;
+        $cart->real_price = data_get($params, 'real_price');
+        $cart->qty = data_get($params, 'qty');
+        // $cart->deposit = $item->options->ycoc > 0 ? $item->options->ycoc : 0;
+        $cart->product_id = $product_option->id;
+        $cart->created_at = new DateTime();
+        $cart->save();
+                
+           
+
+
+        return Redirect::back()->with(['flash_level' => 'result_msg','flash_message' => 'Thêm sản phẩm vào đơn hàng thành công']);
+    }
+
+
 }

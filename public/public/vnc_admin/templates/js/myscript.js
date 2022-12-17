@@ -73,3 +73,18 @@ function searchProductOption(){
         
     });
 }
+
+function getPriceProductOption(id_product_option){
+    console.log(id_product_option)
+    var url = 'https://' + $(location).attr('host')  + "/vncadmin/productoption/get-price-product-option/" + id_product_option;
+    $.ajax({
+        url:url,
+        type:'GET',
+        success: function(data){
+            $('#real_price').val(data);
+            return data;
+           
+        }
+     });
+}
+

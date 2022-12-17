@@ -8,10 +8,21 @@
   </style>
   <div class="table-agile-info p-2">
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-9">
         @include('admin.module.orders.include.search')
       </div>
-    </div>
+  		
+	@if (\Auth::user()->role == 1)
+		<div class="row mt-3 col-lg-3">
+			<div class="form-group">
+				<a href="{{route('createOrder')}}" class="btn btn-success">
+					<i class="fa fa-filter" aria-hidden="true"></i> Tạo đơn hàng
+				</a>
+			</div>
+		</div>
+	@endif
+
+    </div>	
     <div id="accordion">
       <div class="row">
         <div class="col-lg-6">
