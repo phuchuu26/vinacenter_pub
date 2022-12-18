@@ -54,9 +54,9 @@ class ServiceCustomerController extends Controller
 
 
 		if($params['add_item'] == 1){
-			return redirect()->route('getListServiceCustomer', []);
+			return redirect()->route('addItem', ['id_service_customer' => $serviceCustomer->id_service_customer ?? ''] );
 			// $producOption = ProductOption::select('id', 'name')->orderBy('name', 'ASC')->get()->toArray();
-			return view('admin.module.service_customer.add_item', [	'serviceCustomer' => $serviceCustomer ?? []]);
+			// return view('admin.module.service_customer.add_item', [	'serviceCustomer' => $serviceCustomer ?? []]);
 		}
 
     	return redirect()->route('getListServiceCustomer')->with(['flash_level' => 'alert-success','flash_message' => 'Thêm thành công']);
