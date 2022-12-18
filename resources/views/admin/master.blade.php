@@ -165,6 +165,14 @@
 
                         </ul>
                     </li>
+                 
+                    <li>
+                        <a href="{!! route('getListServiceCustomer') !!}">
+                            <i class="fa fa-medkit" aria-hidden="true"></i>
+                            <span>Dịch vụ sửa chữa</span>
+                        </a>
+                    </li>
+
                     <li>
                         <a href="{!! route('getNewsList') !!}">
                             <i class="fa fa-newspaper-o" aria-hidden="true"></i>

@@ -14,6 +14,16 @@ return [
         1 => 'Admin',
         2 => 'Bạc',
         3 => 'Vàng',
+    ] ,
+
+    'service_type'  => [
+        1 => 'Sửa chữa',
+        2 => 'Vệ sinh máy tính',
+    ] ,
+
+    'method'  => [
+        1 => 'Tính phí',
+        2 => 'Bảo hành',
     ] 
 
 ];

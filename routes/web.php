@@ -162,6 +162,20 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
     		Route::get('edit/{id}',['as' => 'getVoucherEdit','uses' => 'VoucherController@getVoucherEdit'])->where('id','[0-9]+');
     		Route::post('edit/',['as' => 'postVoucherEdit','uses' => 'VoucherController@postVoucherEdit'])->where('id','[0-9]+');
     	});
+
+        Route::group(['prefix' => 'service-customer'],function(){
+    		Route::get('add',['as' => 'getServiceCustomerAdd','uses' => 'ServiceCustomerController@getServiceCustomerAdd']);
+    		Route::post('add',['as' => 'postServiceCustomerAdd','uses' => 'ServiceCustomerController@postServiceCustomerAdd']);
+    		Route::get('list',['as' => 'getListServiceCustomer','uses' => 'ServiceCustomerController@getListServiceCustomer']);
+    		Route::get('delete/{id}',['as' => 'getServiceCustomerDelete','uses' => 'ServiceCustomerController@getServiceCustomerDelete'])->where('id','[0-9]+');
+    		Route::get('edit/{id}',['as' => 'getServiceCustomerEdit','uses' => 'ServiceCustomerController@getServiceCustomerEdit'])->where('id','[0-9]+');
+    		Route::post('edit/{id}',['as' => 'postServiceCustomerEdit','uses' => 'ServiceCustomerController@postServiceCustomerEdit'])->where('id','[0-9]+');
+            Route::get('add-product-order/{id_service_customer}',['as' => 'addItem','uses' => 'ServiceCustomerController@addItem']);
+            Route::post('add-product-order/{id_service_customer}',['as' => 'postAddItem','uses' => 'ServiceCustomerController@postAddItem']);
+    		Route::get('delete-detail/{id_service_customer_detail}',['as' => 'getServiceCustomerDetailDelete','uses' => 'ServiceCustomerController@getServiceCustomerDetailDelete'])->where('id','[0-9]+');
+
+        });
+
     	Route::group(['prefix' => 'news'],function(){
     		Route::get('add',['as' => 'getNewsAdd','uses' => 'NewsController@getNewsAdd']);
     		Route::post('add',['as' => 'postNewsAdd','uses' => 'NewsController@postNewsAdd']);

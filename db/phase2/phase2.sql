@@ -51,3 +51,57 @@ ADD COLUMN `discount` float NULL AFTER `voucher_code`;
 
 ALTER TABLE `thitr318_vinacenter_demo`.`order_product` 
 ADD COLUMN `is_draft` int NULL DEFAULT 0 AFTER `updated_at`;
+
+
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for service_customer
+-- ----------------------------
+DROP TABLE IF EXISTS `service_customer`;
+CREATE TABLE `service_customer`  (
+  `id_service_customer` int NOT NULL AUTO_INCREMENT,
+  `name_customer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `phone_customer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `service_type` int NULL DEFAULT NULL COMMENT '1 : sua chua, 2: ve sinh may tinh',
+  `method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '1 : tinh phi, 2 : bao hanh',
+  `customer_id` int NULL DEFAULT NULL COMMENT 'filled when method == 2',
+  `order_id` int NULL DEFAULT NULL COMMENT 'filled when method == 2',
+  `order_detail_id` int NULL DEFAULT NULL COMMENT 'filled when method == 2',
+  `product_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ten sp',
+  `condition` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'tinh trang khi nhan may',
+  `total` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `updated_at` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_service_customer`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+
+
+---------------------
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for service_customer_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `service_customer_detail`;
+CREATE TABLE `service_customer_detail`  (
+  `id_service_customer_detail` int NOT NULL AUTO_INCREMENT,
+  `id_service_customer` int NULL DEFAULT NULL,
+  `item` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'hang muc sua chua/thay the',
+  `unit_price` float NULL DEFAULT NULL COMMENT 'don gia',
+  `qty` int NULL DEFAULT NULL,
+  `total` float NULL DEFAULT NULL COMMENT 'thanh tien',
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `updated_at` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_service_customer_detail`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS = 1;
