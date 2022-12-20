@@ -855,12 +855,13 @@ class OrderController extends Controller
         $data = $detail->toArray();
         $data =1;
         // return view('admin.module.orders.pdf');
+        
+        // cach1
+        // $pdf = \PDF::loadView('admin.module.orders.pdf',  compact('customer', 'data', 'user', 'order_id'));
+        // return $pdf->download('invoice.pdf');
+
         $pdf = \PDF::loadView('admin.module.orders.pdf',  compact('customer', 'data', 'user', 'order_id'));
-        // $pdf = \PDF::loadView('admin.module.orders.pdf');
         return $pdf->download('invoice.pdf');
-        // $data = ['name' => 'tienduong'];	
-    	// $pdf = PDF::loadView('invoice',  compact('data'));
-    	// 	return $pdf->download('invoice.pdf');
     }
 
 
