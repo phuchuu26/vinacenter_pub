@@ -233,7 +233,6 @@
                                 @php
                                 $stt = 0;
                                 
-                               
                                 @endphp
                                     @foreach ($data->serviceCustomerDetail as $dataDetail)
                                         @php
