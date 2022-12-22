@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\DetailOrderExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\District;
@@ -20,6 +22,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
+
     protected $keyword;
 
     public function getOrderList()
@@ -809,5 +812,84 @@ class OrderController extends Controller
         return Redirect::back()->with(['flash_level' => 'result_msg','flash_message' => 'Thêm sản phẩm vào đơn hàng thành công']);
     }
 
+    public function exportExcel(Request $request)
+    {
+        $order_id = $request->order_id;
+        $order = OrderProduct::where('id', $order_id)->first();
+
+        
+        $bon = 0;
+        $prices = 0;
+        $user = User::select('id', 'name', 'username')->get()->toArray();
+
+        $detail = DB::table('order_detail')
+         ->select('order_detail.*','product_option.warranty', 'voucher.code')
+            ->join('product_option', 'product_option.id', '=', 'order_detail.product_id')
+            ->leftJoin('voucher', 'voucher.id_voucher', '=', 'order_detail.voucher_code')
+            ->where('order_detail.order_id', $order_id)  
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $customer = DB::table('order_product')
+            ->select('order_product.*', 'customer.fullname', 'customer.phone', 'customer.email', 'customer.address')
+            ->join('customer', 'customer.id', '=', 'order_product.customer_id')
+            ->where('order_product.id', $order_id)
+            ->first();
+
+        $depo = $this->getCountDeposit($customer->id)->toArray();
+
+        foreach ($detail as $de) {
+            if ($de->real_price > 0) {
+                $price_ = $de->real_price;
+            } else {
+                $price_ = $de->price;
+            }
+            // $bon = $bon + $de->qty * ($price_ - $de->dealer + $de->bonus);
+            $bon = $bon + $de->qty * ($price_ - $de->dealer ) + $de->discount;
+            // {{number_format($detail->qty*($price_ - $detail->dealer ) + $detail->discount )}}
+
+            $prices = $prices + ($price_ * $de->qty);
+        }
+        $customer->bon = $bon;
+        $customer->prices = $prices;
+        $customer->depo = $depo[0]->depo;
+        $data = $detail->toArray();
+        // return view('admin.module.orders.pdf');
+        // $pdf = \PDF::loadView('admin.module.orders.pdf',  compact('customer', 'data', 'user', 'order_id'));
+
+        
+        
+        // $fileName = 'Danh_sach_to_chuc_tin_dung_' . date('dmY', time()) . '.xls';
+        
+        // $spreadsheet = new DetailOrderExport($customer, $data, $user, $order_id);
+            
+        // return Excel::download($spreadsheet, $fileName);
+
+
+
+
+        // Excel::create('Filename', function($excel) {
+
+        // })->export('xls');
+        // or
+        // ->download('xls');
+
+
+        // Excel::create('Filename', function($excel) {
+        //     $excel->sheet('Sheetname', function($sheet) {
+        //         $sheet->fromArray(array(
+        //             array('data1', 'data2'),
+        //             array('data3', 'data4')
+        //         ));
+        //     });
+        // })->download('xls');
+
+        Excel::create('Export Excel',function($excel) use( $data){
+            $excel->sheet('Sheet 1', function($sheet) use( $data){
+                $sheet->fromArray([1,2]);
+    
+            });
+        })->download('xls');
+    }
 
 }
