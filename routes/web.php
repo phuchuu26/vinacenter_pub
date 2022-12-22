@@ -242,7 +242,6 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
             Route::post('update-order/{id}',['as' => 'postUpdateOrderDetail','uses' => 'OrderController@postUpdateOrderDetail']);
             Route::post('update-user/{id}',['as' => 'UpdateUser','uses' => 'OrderController@UpdateUser']);
             Route::get('update_dealer',['as' => 'update_dealer','uses' => 'OrderController@update_dealer']);
-            Route::get('export-pdf/{order_id}',['as' => 'export_pdf','uses' => 'OrderController@exportPdf']);
 
             Route::get('bonus',['as' => 'getBonusOrder','uses' => 'OrderController@getBonusOrder']);
             Route::post('bonusUpdate',['as' => 'postUpdateBonus','uses' => 'OrderController@postUpdateBonus']);

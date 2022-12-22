@@ -194,8 +194,6 @@ return [
 
         Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         willvincent\Rateable\RateableServiceProvider::class,
-        
-        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -247,8 +245,6 @@ return [
         'LoadStatics' => App\Helpers\LoadStatics::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-
-        'PDF' => Barryvdh\DomPDF\Facade::class,
 
 
     ],

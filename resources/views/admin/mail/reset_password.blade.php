@@ -7,7 +7,6 @@
     <meta name="color-scheme" content="light dark" />
     <meta name="supported-color-schemes" content="light dark" />
     <title></title>
-    
     <style type="text/css" rel="stylesheet" media="all">
     /* Base ------------------------------ */
     
