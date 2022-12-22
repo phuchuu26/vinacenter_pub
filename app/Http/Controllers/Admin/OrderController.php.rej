@@ -1,9 +1,0 @@
-diff a/app/Http/Controllers/Admin/OrderController.php b/app/Http/Controllers/Admin/OrderController.php	(rejected hunks)
-@@ -811,6 +811,7 @@
-             $prices = $prices + ($price_ * $de->qty);
-         }
-         $customer->bon = $bon;
-+        $customer->prices = $prices;
-         $customer->depo = $depo[0]->depo;
-         $data = $detail->toArray();
-         $data =1;

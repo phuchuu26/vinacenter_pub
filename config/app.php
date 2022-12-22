@@ -195,6 +195,7 @@ return [
         Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         willvincent\Rateable\RateableServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ],
 
     /*
@@ -247,8 +248,6 @@ return [
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-
-
 
     ],
 

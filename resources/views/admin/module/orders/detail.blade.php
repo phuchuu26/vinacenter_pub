@@ -3,6 +3,18 @@
 @section('content')
     <div class="table-agile-info">
         <div class="panel panel-default">
+
+            <div class="col-lg-12">
+                {{-- <p>Check out <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">freeCodeCamp</a>.</p> --}}
+
+                <a   target="_blank" style="float:right"  href="{{route('export_excel', ['order_id' => $order_id])}}"  class="btn btn-info">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+
+                    {{-- Xuất phiếu thu --}}
+                </a>
+            </div>
+
+
             <table class="table">
                 <tbody>
                 <tr class="cus_det">
