@@ -7,7 +7,9 @@
                 {{-- <p>Check out <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">freeCodeCamp</a>.</p> --}}
 
                 <a   target="_blank" style="float:right"  href="{{route('export_pdf', ['order_id' => $order_id])}}"  class="btn btn-info">
-                    Xuất phiếu thu
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+
+                    {{-- Xuất phiếu thu --}}
                 </a>
             </div>
             <table class="table">

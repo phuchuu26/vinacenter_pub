@@ -108,7 +108,8 @@ table {
 
     
     <td colspan="2">
-        {!! isset($customer->deposit) ? number_format($customer->prices - $customer->deposit) : number_format($customer->prices - $customer->depo)  !!} đ
+        {{-- {!! isset($customer->deposit) ? number_format($customer->prices - $customer->deposit) : number_format($customer->prices - $customer->depo)  !!} đ --}}
+        {{number_format($prices)}} đ
     </td>
  
 

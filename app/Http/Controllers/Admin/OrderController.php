@@ -849,6 +849,7 @@ class OrderController extends Controller
 
             $prices = $prices + ($price_ * $de->qty);
         }
+   
         $customer->bon = $bon;
         $customer->prices = $prices;
         $customer->depo = $depo[0]->depo;
@@ -864,7 +865,7 @@ class OrderController extends Controller
         
         
         // $PDFOptions = ['enable_remote' => true, 'chroot' => public_path('uploads\banner\1517199905.Vinacenter.png')];
-        $pdf = \PDF::loadView('admin.module.orders.pdf',  compact('customer', 'data', 'user', 'order_id', 'current_time'));
+        $pdf = \PDF::loadView('admin.module.orders.pdf',  compact('customer', 'data', 'user', 'order_id', 'current_time', 'prices'));
         // $pdf = \PDF::loadView('admin.module.orders.pdf',  compact('customer', 'data', 'user', 'order_id'));
         // $pdf->getDomPDF()->setHttpContext(
         //     stream_context_create([
