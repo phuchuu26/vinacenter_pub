@@ -153,6 +153,12 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
     		Route::get('edit/{id}',['as' => 'getCateEdit','uses' => 'CateController@getCateEdit'])->where('id','[0-9]+');
     		Route::post('edit/',['as' => 'postCateEdit','uses' => 'CateController@postCateEdit'])->where('id','[0-9]+');
     	});
+        Route::group(['prefix' => 'accessory'],function(){
+    		Route::get('add',['as' => 'getAccessoryAdd','uses' => 'AccessoryController@getAccessoryAdd']);
+    		Route::post('add',['as' => 'postAccessoryAdd','uses' => 'AccessoryController@postAccessoryAdd']);
+    		Route::get('list',['as' => 'getListAccessory','uses' => 'AccessoryController@getListAccessory']);
+    		Route::get('delete/{id}',['as' => 'getAccessoryDelete','uses' => 'AccessoryController@getAccessoryDelete'])->where('id','[0-9]+');
+    	});
 
         Route::group(['prefix' => 'voucher'],function(){
     		Route::get('add',['as' => 'getVoucherAdd','uses' => 'VoucherController@getVoucherAdd']);

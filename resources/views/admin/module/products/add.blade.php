@@ -6,7 +6,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="row">
                 
-                @if (\Auth::user()->role == 1))
+                @if (\Auth::user()->role == 1)
                     <div class="col-lg-12">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
