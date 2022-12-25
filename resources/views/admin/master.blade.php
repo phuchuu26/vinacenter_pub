@@ -174,6 +174,13 @@
                     </li>
 
                     <li>
+                        <a href="{!! route('getChartSale') !!}">
+                            <i class="fa fa-line-chart" aria-hidden="true"></i>
+                            <span>Thống kê bán hàng</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="{!! route('getNewsList') !!}">
                             <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                             <span>Tin tức</span>

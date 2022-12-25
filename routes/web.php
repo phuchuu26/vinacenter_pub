@@ -215,6 +215,11 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
             Route::get('edit/{id}',['as' => 'getStaticsEdit','uses' => 'StaticsController@getStaticsEdit'])->where('id','[0-9]+');
             Route::post('edit/{id}',['as' => 'postStaticsEdit','uses' => 'StaticsController@postStaticsEdit'])->where('id','[0-9]+');                       
         });
+        
+        Route::group(['prefix' => 'show-chart'],function(){       
+            Route::get('view',['as' => 'getChartSale','uses' => 'ChartSaleController@getChartSale']);
+        });
+        
         Route::group(['prefix' => 'support'],function(){       
             Route::get('list',['as' => 'getSupportList','uses' => 'SupportController@getSupportList']);
             Route::get('edit/{id}',['as' => 'getSupportEdit','uses' => 'SupportController@getSupportEdit'])->where('id','[0-9]+');
