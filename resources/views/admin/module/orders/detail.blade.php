@@ -1,6 +1,12 @@
 @extends('admin.master')
 @section('title','Chi tiết đơn hàng')
 @section('content')
+<style>
+   .btn.pull-right.warranty {
+        max-width: 70px;
+        font-size: 13px;
+    }
+</style>
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="col-lg-12">
@@ -148,7 +154,30 @@
 
                                     </td>
                                     <td>
+                                        @php
+                                            $d = DateTime::createFromFormat('Y-m-d H:i:s', $detail->created_at);
+                                            if ($d === false) {
+                                                die("Incorrect date string");
+                                            } else {
+                                                $date_created = $d->getTimestamp();
+                                                $dat_expired =  $date_created + ((60*60*24*30) * (int) $detail->warranty);
+                                            }
+                                            // dd($date_created, date( 'Y-m-d', $dat_expired), $detail->created_at);
+                                        @endphp
+                                        {{-- {{dd($detail->created_at)}} --}}
                                         {!! number_format($detail->warranty) !!} tháng
+                                        ( {{date('d-m-Y', $dat_expired)}})
+                                        @if ( $dat_expired < time())
+                                            <button class="btn btn-danger pull-right warranty">
+                                                BH hết hiệu lục
+                                            </button>
+                                        @else
+                                            <a href="{!! route('getMaintenanceCustomerAdd', ['id' => $detail->id] ) !!}" class="btn btn-info pull-right warranty">
+                                                Tạo phiếu BH
+                                            </a>
+                                        @endif
+
+                                      
                                     </td>
                                 </tr>
                             @endforeach
@@ -216,7 +245,7 @@
                                 {{-- <td></td> --}}
                                 <td>{{$customer->pay_type}}</td>
                                 <td class="font-weight-bold">Thành tiền</td>
-                                <td colspan="2">
+                                <td colspan="3">
                                     {!! isset($customer->deposit) ? number_format($customer->prices - $customer->deposit) : number_format($customer->prices - $customer->depo) !!}
                                 </td>
                             </tr>

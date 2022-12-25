@@ -176,6 +176,19 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
 
         });
 
+             Route::group(['prefix' => 'maintenance-customer'],function(){
+    		Route::get('add/{id}',['as' => 'getMaintenanceCustomerAdd','uses' => 'MaintenanceCustomerController@getMaintenanceCustomerAdd']);
+    		Route::post('add/{id}',['as' => 'postMaintenanceCustomerAdd','uses' => 'MaintenanceCustomerController@postMaintenanceCustomerAdd']);
+    		Route::get('list',['as' => 'getListMaintenanceCustomer','uses' => 'MaintenanceCustomerController@getListMaintenanceCustomer']);
+    		Route::get('delete/{id}',['as' => 'getMaintenanceCustomerDelete','uses' => 'MaintenanceCustomerController@getMaintenanceCustomerDelete'])->where('id','[0-9]+');
+    		Route::get('edit/{id}',['as' => 'getMaintenanceCustomerEdit','uses' => 'MaintenanceCustomerController@getMaintenanceCustomerEdit'])->where('id','[0-9]+');
+    		Route::post('edit/{id}',['as' => 'postMaintenanceCustomerEdit','uses' => 'MaintenanceCustomerController@postMaintenanceCustomerEdit'])->where('id','[0-9]+');
+            Route::get('add-product-order/{id}',['as' => 'addItemMaintenance','uses' => 'MaintenanceCustomerController@addItem']);
+            Route::post('add-product-order/{id}',['as' => 'postAddItemMaintenance','uses' => 'MaintenanceCustomerController@postAddItem']);
+    		Route::get('delete-detail/{id}',['as' => 'getMaintenanceCustomerDetailDelete','uses' => 'MaintenanceCustomerController@getMaintenanceCustomerDetailDelete'])->where('id','[0-9]+');
+            Route::get('export-pdf/{id}',['as' => 'export_pdf_maintenance','uses' => 'MaintenanceCustomerController@exportPdf']);
+        });
+
     	Route::group(['prefix' => 'news'],function(){
     		Route::get('add',['as' => 'getNewsAdd','uses' => 'NewsController@getNewsAdd']);
     		Route::post('add',['as' => 'postNewsAdd','uses' => 'NewsController@postNewsAdd']);

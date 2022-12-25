@@ -62,7 +62,7 @@ class ServiceCustomerController extends Controller
     	return redirect()->route('getListServiceCustomer')->with(['flash_level' => 'alert-success','flash_message' => 'Thêm thành công']);
     }
     public function getListServiceCustomer(){
-    	$data = ServiceCustomer::select('*')->paginate(20);
+    	$data = ServiceCustomer::select('*')->where('method', 1)->paginate(20);
     	return view('admin.module.service_customer.list',['data' => $data]);
     }
     public function getServiceCustomerDelete($id){

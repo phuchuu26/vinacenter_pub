@@ -172,11 +172,19 @@
                             <span>Dịch vụ sửa chữa</span>
                         </a>
                     </li>
-
+                    
+                    
                     <li>
                         <a href="{!! route('getChartSale') !!}">
                             <i class="fa fa-line-chart" aria-hidden="true"></i>
                             <span>Thống kê bán hàng</span>
+                        </a>
+                    </li>
+                        
+                    <li>
+                        <a href="{!! route('getListMaintenanceCustomer') !!}">
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>
+                            <span>Bảo hành</span>
                         </a>
                     </li>
 
