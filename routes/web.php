@@ -160,6 +160,13 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
     		Route::get('delete/{id}',['as' => 'getAccessoryDelete','uses' => 'AccessoryController@getAccessoryDelete'])->where('id','[0-9]+');
     	});
 
+        Route::group(['prefix' => 'color'],function(){
+    		Route::get('add',['as' => 'getColorAdd','uses' => 'ColorController@getColorAdd']);
+    		Route::post('add',['as' => 'postColorAdd','uses' => 'ColorController@postColorAdd']);
+    		Route::get('list',['as' => 'getListColor','uses' => 'ColorController@getListColor']);
+    		Route::get('delete/{id}',['as' => 'getColorDelete','uses' => 'ColorController@getColorDelete'])->where('id','[0-9]+');
+    	});
+
         Route::group(['prefix' => 'voucher'],function(){
     		Route::get('add',['as' => 'getVoucherAdd','uses' => 'VoucherController@getVoucherAdd']);
     		Route::post('add',['as' => 'postVoucherAdd','uses' => 'VoucherController@postVoucherAdd']);
@@ -182,7 +189,7 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
 
         });
 
-             Route::group(['prefix' => 'maintenance-customer'],function(){
+            Route::group(['prefix' => 'maintenance-customer'],function(){
     		Route::get('add/{id}',['as' => 'getMaintenanceCustomerAdd','uses' => 'MaintenanceCustomerController@getMaintenanceCustomerAdd']);
     		Route::post('add/{id}',['as' => 'postMaintenanceCustomerAdd','uses' => 'MaintenanceCustomerController@postMaintenanceCustomerAdd']);
     		Route::get('list',['as' => 'getListMaintenanceCustomer','uses' => 'MaintenanceCustomerController@getListMaintenanceCustomer']);
