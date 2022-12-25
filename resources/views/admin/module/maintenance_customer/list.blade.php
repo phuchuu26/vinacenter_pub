@@ -38,7 +38,6 @@
                         // dd($product, $item);
                         $stt++;
                         @endphp
-
                         <tr class="list_data">
                             <td class="list_td aligncenter">{!!  $stt !!}</td>
                             <td class="list_td aligncenter">{!! $item["name_customer"] !!}</td>
@@ -59,11 +58,21 @@
                             </td>
 
                             <td class="list_td aligncenter">
+                                <a style="    max-width: 70px; font-size: 10px;" type="button"
+                                 href="{{route('getOrderDetail', ['id' =>  $item["order_id"] ])}}" value="Thêm mới Option" 
+                                 class="btn btn-info">
+                                    Chi tiết đơn hàng
+                               </a>&nbsp;&nbsp;&nbsp;
+
+                            </td>
+                            
+                            <td class="list_td aligncenter">
                                 <a href="{!! route('getMaintenanceCustomerEdit',['id_service_customer' => $item["id_service_customer"]]) !!}"><img
                                             src="{!! asset('/public/vnc_admin/images/edit.png') !!}"/></a>&nbsp;&nbsp;&nbsp;
 
                             </td>
                             <td class="list_td aligncenter">
+
                                 <a href="{!! route('getMaintenanceCustomerDelete',['id' => $item["id_service_customer"]]) !!}"
                                 onclick="return xacnhanxoa('Bạn thật sự muốn xóa danh mục này?')">
                                     <img src="{!! asset('/public/vnc_admin/images/delete.png') !!}"/>

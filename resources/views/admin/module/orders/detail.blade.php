@@ -111,6 +111,7 @@
                                 <th>Thành tiền</th>
                                 <th>Chiếc khấu</th>
                                 <th>Bảo hành</th>
+                                <th></th>
                             </tr>
                             </thead>
 
@@ -167,17 +168,24 @@
                                         {{-- {{dd($detail->created_at)}} --}}
                                         {!! number_format($detail->warranty) !!} tháng
                                         ( {{date('d-m-Y', $dat_expired)}})
-                                        @if ( $dat_expired < time())
-                                            <button class="btn btn-danger pull-right warranty">
-                                                BH hết hiệu lục
-                                            </button>
-                                        @else
-                                            <a href="{!! route('getMaintenanceCustomerAdd', ['id' => $detail->id] ) !!}" class="btn btn-info pull-right warranty">
-                                                Tạo phiếu BH
-                                            </a>
-                                        @endif
+                                        <br>
+                                        ( số lần bảo hành : {{$detail->count_maintaince}})
 
-                                      
+                                        
+                                        
+                                    </td>
+
+                                    <td>
+
+                                        @if ( $dat_expired < time())
+                                        <button class="btn btn-danger pull-right warranty">
+                                            BH hết hiệu lục
+                                        </button>
+                                    @else
+                                        <a href="{!! route('getMaintenanceCustomerAdd', ['id' => $detail->id] ) !!}" class="btn btn-info pull-right warranty">
+                                            Tạo phiếu BH
+                                        </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -204,7 +212,7 @@
                                 {{-- <td></td> --}}
 
                                 <td>{!! number_format($customer->prices) !!}</td>
-                                <td colspan="2">{!! number_format($customer->bon) !!}</td>
+                                <td colspan="3">{!! number_format($customer->bon) !!}</td>
 
                             </tr>
                             <tr>
@@ -225,7 +233,7 @@
                                 <td colspan="4" class="text-center font-weight-bold">- </td>
                                 <td colspan="1" class="text-left font-weight-bold">- Đã thanh toán</td>
                                 {{-- <td></td> --}}
-                                <td colspan="3">
+                                <td colspan="4">
                                     {!! isset($customer->deposit) ? number_format($customer->deposit) : number_format($customer->depo) !!}
                                 </td>
                             </tr>
@@ -245,7 +253,7 @@
                                 {{-- <td></td> --}}
                                 <td>{{$customer->pay_type}}</td>
                                 <td class="font-weight-bold">Thành tiền</td>
-                                <td colspan="3">
+                                <td colspan="4">
                                     {!! isset($customer->deposit) ? number_format($customer->prices - $customer->deposit) : number_format($customer->prices - $customer->depo) !!}
                                 </td>
                             </tr>

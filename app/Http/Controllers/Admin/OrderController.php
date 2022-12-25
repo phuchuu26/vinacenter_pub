@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use App\Models\OrderProduct;
 use App\Models\ProductOption;
 use App\Models\Province;
+use App\Models\ServiceCustomer;
 use App\Models\User;
 use App\Models\Ward;
 use DateTime;
@@ -235,6 +236,8 @@ class OrderController extends Controller
             $depo = $this->getCountDeposit($customer->id)->toArray();
 
             foreach ($detail as $de) {
+                $count_maintaince = ServiceCustomer::where('order_detail_id', $de->id)->where('method', '=',2)->count();
+                $de->count_maintaince = $count_maintaince;
                 if ($de->real_price > 0) {
                     $price_ = $de->real_price;
                 } else {
