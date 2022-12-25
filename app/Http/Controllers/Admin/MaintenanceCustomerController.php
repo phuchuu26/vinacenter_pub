@@ -199,26 +199,11 @@ class MaintenanceCustomerController extends Controller
 		$data = [];
 		$user = $customer;
         $current_time = 'Ngày '. date("d",time()).' Tháng ' .date("m",time()). ' Năm ' . date("Y",time());
-        // $user = \Auth::user();
-        // return view('admin.module.maintenance_customer.pdf',  compact('customer', 'maintenance', 'user', 'order_id', 'current_time'));
         
-        // cach1
-        // $pdf = \PDF::loadView('admin.module.orders.pdf',  compact('customer', 'data', 'user', 'order_id'));
-        // return $pdf->download('invoice.pdf');
-        
-        
-        // $PDFOptions = ['enable_remote' => true, 'chroot' => public_path('uploads\banner\1517199905.Vinacenter.png')];
         $pdf = \PDF::loadView('admin.module.maintenance_customer.pdf',   compact('customer', 'maintenance', 'user', 'order_id', 'current_time'));
-        // $pdf = \PDF::loadView('admin.module.orders.pdf',  compact('customer', 'data', 'user', 'order_id'));
-        // $pdf->getDomPDF()->setHttpContext(
-        //     stream_context_create([
-        //         'ssl' => [
-        //             'allow_self_signed'=> TRUE,
-        //             'verify_peer' => FALSE,
-        //             'verify_peer_name' => FALSE,
-        //         ]
-        //     ])
-        // );
-        return $pdf->download('invoice.pdf');
+   
+		$fileName = 'Phieu_bao_hanh_' . date('dmY', time()) . '.pdf';
+
+        return $pdf->download($fileName);
     }
 }

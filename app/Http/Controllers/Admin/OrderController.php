@@ -876,7 +876,8 @@ class OrderController extends Controller
         //         ]
         //     ])
         // );
-        return $pdf->download('invoice.pdf');
+        $fileName = 'Phieu_don_hang_' . date('dmY', time()) . '.pdf';
+        return $pdf->download($fileName);
     }
 
 
