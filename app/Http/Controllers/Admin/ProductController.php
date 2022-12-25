@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductAddRequest;
 use App\Http\Requests\ProductEditRequest;
+use App\Models\Accessory;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cate;
+use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductCollection;
 use App\Models\ProductImage;
@@ -23,7 +25,12 @@ class ProductController extends Controller
     public function getProductAdd(){
     	$data = Cate::select('id','name','parent_id')->get()-> toArray();
 		$cate_diendan = Cate::where('name','DIỄN ĐÀN')->first();
-    	return view('admin.module.products.add',['dataCate' => $data, 'cate_diendan' => $cate_diendan]);
+		$accessory = Accessory::select('name_accessory', 'id_accessory')->get()->toArray();
+		$color = Color::select('name_color', 'id_color')->get()->toArray();
+		return view('admin.module.products.add',['dataCate' => $data, 'cate_diendan' => $cate_diendan,
+			'accessory' => $accessory,
+			'color' => $color
+		]);
     }
     public function postProductAdd(ProductAddRequest $request){  
         $product_id ="";
@@ -37,9 +44,10 @@ class ProductController extends Controller
     	$product->description = $request->txtFull;
     	$product->is_hot = $request->rdoHot;
     	$product->is_active = $request->rdoPublic;
+    	$product->id_accessory = json_encode($request->id_accessory);
+    	$product->id_color = json_encode($request->id_color);
     	$product->created_at = new DateTime;
     	$product->user_id = Auth::user()->username;
-
     	$save_success = $product->save();
 
     	if($save_success){
@@ -135,7 +143,13 @@ class ProductController extends Controller
     	$product = Product::findOrFail($id);
     	$productImgs = ProductImage::where('product_id',$product->id)->get()-> toArray();
     	$parent = Cate::select('id','name','parent_id')->get()-> toArray();
-    	return view('admin.module.products.edit',['product' => $product,'productImgs' => $productImgs,'parent' => $parent]);
+		$accessory = Accessory::select('name_accessory', 'id_accessory')->get()->toArray();
+		$color = Color::select('name_color', 'id_color')->get()->toArray();
+
+    	return view('admin.module.products.edit',['product' => $product,'productImgs' => $productImgs,'parent' => $parent,
+			'accessory' => $accessory,
+			'color' => $color,
+		]);
     }
     public function postProductEdit(ProductEditRequest $request,$id){
     	$product_id = "";

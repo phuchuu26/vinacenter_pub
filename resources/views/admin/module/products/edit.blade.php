@@ -1,6 +1,18 @@
 @extends('admin.master')
 @section('title','Cập nhật Sản phẩm')
 @section('content')
+<style>
+    .select2-selection__rendered {
+          line-height: 38px !important;
+      }
+      .select2-container .select2-selection--single {
+          height: 38px !important;
+      }
+      .select2-selection__arrow {
+          height: 38px !important;
+      }
+</style>
+
     <div class="form-w3layouts">
         <form action="" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -32,6 +44,37 @@
                                value="{!! old('txtName',isset($product["title"]) ? $product["title"] : null) !!}" required/>
                     </div>
                 </div>
+
+                <div class="col-lg-12">
+                    <div class="input-group mb-3">
+                        <div  class="input-group-prepend">
+                            <span style="width: 127px" class="input-group-text">Phụ kiện</span>
+                        </div>
+                            <select name="id_accessory[]" id="id_accessory" class="form-control" >
+                                @foreach ($accessory as $acc )
+                                    <option select value="{{data_get($acc, 'id_accessory')}}">{{data_get($acc, 'name_accessory')}}</option>
+                               @endforeach
+                            </select>
+                            <input type="text" value="{{$product["id_accessory"] ?? ''}}" id='id_accessory_json' hidden>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="input-group mb-3">
+                        <div  class="input-group-prepend">
+                            <span style="width: 127px" class="input-group-text">Màu sắc</span>
+                        </div>
+                        <input type="text" value="{{$product["id_color"] ?? ''}}" id='id_color_json' hidden>
+
+                            <select name="id_color[]" id="id_color" class="form-control" >
+                                @foreach ($color as $co )
+                                    <option value="{{data_get($co, 'id_color')}}">{{data_get($co, 'name_color')}}</option>
+                               @endforeach
+                            </select>
+                    </div>
+                </div>
+
+
                 <div class="col-lg-12 mb-2">
                     <div class="form-check-inline">
                         <label class="form-check-label">
@@ -99,6 +142,36 @@
         </form>
     </div>
     <script type="text/javascript">
+
+        $(document).ready(function() {
+                $("#id_accessory").select2({
+                    multiple: true,
+                    allowClear: false
+                });   
+                $("#id_color").select2({
+                    multiple: true,
+                    allowClear: false
+                });
+
+                var id_accessory_json = $('#id_accessory_json').val();
+                var id_accessory = JSON.parse(id_accessory_json);
+                // one clears the box content and the other clears the highlighting
+                $('#id_accessory').val(id_accessory);
+                $('#id_accessory').trigger('change');
+                // $('.select2-selection__rendered').html();
+
+                
+             
+                var id_color_json = $('#id_color_json').val();
+
+                var id_color = JSON.parse(id_color_json);
+                // one clears the box content and the other clears the highlighting
+                $('#id_color').val(id_color);
+                $('#id_color').trigger('change');
+                // one clears the box content and the other clears the highlighting
+                // $('.select2-selection__rendered').html('');
+        });
+        
         tinymce.init({
             selector: '#txtFull',
             convert_urls: false,
