@@ -1,6 +1,13 @@
 @extends('admin.master')
 @section('title','Thêm loại')
 @section('content')
+<style>
+    img.colorpick-eyedropper-input-trigger {
+    width: 37px;
+    margin-left: 21px;
+    margin-right: 15px;
+}
+</style>
     <form action="" method="POST">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-w3layouts">
@@ -18,6 +25,13 @@
                                         <span class="input-group-text">Tên màu sắc</span>
                                     </div>
                                     <input type="text" class="form-control" name="name_color" id="name_color" required>
+                                </div>
+                                
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Chọn màu</span>
+                                    </div>
+                                    <input type="color" id="color_picker" name="color_picker" required value="">
                                 </div>
 
                               

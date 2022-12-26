@@ -24,6 +24,7 @@ class ColorController extends Controller
     public function postColorAdd(Request $request){
     	$name_color = new Color;
     	$name_color->name_color = $request->name_color;
+    	$name_color->color_picker = $request->color_picker;
     	$name_color->save();
     	return redirect()->route('getListColor')->with(['flash_level' => 'alert-success','flash_message' => 'Thêm thành công']);
     }

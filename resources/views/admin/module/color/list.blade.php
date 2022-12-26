@@ -1,6 +1,11 @@
 @extends('admin.master')
 @section('title','Danh sách')
 @section('content')
+<style>
+    img.colorpick-eyedropper-input-trigger {
+    display: none;
+}
+</style>
     <div class="form-w3layouts">
         <div class="row">
             <div class="col-lg-12">
@@ -17,6 +22,7 @@
                     <tr class="list_heading">
                         {{-- <th>STT</th> --}}
                         <th>Tên Màu sắc</th>
+                        <th>Màu</th>
                         <th>Thời gian tạo</th>
                         <th>Thời gian update</th>
                         <th class="action_col" colspan="2"></th>
@@ -28,6 +34,11 @@
 
                         <tr class="list_data">
                             <td class="list_td aligncenter">{!! $item["name_color"] !!}</td>
+                            
+                            <td class="list_td aligncenter">
+                                <input type="color" id="favcolor" name="favcolor" disabled value="{!! $item["color_picker"] !!}"><br><br>    
+                            </td>
+                            
                             <td class="list_td aligncenter">
                                 <?php \Carbon\Carbon::setLocale('vi'); ?>
                                 {!! \Carbon\Carbon::createFromTimeStamp(strtotime($item["created_at"]))->diffForHumans() !!}

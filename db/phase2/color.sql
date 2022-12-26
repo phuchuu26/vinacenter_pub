@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `color`;
 CREATE TABLE `color`  (
   `id_color` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `name_color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `color_picker` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `created_at` datetime(0) NULL DEFAULT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id_color`) USING BTREE
