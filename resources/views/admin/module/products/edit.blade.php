@@ -154,8 +154,14 @@
                 });
 
                 var id_accessory_json = $('#id_accessory_json').val();
-                var id_accessory = JSON.parse(id_accessory_json);
+                
                 // one clears the box content and the other clears the highlighting
+                if(id_accessory_json == ''){
+                    var id_accessory = [];
+                }else{
+                    var id_accessory = JSON.parse(id_accessory_json);
+
+                }
                 $('#id_accessory').val(id_accessory);
                 $('#id_accessory').trigger('change');
                 // $('.select2-selection__rendered').html();
@@ -164,7 +170,13 @@
              
                 var id_color_json = $('#id_color_json').val();
 
-                var id_color = JSON.parse(id_color_json);
+                if(id_color_json == ''){
+                    var id_color = [];
+                }else{
+                    var id_color = JSON.parse(id_color_json);
+
+                }
+            
                 // one clears the box content and the other clears the highlighting
                 $('#id_color').val(id_color);
                 $('#id_color').trigger('change');

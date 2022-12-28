@@ -6,6 +6,9 @@
   <!--Start main-container -->
   <head>
 	<style>
+		img.colorpick-eyedropper-input-trigger {
+			display: none;
+		}
 		.col-sm-8.rating_com {
 			border-radius: 21px;
 			margin-bottom: 8px;
@@ -15,6 +18,25 @@
 			background-color: red!important;
 			color: white!important;
 		}
+
+  
+
+input[type="radio"] {
+	/* position: absolute;
+  height: 20px;
+  width: 50px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center; */
+    display: none;
+	/* z-index: 0 */
+}
+input[type="radio"]:checked + label {
+    border: 2px solid red;
+}
+
+
 	</style>
   </head>
 
@@ -141,7 +163,32 @@
           </div>
           <div class="short-description">
             <p class="rte"> {!! $data['sumary'] !!} </p>
+          </div> 
+		  
+		  <div class="short-description">
+			  <p class="rte">Nhóm màu : 
           </div>
+
+		  @if(!empty($group_color))
+
+			
+			@foreach ($group_color as $co)
+			
+
+				<label>
+					<input  for="{!! data_get($co, 'color_picker') !!}" type="radio" name="test" id="{!! data_get($co, 'color_picker') !!}" value="{{data_get($co, 'id_color')}}">
+					<label>
+						<input type="color" id="color_picker" name="color_picker"  class="color_picker" disabled value="{!! data_get($co, 'color_picker') !!}"><br><br>    
+					</label>
+					
+				</label>
+			@endforeach 
+
+		@endif
+
+
+    
+        
           @if($total > 0)
             <div class="add-to-box">
               <div class="add-to-cart-real">
@@ -355,6 +402,11 @@
   <script type="text/javascript">
 
 $("#review").val("");
+
+$('label').click(function(){
+	$(this).find('input[type="radio"]').prop('checked', true);
+	console.log($('input[type="radio"]').val(),$(this), $(this).find('input[type="radio"]'))
+});
     // $("#input-id").rating();
 
 </script>

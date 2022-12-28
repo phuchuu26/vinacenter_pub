@@ -31,6 +31,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Chọn màu</span>
                                     </div>
+                                    <input type="color" id="favcolor" name="favcolor" disabled value="{!! $item["color_picker"] !!}">    
                                     <input type="color" id="color_picker" name="color_picker" required value="">
                                 </div>
 

@@ -161,6 +161,8 @@ class ProductController extends Controller
         $product->alias = str_slug($request->txtName);
     	$product->description = $request->txtFull;
     	$product->is_hot = $request->rdoHot;
+		$product->id_accessory = json_encode($request->id_accessory);
+    	$product->id_color = json_encode($request->id_color);
     	$product->is_active = $request->rdoPublic;
     	$product->updated_at = new DateTime;
     	$product->user_id = Auth::user()->username;

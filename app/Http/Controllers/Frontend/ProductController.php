@@ -9,6 +9,7 @@ use App\Models\ProductOption;
 use App\Models\ProductImage;
 use App\Models\Product;
 use App\Models\Cate;
+use App\Models\Color;
 use App\Models\Statics;
 use App\Models\News;
 use App\Models\OrderDetail;
@@ -151,6 +152,14 @@ class ProductController extends Controller
             $total = $count_option['amount'] - $count_order_detail;
 
             $dataPro = Product::findOrFail($data['product_id'])->toArray();
+            $id_color = data_get($dataPro, 'id_color') ;
+            $group_color = [];
+            if(!empty($id_color)){
+                $id_color = json_decode($id_color);
+                $group_color = Color::whereIn('id_color', $id_color)->get();
+                
+            }
+            // $groupColor =  
             $dataCate = Cate::findOrFail($dataPro['category_id'])->toArray();
             
             $product = ProductOption::where('category_alias',$data['category_alias'])->get()-> toArray();
@@ -162,6 +171,7 @@ class ProductController extends Controller
 
             return view('frontend.pages.products.detail',[
                 'data' => $data,
+                'group_color' => $group_color,
                 'total' => $total,
                 'dataPro' => $dataPro,
                 'dataCate' => $dataCate,                
