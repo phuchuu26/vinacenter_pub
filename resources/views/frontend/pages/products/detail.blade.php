@@ -173,16 +173,17 @@ input[type="radio"]:checked + label {
             <p class="rte"> {!! $data['sumary'] !!} </p>
           </div> 
 		  
-		  <div class="short-description">
-			  	<p id="color_des" class="rte">Nhóm màu :		
-				</p>
+        @if(!empty($group_color))
+          
+          <div class="short-description">
+              <p id="color_des" class="rte">
+                Nhóm màu :		
+              </p>
           </div>
-
-		  <p id="color_error" style="display: none;color: red; " class="rte">
-			Vui lòng chọn màu sản phẩm	
-		</p>
-
-		  @if(!empty($group_color))
+      
+            <p id="color_error" style="display: none;color: red; " class="rte">
+              Vui lòng chọn màu sản phẩm	
+            </p>
 
 			
 			@foreach ($group_color as $co)
@@ -206,6 +207,12 @@ input[type="radio"]:checked + label {
 
 		@endif
 
+		
+	
+
+		@if(!empty($group_accessory))
+
+		
 		<div class="short-description">
 			<p id="accessory_des" class="rte">Phụ kiện :		
 			</p>
@@ -215,12 +222,7 @@ input[type="radio"]:checked + label {
 			Vui lòng chọn phụ kiện đi kèm	
 		</p>
 
-		
-	
-
-		@if(!empty($group_accessory))
-
-		
+    
 		@foreach ($group_accessory as $acc)
 		
 
