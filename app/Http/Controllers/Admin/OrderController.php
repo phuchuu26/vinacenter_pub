@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accessory;
+use App\Models\Color;
 use App\Models\Customer;
 use App\Models\District;
 use App\Models\OrderDetail;
@@ -252,12 +254,17 @@ class OrderController extends Controller
             $customer->bon = $bon;
             $customer->prices = $prices;
             $customer->depo = $depo[0]->depo;
+            
+            $colors = Color::all()->pluck('name_color', 'id_color')->toArray();
+            $accessories = Accessory::all()->pluck('name_accessory', 'id_accessory')->toArray();
 
             return view('admin.module.orders.detail', [
                 'customer' => $customer,
                 'data' => $detail->toArray(),
                 'user' => $user,
-                'order_id' => $id
+                'order_id' => $id,
+                'colors' => $colors,
+                'accessories' => $accessories
             ]);
         } catch (ModelNotFoundException $e) {
             return redirect()->back();

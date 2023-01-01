@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Requests\CartAddCompleteRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Accessory;
+use App\Models\Color;
 use App\Models\ProductOption;
 use Cart;
 use App\Models\OrderProduct;
@@ -22,11 +24,15 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
-    public function getBuyProduct($id)
+    public function getBuyProduct(Request $request, $id)
     {
+        // dd($request->all());
         //Cart::destroy();die;
         //echo Cart::tax();die;
+        $params = $request->all();
+        // if($request->)
         $product_buy = ProductOption::where('id', $id)->first();
+        
         Cart::add(
             array(
                 'id' => $id,
@@ -39,7 +45,9 @@ class CartController extends Controller
                     'ycoc' => '',
                     'dealer' => $product_buy->dealer,
                     'img' => $product_buy->image,
-                    'alias' => $product_buy->alias
+                    'alias' => $product_buy->alias, 
+                    'id_color' => $params['id_color'] ?? '',
+                    'id_accessory' => $params['id_accessory'] ?? ''
                 )));
         return redirect()->route('getCartList');
     }
@@ -47,9 +55,13 @@ class CartController extends Controller
     public function getCartList()
     {
         $content = Cart::content();
+        // dd($content);
+        $colors = Color::all()->pluck('name_color', 'id_color')->toArray();
+        $accessories = Accessory::all()->pluck('name_accessory', 'id_accessory')->toArray();
+
         //Cart::remove('1f9c72245d8a36709a96d76a6145a164 ');
         //print_r(compact('content'));die;
-        return view('frontend.pages.cart.list', compact('content'));
+        return view('frontend.pages.cart.list', compact('content', 'colors', 'accessories'));
     }
 
     public function getCartDel($id)
@@ -110,11 +122,19 @@ class CartController extends Controller
         }
         $total = Cart::total();
         $user = User::select('id', 'name', 'username')->orderBy('id', 'ASC')->get()->toArray();
+        $colors = Color::all()->pluck('name_color', 'id_color')->toArray();
+        $accessories = Accessory::all()->pluck('name_accessory', 'id_accessory')->toArray();
+
+        $user_admin = User::select('id', 'name', 'username')->where('role', 1)->orderBy('id', 'ASC')->first();
+
         return view('frontend.pages.cart.order', [
             'content' => $data,
             'total' => $total,
+            'user_admin' => $user_admin,
             'user' => $user,
-            'provinces' => $provinces
+            'provinces' => $provinces,
+            'colors' => $colors,
+            'accessories' => $accessories
         ]);
     }
 
@@ -240,6 +260,8 @@ class CartController extends Controller
                     $cart->real_price = $item->options->yprice != ""  ? $item->options->yprice : 0;
                     $cart->deposit = $item->options->ycoc > 0 ? $item->options->ycoc : 0;
                     $cart->product_id = $item->id;
+                    $cart->id_color = $item->options->id_color ?? '';
+                    $cart->id_accessory = $item->options->id_accessory ?? '';
                     $cart->created_at = new DateTime();
                     $cart->save();
                     $price = $item->options->yprice != "" ? $item->options->yprice : $item->price;
@@ -276,8 +298,10 @@ class CartController extends Controller
         }
     }
 
-    public function getBuyNow($id)
+    public function getBuyNow(Request $request, $id)
     {
+        $params = $request->all();
+
         $count_option = ProductOption::select('amount')->where('id', $id)->first();
         $count_order_detail = OrderDetail::where('product_id', $id)->get()->sum('qty');
 
@@ -294,7 +318,11 @@ class CartController extends Controller
                     'ycoc' => '',
                     'dealer' => $product_buy->dealer,
                     'img' => $product_buy->image,
-                    'alias' => $product_buy->alias)));
+                    'alias' => $product_buy->alias,
+                    'id_color' => $params['id_color'] ?? '',
+                    'id_accessory' => $params['id_accessory'] ?? ''
+                    )
+                ));
             return redirect()->route('getCartOrderComplete');
         }
         return redirect()->route('index')->with(['flash_level' => 'error_msg', 'flash_message' => 'Sản phẩm đã hết hàng. Xin vui lòng chọn sản phẩm khác.']);

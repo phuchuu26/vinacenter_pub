@@ -60,9 +60,23 @@
                     </thead>
                     <tbody>
                     @foreach($content as $key => $item)
-                    {{-- {{dd($item)}} --}}
                         <tr>
-                            <td width="30%">{!! $item->name !!}</td>
+                            <td width="30%">
+                                {!! $item->name !!}
+                                <br>
+                                <br>
+                                @if(!empty($item->options['id_color']))
+                                    <p>
+                                        Màu sắc : {{ data_get($colors, $item->options['id_color'], '')}}
+                                    </p>
+                                    @endif
+
+                                @if(!empty($item->options['id_accessory']))
+                                    <p>
+                                      Phụ kiện : {{ data_get($accessories, $item->options['id_accessory'], '')}}
+                                    </p>
+                                @endif
+                            </td>
                             <td width="20%">{!! number_format($item->price) !!} VNĐ</td>
                             <td id="qty_{{$item->rowId}}" width="10%">
                                 {!! $item->qty !!}
@@ -331,7 +345,7 @@
                         </div>
                     </div>
                     @if (Auth::guest())
-                        <div class="row ">
+                        {{-- <div class="row ">
                             <div class="col-lg-2">Chọn Người bán <span style="color: red">*</span></div>
                             <div class="col-lg-3">
                                 <select id="txtUser" name="txtUser" class="form-control" style="height: auto">
@@ -356,7 +370,29 @@
                                 @endif
                             </div>
 
-                        </div>
+                        </div> --}}
+
+                        <div class="row ">
+                                {{-- <select id="txtUser" name="txtUser" class="form-control" style="height: auto">
+                                    <option value="">--Chọn người bán--</option>
+                                    @foreach($user as $item)
+                                        <option value="{!! $item['username']!!}"
+                                                @if(old('txtUser') == $item['name']) selected @endif
+                                        >{!! $item['name']!!}</option>
+                                    @endforeach
+
+                                </select> --}}
+                                <input hidden id="txtUser" name="txtUser" class="form-control" name="deposit" 
+                                value="{{$user_admin['username']}}">
+
+
+
+                                <input hidden type="number" class="form-control" name="deposit" id="deposit"
+                                       value="">
+
+                        </div> 
+
+                                       
                     @else
                         <input type="hidden" name="txtUser" value="{{ Auth::user()->username }}">
                         <div class="row">

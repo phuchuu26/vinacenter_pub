@@ -76,13 +76,26 @@
             </tr>
           </thead>
           <tbody>
-          @foreach($content as $item)
+
+			@foreach($content as $item)
             <tr>
               <td data-th="Product">
                 <div class="row">
                   <div class="col-sm-2 hidden-xs"><img src="{!! asset('public/uploads/products/'.$item->options->img) !!}" alt="..." class="img-responsive"/></div>
                   <div class="col-sm-10">
                     <h4 class="nomargin"><a  href="{!! url('san-pham/'.$item->options->alias) !!}">{!! $item->name !!} </a></h4>
+
+					@if(!empty($item->options['id_color']))
+                      <h5 class="nomargin">Màu sắc : {{ data_get($colors, $item->options['id_color'], '')}}</h5>
+                    @endif
+					
+					
+					@if(!empty($item->options['id_accessory']))
+                      	<h5 class="nomargin">
+							Phụ kiện : {{ data_get($accessories, $item->options['id_accessory'], '')}}
+						</h5>
+                    @endif
+
                     <a  href="{!! url('san-pham/'.$item->options->alias) !!}"><p style="font-style: italic;">Chi tiết <i class="fas fa-angle-double-right"></i></p></a>
                   </div>
                 </div>

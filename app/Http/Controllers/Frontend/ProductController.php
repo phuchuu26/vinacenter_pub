@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Accessory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\ProductOption;
 use App\Models\ProductImage;
@@ -152,11 +153,21 @@ class ProductController extends Controller
             $total = $count_option['amount'] - $count_order_detail;
 
             $dataPro = Product::findOrFail($data['product_id'])->toArray();
+
             $id_color = data_get($dataPro, 'id_color') ;
+            $id_accessory = data_get($dataPro, 'id_accessory') ;
             $group_color = [];
+            $group_accessory = [];
+
             if(!empty($id_color)){
                 $id_color = json_decode($id_color);
                 $group_color = Color::whereIn('id_color', $id_color)->get();
+                
+            }
+            
+            if(!empty($id_accessory)){
+                $id_accessory = json_decode($id_accessory);
+                $group_accessory = Accessory::whereIn('id_accessory', $id_accessory)->get();
                 
             }
             // $groupColor =  
@@ -168,10 +179,10 @@ class ProductController extends Controller
             $dataBuy = Statics::where('id',3)->first();
             $dataOrder = Statics::where('id',4)->first();
             
-
             return view('frontend.pages.products.detail',[
                 'data' => $data,
                 'group_color' => $group_color,
+                'group_accessory' => $group_accessory,
                 'total' => $total,
                 'dataPro' => $dataPro,
                 'dataCate' => $dataCate,                

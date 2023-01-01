@@ -108,6 +108,10 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 
 
-ALTER TABLE `thitr318_vinacenter`.`vnc_product` 
+ALTER TABLE `thitr318_vinacenter_demo`.`vnc_product` 
 ADD COLUMN `id_accessory` varchar(255) NULL AFTER `updated_at`,
 ADD COLUMN `id_color` varchar(255) NULL AFTER `id_accessory`;
+
+ALTER TABLE `thitr318_vinacenter_demo`.`order_detail` 
+ADD COLUMN `id_color` varchar(255) NULL COMMENT 'nullable' AFTER `discount`,
+ADD COLUMN `id_accessory` varchar(255) NULL COMMENT 'nullable' AFTER `id_color`;

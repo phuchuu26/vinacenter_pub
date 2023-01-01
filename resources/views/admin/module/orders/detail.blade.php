@@ -123,6 +123,19 @@
                                     ?>
                                     <td>
                                         {!! $detail->product_name !!}
+                                     
+                                        @if(!empty( data_get($detail, 'id_color') ))
+                                            <p>
+                                                Màu sắc : {{ data_get($colors, data_get($detail, 'id_color'), '')}}
+                                            </p>
+                                            @endif
+        
+                                        @if(!empty(data_get($detail, 'id_accessory')))
+                                            <p>
+                                            Phụ kiện : {{ data_get($accessories, data_get($detail, 'id_accessory'), '')}}
+                                            </p>
+                                        @endif
+
                                     </td>
                                     <td>
                                         {!! $detail->qty !!}

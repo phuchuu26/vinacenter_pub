@@ -19,6 +19,10 @@
 			color: white!important;
 		}
 
+		label {
+			max-height: 30px;
+		}
+
   
 
 input[type="radio"] {
@@ -29,9 +33,13 @@ input[type="radio"] {
   display: flex;
   justify-content: center;
   align-items: center; */
-    display: none;
-	/* z-index: 0 */
+  /* z-index: 0 */
+  display: none;
 }
+input[type="radio"]:checked + label {
+    border: 2px solid red;
+}
+
 input[type="radio"]:checked + label {
     border: 2px solid red;
 }
@@ -166,8 +174,13 @@ input[type="radio"]:checked + label {
           </div> 
 		  
 		  <div class="short-description">
-			  <p class="rte">Nhóm màu : 
+			  	<p id="color_des" class="rte">Nhóm màu :		
+				</p>
           </div>
+
+		  <p id="color_error" style="display: none;color: red; " class="rte">
+			Vui lòng chọn màu sản phẩm	
+		</p>
 
 		  @if(!empty($group_color))
 
@@ -175,10 +188,17 @@ input[type="radio"]:checked + label {
 			@foreach ($group_color as $co)
 			
 
-				<label>
-					<input  for="{!! data_get($co, 'color_picker') !!}" type="radio" name="test" id="{!! data_get($co, 'color_picker') !!}" value="{{data_get($co, 'id_color')}}">
-					<label>
-						<input type="color" id="color_picker" name="color_picker"  class="color_picker" disabled value="{!! data_get($co, 'color_picker') !!}"><br><br>    
+				<label class="label_color">
+					@php
+						$color_picker = data_get($co, 'color_picker');
+						$id_color = data_get($co, 'id_color');
+					@endphp
+					
+					<input  class="test" value="{!! $color_picker !!}" color_name="{!! data_get($co, 'name_color') !!}" for="{!! $color_picker !!}" type="radio" name="color"
+					id_color="{!! $id_color !!}" id="{!! $color_picker !!}" value="{{ $id_color }}">
+
+					<label class="a">
+						<input type="color" id="" name="color_picker"  class="color_picker" disabled value="{!! $color_picker !!}"><br><br>    
 					</label>
 					
 				</label>
@@ -186,16 +206,55 @@ input[type="radio"]:checked + label {
 
 		@endif
 
+		<div class="short-description">
+			<p id="accessory_des" class="rte">Phụ kiện :		
+			</p>
+		</div>
+
+		<p id="accessory_error" style="display: none;color: red; " class="rte">
+			Vui lòng chọn phụ kiện đi kèm	
+		</p>
+
+		
+	
+
+		@if(!empty($group_accessory))
+
+		
+		@foreach ($group_accessory as $acc)
+		
+
+			<label class="label_accessory">
+				<input  class="test" value="{!! data_get($acc, 'id_accessory') !!}" name_accessory="{!! data_get($acc, 'name_accessory') !!}" for="{!! data_get($acc, 'id_accessory') !!}" type="radio" name="accessory"
+				id_accessory="{!! data_get($acc, 'id_accessory') !!}"
+				id="{!! data_get($acc, 'id_accessory') !!}" value="{{data_get($acc, 'id_accessory')}}">
+
+				<label class="">
+					<input style="min-height: 29px;" type="text" id="{!! data_get($acc, 'id_accessory') !!}" name=""  class="" disabled value="{!! data_get($acc, 'name_accessory') !!}"><br><br>    
+				</label>
+				
+			</label>
+
+		@endforeach 
+
+	@endif
+
 
     
         
           @if($total > 0)
+		 
             <div class="add-to-box">
               <div class="add-to-cart-real">
-                <a href="{!! url('mua-hang',[$data["id"],$data["alias"]]) !!}" readonly class="btn btn-info"
-                   role="button"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
-                <a href="{!! url('mua-ngay',[$data["id"],$data["alias"]]) !!}" class="btn btn-danger" role="button"><i
-                      class="fas fa-shopping-cart"></i> Mua ngay</a>
+				
+				<input hidden value="{!! url('mua-hang',[$data["id"],$data["alias"]]) !!}" id="route_mua_hang" type="text">
+                <button id="mua-hang"  readonly class="btn btn-info"
+                   role="button"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+
+
+				<input hidden value="{!! url('mua-ngay',[$data["id"],$data["alias"]]) !!}" id="route_mua_ngay" type="text">
+				<button id="mua-ngay"  class="btn btn-danger" role="button"><i
+				class="fas  "></i> Mua ngay</button>
 
                 <div class="share">
                   <table>
@@ -403,11 +462,106 @@ input[type="radio"]:checked + label {
 
 $("#review").val("");
 
-$('label').click(function(){
-	$(this).find('input[type="radio"]').prop('checked', true);
-	console.log($('input[type="radio"]').val(),$(this), $(this).find('input[type="radio"]'))
+$('.label_color').click(function(){
+	$('input[name="color"]').prop('checked', false);
+	$(this).find('input[name="color"]').prop('checked', true);
+	let color_des = $(this).find('input[type="radio"]').attr("color_name");
+	let id_color = $(this).find('input[type="radio"]').attr("id_color");
+	console.log(color_des)
+	$("#color_des").html(`Nhóm màu : ${color_des}`);
+	$('input[name="color"]').val(id_color);
+
+});
+
+
+$('.label_accessory').click(function(){
+	$('input[name="accessory"]').prop('checked', false);
+	$(this).find('input[name="accessory"]').prop('checked', true);
+	let name_accessory = $(this).find('input[type="radio"]').attr("name_accessory");
+	let id_accessory = $(this).find('input[type="radio"]').attr("id_accessory");
+	console.log(id_accessory)
+	$("#accessory_des").html(`Phụ kiện : ${name_accessory}`);
+	$('input[name="accessory"]').val(id_accessory);
+	// $('.toggle img').attr('src', 'something.jpg');
+
 });
     // $("#input-id").rating();
+var mua_hang_path  = $('#route_mua_hang').val();
+var route_mua_ngay  = $('#route_mua_ngay').val();
+	// mua-hang
+	$( document ).ready(function() {
+		// Handler for .ready() called.
+		
+		$( "#mua-hang" ).click(function() {
+
+			if(!$('input[name="color"]').is(':checked')  && $('input[name="color"]').length > 0 ) { 
+				
+				$("#color_error").css({"display": "block"});
+				return;
+			}
+
+			if(!$('input[name="accessory"]').is(':checked') && $('input[name="accessory"]').length > 0) { 
+				
+				$("#accessory_error").css({"display": "block"});
+				return;
+			}
+
+			let id_color = '';
+			let id_accessory = '';
+			
+			if($('input[name="color"]').length > 0){
+				id_color = $('input[name="color"]').val();
+			}
+			
+			if($('input[name="accessory"]').length > 0){
+				id_accessory = $('input[name="accessory"]').val();
+			}
+			
+			window.location.href = mua_hang_path + '?id_color=' + id_color + '&id_accessory=' + id_accessory
+			// $.ajax({
+            //     url: mua_hang_path,
+            //     method: "GET",
+			// 	data: jQuery.param({ id_color: id_color, field2 : "hello2"}) ,
+            //     success: function (response) {
+            //     },
+            //     error: function (response) {
+            //         // ;
+            //     }
+            // });
+
+
+		});
+
+		$( "#mua-ngay" ).click(function() {
+
+			if(!$('input[name="color"]').is(':checked') && $('input[name="color"]').length > 0 ) { 
+				
+				$("#color_error").css({"display": "block"});
+				return;
+			}
+
+			if(!$('input[name="accessory"]').is(':checked')  && $('input[name="accessory"]').length > 0  ) { 
+				
+				$("#accessory_error").css({"display": "block"});
+				return;
+			}
+
+			let id_color = '';
+			let id_accessory = '';
+
+			if($('input[name="color"]').length > 0){
+				id_color = $('input[name="color"]').val();
+			}
+			
+			if($('input[name="accessory"]').length > 0){
+				id_accessory = $('input[name="accessory"]').val();
+			}
+			
+
+			window.location.href = route_mua_ngay + '?id_color=' + id_color + '&id_accessory=' + id_accessory
+			});
+
+	});
 
 </script>
 
