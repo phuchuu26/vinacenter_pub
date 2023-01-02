@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductOptionAddRequest;
 use App\Http\Requests\ProductOptionEditRequest;
+use App\Models\Accessory;
+use App\Models\AccessoryDetail;
+use App\Models\Color;
+use App\Models\ColorDetail;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
@@ -111,11 +115,14 @@ class ProductOptionController extends Controller
         }
                
     }
+
     public function getProductOptionEdit($id,$pro_id){
         try{
             $productType = ProductType::get()->toArray();
             $productCollection = ProductCollection::get()->toArray();
             $data = ProductOption::findOrFail($id)->toArray();
+            $color_details =  ColorDetail::where('id_product_option', $id)->get();
+            $accessory_details =  AccessoryDetail::where('id_product_option', $id)->get();
             $voucher = ProductOption::findOrFail($id)->voucher;
             $productImg = ProductImage::where('product_id',$pro_id)->get()->toArray();
             return view('admin.module.productoptions.edit',[
@@ -124,11 +131,15 @@ class ProductOptionController extends Controller
                 'productType'       => $productType,
                 'productCollection' => $productCollection,
                 'voucher' => $voucher,
+                'color_details' => $color_details,
+                'accessory_details' => $accessory_details,
+                'id_product' => $pro_id,
             ]);
         }catch(ModelNotFoundException $e) {
              return redirect()->back();
         }     
     }
+
     public function postProductOptionEdit(ProductOptionEditRequest $request,$id){
         $product_id = $request->product_id;
         $productoption = ProductOption::find($id);
@@ -205,4 +216,86 @@ class ProductOptionController extends Controller
             return redirect()->back();
         }
     }
+
+    public function getAddColorDetail($id_product_option){
+        try{
+            $productoption = ProductOption::where('id', $id_product_option)->first();
+            // dd(  $productoption );
+            $product = $productoption->product;
+            $color = Color::select('name_color', 'id_color')->get()->toArray();
+            // dd($productoption);
+            return view('admin.module.productoptions.add_color',[
+                'productoption'     => $productoption,
+                'product'     => $product,
+                'color'     => $color,
+            ]);
+        }catch(ModelNotFoundException $e) {
+             return redirect()->back();
+        }     
+    }
+ 
+    public function postAddColorDetail(Request $request,$id_product_option){
+		
+        $productOption = ProductOption::where('id', $id_product_option)->first();
+        $product = $productOption->product;
+        // dd($productOption, $product);
+
+		if(empty($id_product_option)){
+			return redirect()->back();
+		}
+
+        $ColorDetail = new ColorDetail();
+    	$ColorDetail->id_color =  $request->id_color;
+    	$ColorDetail->id_product_option = $id_product_option;
+    	$ColorDetail->value =  $request->value;
+        $ColorDetail->save();
+
+		return redirect()->route('getProductOptionEdit', ['id' => $productOption->id, 'pro_id' => $product->id])->with(['flash_level' => 'alert-success','flash_message' => 'Thêm thành công']);
+    }
+   
+    public function getEditColorDetail($id_product_option, $id_color_detail){
+        try{
+            $productoption = ProductOption::where('id', $id_product_option)->first();
+
+            $color = Color::select('name_color', 'id_color')->get()->toArray();
+
+            return view('admin.module.productoptions.add_color',[
+                'productoption'     => $productoption,
+                'color'     => $color,
+            ]);
+        }catch(ModelNotFoundException $e) {
+             return redirect()->back();
+        }     
+    }
+
+    public function postEditColorDetail($id_product_option){
+        try{
+            $productoption = ProductOption::where('id', $id_product_option)->first();
+
+            $color = Color::select('name_color', 'id_color')->get()->toArray();
+
+            return view('admin.module.productoptions.add_color',[
+                'productoption'     => $productoption,
+                'color'     => $color,
+            ]);
+        }catch(ModelNotFoundException $e) {
+             return redirect()->back();
+        }     
+    }
+
+    public function getDeleteColorDetail($id_product_option, $id_color_detail){
+    	try{
+            $ProductOption = ProductOption::where('id', $id_product_option)->first();
+            $product = $ProductOption->product;
+            
+            $ColorDetail = ColorDetail::where('id_color_detail', $id_color_detail)->first();
+            
+            $ColorDetail->delete();
+            return redirect()->route('getProductOptionEdit', ['id' => $ProductOption->id, 'pro_id' => $product->id])->with(['flash_level' => 'alert-success','flash_message' => 'Xóa option màu sắc thành công']);
+
+        }catch(ModelNotFoundException $e) {
+            return redirect()->route('getProductOptionEdit', ['id' => $ProductOption->id, 'pro_id' => $product->id])->with(['flash_level' => 'alert-success','flash_message' => 'Xóa option màu sắc thất bại']);
+        }
+    }
+
 }

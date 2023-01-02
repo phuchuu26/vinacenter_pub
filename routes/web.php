@@ -235,7 +235,13 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
             Route::post('edit/{id}/{pro_id}',['as' => 'postProductOptionEdit','uses' => 'ProductOptionController@postProductOptionEdit'])->where('id','[0-9]+');
             Route::get('search-product-option',['as' => 'searchProductOption','uses' => 'ProductOptionController@searchProductOption']);
             Route::get('get-price-product-option/{id_product_option}',['as' => 'getPriceProductOption','uses' => 'ProductOptionController@getPriceProductOption']);
+            
+            Route::get('add-color-detail/{id_product_option}',['as' => 'getAddColorDetail','uses' => 'ProductOptionController@getAddColorDetail']);
+            Route::post('add-color-detail/{id_product_option}',['as' => 'postAddColorDetail','uses' => 'ProductOptionController@postAddColorDetail']);
+            Route::post('edit-color-detail/{id_product_option}/{id_color_detail}',['as' => 'getEditColorDetail','uses' => 'ProductOptionController@getEditColorDetail']);
+            Route::get('delete-color-detail/{id_product_option}/{id_color_detail}',['as' => 'getDeleteColorDetail','uses' => 'ProductOptionController@getDeleteColorDetail']);
         });
+
         Route::group(['prefix' => 'statics'],function(){       
             Route::get('list',['as' => 'getStaticsList','uses' => 'StaticsController@getStaticsList']);
             Route::get('edit/{id}',['as' => 'getStaticsEdit','uses' => 'StaticsController@getStaticsEdit'])->where('id','[0-9]+');

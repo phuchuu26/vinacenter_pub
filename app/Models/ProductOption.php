@@ -22,4 +22,9 @@ class ProductOption extends Model
         return $this->hasOne(Voucher::class, 'id_voucher', 'voucher_code');
     }
 
+    public function colorDetail()
+    {
+        return $this->hasOne(ColorDetail::class, 'id_product_option', 'id');
+    }
+
 }
