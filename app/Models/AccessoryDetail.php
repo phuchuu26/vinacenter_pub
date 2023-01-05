@@ -17,4 +17,8 @@ class AccessoryDetail extends Model
         return $this->hasOne(ProductOption::class, 'id', 'id_product_option');
     }
 
+    public function accessory()
+    {
+        return $this->hasOne(Accessory::class, 'id_accessory', 'id_accessory');
+    }
 }

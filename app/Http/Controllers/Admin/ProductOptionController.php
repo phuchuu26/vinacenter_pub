@@ -315,4 +315,105 @@ class ProductOptionController extends Controller
         }
     }
 
+
+
+
+    // phu kien
+
+    public function getAddAccessoryDetail($id_product_option){
+        try{
+            $productoption = ProductOption::where('id', $id_product_option)->first();
+            // dd(  $productoption );
+            $product = $productoption->product;
+
+            $accessory = Accessory::select('name_accessory', 'id_accessory')->get()->toArray();
+            return view('admin.module.productoptions.add_accessory',[
+                'productoption'     => $productoption,
+                'product'     => $product,
+                'color'     => $accessory,
+            ]);
+        }catch(ModelNotFoundException $e) {
+             return redirect()->back();
+        }     
+    }
+ 
+    public function postAddAccessoryDetail(Request $request,$id_product_option){
+        $productOption = ProductOption::where('id', $id_product_option)->first();
+        $product = $productOption->product;
+        // dd($productOption, $product);
+
+		if(empty($id_product_option)){
+			return redirect()->back();
+		}
+
+        $is_exist = AccessoryDetail::where('id_accessory', $request->id_accessory)
+        ->where('id_product_option', $request->id_product_option)
+        ->first();
+        if(!empty( $is_exist)){
+            return redirect()->back()->with('message_error', 'Option màu đã tồn tại.');;
+        }
+
+        $ColorDetail = new AccessoryDetail();
+    	$ColorDetail->id_accessory =  $request->id_accessory;
+    	$ColorDetail->id_product_option = $id_product_option;
+    	$ColorDetail->value =  $request->value;
+        $ColorDetail->save();
+
+		return redirect()->route('getProductOptionEdit', ['id' => $productOption->id, 'pro_id' => $product->id])->with(['flash_level' => 'alert-success','flash_message' => 'Thêm thành công']);
+    }
+   
+    public function getEditAccessoryDetail($id_product_option, $id_accessory_detail){
+        try{
+            $productoption = ProductOption::where('id', $id_product_option)->first();
+            $product = $productoption->product;
+            $accessoryDetail = AccessoryDetail::where('id_accessory_detail', $id_accessory_detail)->first();
+
+
+            $accessory = Accessory::select('name_accessory', 'id_accessory')->get()->toArray();
+            // dd($productoption, $color, $colorDetail);
+
+            return view('admin.module.productoptions.edit_accessory',[
+                'productoption'     => $productoption,
+                'accessory'     => $accessory,
+                'product'     => $product,
+                'accessoryDetail'     => $accessoryDetail,
+            ]);
+        }catch(ModelNotFoundException $e) {
+             return redirect()->back();
+        }     
+    }
+
+    public function postEditAccessoryDetail(Request $request, $id_product_option, $id_accessory_detail){
+        try{
+            $productOption = ProductOption::where('id', $id_product_option)->first();
+            $product = $productOption->product;
+
+            $accessoryDetail = AccessoryDetail::where('id_accessory_detail', $id_accessory_detail)->first();
+            
+            // $colorDetail->value = $$request->id_color;
+            $accessoryDetail->value = $request->value;
+            $accessoryDetail->save();
+
+            return redirect()->route('getProductOptionEdit', ['id' => $productOption->id, 'pro_id' => $product->id])
+            ->with(['flash_level' => 'alert-success','flash_message' => 'Cập nhật thành công']);
+
+        }catch(ModelNotFoundException $e) {
+             return redirect()->back();
+        }     
+    }
+
+    public function getDeleteAccessoryDetail($id_product_option, $id_accessory_detail){
+    	try{
+            $ProductOption = ProductOption::where('id', $id_product_option)->first();
+            $product = $ProductOption->product;
+            
+            $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', $id_accessory_detail)->first();
+                // dd( $product);
+            $AccessoryDetail->delete();
+            return redirect()->route('getProductOptionEdit', ['id' => $ProductOption->id, 'pro_id' => $product->id])->with(['flash_level' => 'alert-success','flash_message' => 'Xóa option màu sắc thành công']);
+
+        }catch(ModelNotFoundException $e) {
+            return redirect()->route('getProductOptionEdit', ['id' => $ProductOption->id, 'pro_id' => $product->id])->with(['flash_level' => 'alert-success','flash_message' => 'Xóa option màu sắc thất bại']);
+        }
+    }
 }

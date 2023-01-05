@@ -236,11 +236,19 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
             Route::get('search-product-option',['as' => 'searchProductOption','uses' => 'ProductOptionController@searchProductOption']);
             Route::get('get-price-product-option/{id_product_option}',['as' => 'getPriceProductOption','uses' => 'ProductOptionController@getPriceProductOption']);
             
+            //mau sac
             Route::get('add-color-detail/{id_product_option}',['as' => 'getAddColorDetail','uses' => 'ProductOptionController@getAddColorDetail']);
             Route::post('add-color-detail/{id_product_option}',['as' => 'postAddColorDetail','uses' => 'ProductOptionController@postAddColorDetail']);
             Route::get('edit-color-detail/{id_product_option}/{id_color_detail}',['as' => 'getEditColorDetail','uses' => 'ProductOptionController@getEditColorDetail']);
             Route::post('edit-color-detail/{id_product_option}/{id_color_detail}',['as' => 'postEditColorDetail','uses' => 'ProductOptionController@postEditColorDetail']);
             Route::get('delete-color-detail/{id_product_option}/{id_color_detail}',['as' => 'getDeleteColorDetail','uses' => 'ProductOptionController@getDeleteColorDetail']);
+            
+            // phu kien
+            Route::get('add-accessory-detail/{id_product_option}',['as' => 'getAddAccessoryDetail','uses' => 'ProductOptionController@getAddAccessoryDetail']);
+            Route::post('add-accessory-detail/{id_product_option}',['as' => 'postAddAccessoryDetail','uses' => 'ProductOptionController@postAddAccessoryDetail']);
+            Route::get('edit-accessory-detail/{id_product_option}/{id_accessory_detail}',['as' => 'getEditAccessoryDetail','uses' => 'ProductOptionController@getEditAccessoryDetail']);
+            Route::post('edit-accessory-detail/{id_product_option}/{id_accessory_detail}',['as' => 'postEditAccessoryDetail','uses' => 'ProductOptionController@postEditAccessoryDetail']);
+            Route::get('delete-accessory-detail/{id_product_option}/{id_accessory_detail}',['as' => 'getDeleteAccessoryDetail','uses' => 'ProductOptionController@getDeleteAccessoryDetail']);
         });
 
         Route::group(['prefix' => 'statics'],function(){       

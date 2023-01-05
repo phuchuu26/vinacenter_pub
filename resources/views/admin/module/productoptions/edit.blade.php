@@ -169,7 +169,6 @@
                                 @if(!empty($color_details))
                                 @php
                                 $stt = 0;
-                                
                                 @endphp
                                     @foreach ($color_details as $item)
                                         @php
@@ -220,11 +219,102 @@
             </table>
            
 		</div>
+
+			<div class="col-lg-12">
+		
+            <table class="table col-lg-12 table bg-light" >
+                <tr >
+                    <td width="100%">
+                            <span>
+                                Thông tin Option Phụ kiện:
+                            </span>
+                              
+                            <a style=" float: right;" href="{{route('getAddAccessoryDetail', [ 'id_product_option' => data_get($productoption, 'id') ])}}" b class="btn btn-success">
+                                <i class="fa fa-plus-square" aria-hidden="true"></i> Thêm Option Phụ kiện
+                            </a>   
+                    </td>
+				</tr >
+				
+				<tr >
+                    <td width="100%">
+
+                        <table class="table">
+                            <thead>
+                                <tr  class="bg-light">
+                                    <th>STT</th>
+                                    <th>Phụ kiện</th>
+                                    <th>Đơn giá</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Ngày chỉnh sửa</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody style="width: 100%">
+                                @if(!empty($accessory_details))
+                                @php
+                                $stt = 0;
+                                
+                                @endphp
+                                    @foreach ($accessory_details as $item)
+                                        @php
+                                            $stt++;
+                                        @endphp
+                                        <tr >
+                                            <th style="     max-width: 225px;     font-weight: normal;  font-size: 0.9em;">
+                                                {{$stt}}
+                                            </th>
+                                            <th style="     width: 225px;     font-weight: normal;  font-size: 0.9em;">
+                                                {{$item->accessory->name_accessory}}
+                                            </th>
+
+                                            <th style="   width: 225px;     font-weight: normal;  font-size: 0.9em;">
+                                                {{ number_format(data_get($item, 'value') )  .'đ'}}
+                                            </th>
+                                            
+                                            <th style="     max-width: 225px;     font-weight: normal;  font-size: 0.9em;">
+                                                {{data_get($item, 'created_at')}}
+                                            </th>
+                                    
+											<th style="     max-width: 225px;     font-weight: normal;  font-size: 0.9em;">
+                                                {{data_get($item, 'updated_at')}}
+                                            </th>
+
+                                            <th style="   width: 12%;   font-weight: normal;">
+                                                  
+                                                <a  href="{{ route('getEditAccessoryDetail' , ['id_product_option' => $item->id_product_option, 'id_accessory_detail' => $item->id_accessory_detail ])}}" style="font-size:10px!important;"  type="button" class="btn btn-info">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i> Chỉnh sửa Option
+                                                </a>  
+                                            </th>
+
+											<th style="   width: 10%;   font-weight: normal;">
+                                                  
+                                                <a  href="{{ route('getDeleteAccessoryDetail' , ['id_product_option' => $item->id_product_option, 'id_accessory_detail' => $item->id_accessory_detail ])}}" style="font-size:10px!important;"  type="button" class="btn btn-danger">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Xoá Option
+                                                </a>  
+                                            </th>
+                                        </tr>
+                                    @endforeach
+
+                                   
+                                @endif
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+           
+		</div>
 		
 		<input type="hidden" name="product_id" value="{!! $productoption["product_id"] !!}" />
 		<input type="hidden" id="amount" value="{!! $productoption["amount"] !!}" />
 		@if(\Auth::user()->role == '1')
-			<div class="col-lg-12"><input type="submit" name="btnProAdd" value="Cập nhật Option" class="btn btn-success pull-right btn_option_update" /></div>
+			<div class="col-lg-12">
+			<br>
+			</div>
+			
+			
+			<div class="col-lg-12"><input type="submit" name="btnProAdd" value="Cập nhật Option" class="btn btn-info pull-right btn_option_update" /></div>
 			</div>
 		@endif
 	</form>

@@ -26,5 +26,11 @@ class ProductOption extends Model
     {
         return $this->hasOne(ColorDetail::class, 'id_product_option', 'id');
     }
+    
+    
+    public function accessoryDetail()
+    {
+        return $this->hasOne(AccessoryDetail::class, 'id_product_option', 'id');
+    }
 
 }
