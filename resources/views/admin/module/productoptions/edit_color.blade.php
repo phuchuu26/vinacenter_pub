@@ -24,13 +24,14 @@
     <div class="table-agile-info">
         <div class="col-lg-12 ">
             <h5>Thêm mới Option màu sắc</h5>
-        </div>
+        </div>  
 
         <div class="panel panel-default">
             <table class="table">
                 <tbody>
 
-                    <form action="{{ route('postAddColorDetail', ['id' =>  $productoption->id ])}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('postEditColorDetail', ['id_product_option' =>  $productoption->id , 
+                    'id_color_detail' => $colorDetail->id_color_detail ])}}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     
       
@@ -58,9 +59,12 @@
                                     </div>
                                     
                                     <select id="id_color" name="id_color"  class="form-control">
-
                                         @foreach ($color as $c)
-                                           <option value="{{$c['id_color']}}">{{ $c['name_color'] }}</option>
+                                            @if ($colorDetail->id_color == data_get($c, 'id_color'))
+                                                <option selected value="{{$c['id_color']}}">{{ $c['name_color'] }}</option>
+                                            @else   
+                                                <option value="{{$c['id_color']}}">{{ $c['name_color'] }}</option>
+                                           @endif
                                        @endforeach
                                    </select>
 
@@ -80,7 +84,7 @@
                                         <span class="input-group-text" style="width: 170px">Đơn giá:</span>
                                     </div>
                                     <input required min="{{$productoption->value}}" type="number" name="value" id="value" placeholder="Nhập đơn giá" class="form-control" value="{{ 
-                                    trim($productoption->value) }}" />
+                                        $colorDetail->value ?? trim($productoption->value) }}" />
 
                                 </div>
                             </div>
@@ -110,7 +114,7 @@
             </div>
             
             <div  class="col-lg-6">
-                <button style="float: right!important;" type="submit" name="btnNewsAdd"  class="btn btn-success" >Thêm Option màu sắc</button>
+                <button style="float: right!important;" type="submit" name="btnNewsAdd"  class="btn btn-success" >Cập nhật Option màu sắc</button>
                 
             </div>
         </div>

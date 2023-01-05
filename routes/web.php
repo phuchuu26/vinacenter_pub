@@ -238,7 +238,8 @@ Route::group(['middleware' => ['auth', 'check_update_info']], function () {
             
             Route::get('add-color-detail/{id_product_option}',['as' => 'getAddColorDetail','uses' => 'ProductOptionController@getAddColorDetail']);
             Route::post('add-color-detail/{id_product_option}',['as' => 'postAddColorDetail','uses' => 'ProductOptionController@postAddColorDetail']);
-            Route::post('edit-color-detail/{id_product_option}/{id_color_detail}',['as' => 'getEditColorDetail','uses' => 'ProductOptionController@getEditColorDetail']);
+            Route::get('edit-color-detail/{id_product_option}/{id_color_detail}',['as' => 'getEditColorDetail','uses' => 'ProductOptionController@getEditColorDetail']);
+            Route::post('edit-color-detail/{id_product_option}/{id_color_detail}',['as' => 'postEditColorDetail','uses' => 'ProductOptionController@postEditColorDetail']);
             Route::get('delete-color-detail/{id_product_option}/{id_color_detail}',['as' => 'getDeleteColorDetail','uses' => 'ProductOptionController@getDeleteColorDetail']);
         });
 

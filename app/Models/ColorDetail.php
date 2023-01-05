@@ -11,6 +11,7 @@ class ColorDetail extends Model
     
     protected $table ='color_detail';
     protected $guarded = [];
+    protected $primaryKey = 'id_color_detail';
 
     public function productOption()
     {

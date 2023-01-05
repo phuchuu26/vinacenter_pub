@@ -160,6 +160,7 @@
                                     <th>Màu sắc</th>
                                     <th>Đơn giá</th>
                                     <th>Ngày tạo</th>
+                                    <th>Ngày chỉnh sửa</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -178,22 +179,33 @@
                                             <th style="     max-width: 225px;     font-weight: normal;  font-size: 0.9em;">
                                                 {{$stt}}
                                             </th>
-                                            <th style="     max-width: 225px;     font-weight: normal;  font-size: 0.9em;">
+                                            <th style="     width: 225px;     font-weight: normal;  font-size: 0.9em;">
                                                 {{$item->color->name_color}}
                                             </th>
 
-                                            <th style="      font-weight: normal;  font-size: 0.9em;">
+                                            <th style="   width: 225px;     font-weight: normal;  font-size: 0.9em;">
                                                 {{ number_format(data_get($item, 'value') )  .'đ'}}
                                             </th>
                                             
                                             <th style="     max-width: 225px;     font-weight: normal;  font-size: 0.9em;">
                                                 {{data_get($item, 'created_at')}}
                                             </th>
-                                        
-                                            <th style="   width: 8%;   font-weight: normal;">
-                                             
+                                    
+											<th style="     max-width: 225px;     font-weight: normal;  font-size: 0.9em;">
+                                                {{data_get($item, 'updated_at')}}
+                                            </th>
+
+                                            <th style="   width: 12%;   font-weight: normal;">
+                                                  
+                                                <a  href="{{ route('getEditColorDetail' , ['id_product_option' => $item->id_product_option, 'id_color_detail' => $item->id_color_detail ])}}" style="font-size:10px!important;"  type="button" class="btn btn-info">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i> Chỉnh sửa Option
+                                                </a>  
+                                            </th>
+
+											<th style="   width: 10%;   font-weight: normal;">
+                                                  
                                                 <a  href="{{ route('getDeleteColorDetail' , ['id_product_option' => $item->id_product_option, 'id_color_detail' => $item->id_color_detail ])}}" style="font-size:10px!important;"  type="button" class="btn btn-danger">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i> Xoá SP
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Xoá Option
                                                 </a>  
                                             </th>
                                         </tr>

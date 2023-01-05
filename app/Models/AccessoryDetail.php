@@ -10,6 +10,7 @@ class AccessoryDetail extends Model
     
     protected $table ='accessory_detail';
     protected $guarded = [];
+    protected $primaryKey = 'id_accessory_detail';
 
     public function productOption()
     {
