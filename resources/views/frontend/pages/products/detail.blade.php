@@ -503,9 +503,16 @@ function sumSubPrice()
 {
 	var sub_price_color = $("#sub_price_color").val();
 	var sub_price_accessory = $("#sub_price_accessory").val();
+ 
+  if(typeof  sub_price_color == 'undefined'){
+    sub_price_color = 0
+  }
+  if(typeof  sub_price_accessory == 'undefined'){
+    sub_price_accessory = 0
+  }
+
 	var default_price = $("#default_price").val();
 	total = parseInt(sub_price_color) + parseInt(sub_price_accessory) + parseInt(default_price)
-
 	total = total.toLocaleString('en-US') 
 	$('#default_price_show').html(	total )
 

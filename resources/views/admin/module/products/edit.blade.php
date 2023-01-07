@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12">
+                {{-- <div class="col-lg-12">
                     <div class="input-group mb-3">
                         <div  class="input-group-prepend">
                             <span style="width: 127px" class="input-group-text">Phụ kiện</span>
@@ -72,7 +72,7 @@
                                @endforeach
                             </select>
                     </div>
-                </div>
+                </div> --}}
 
 
                 <div class="col-lg-12 mb-2">
@@ -143,46 +143,46 @@
     </div>
     <script type="text/javascript">
 
-        $(document).ready(function() {
-                $("#id_accessory").select2({
-                    multiple: true,
-                    allowClear: false
-                });   
-                $("#id_color").select2({
-                    multiple: true,
-                    allowClear: false
-                });
+        // $(document).ready(function() {
+        //         $("#id_accessory").select2({
+        //             multiple: true,
+        //             allowClear: false
+        //         });   
+        //         $("#id_color").select2({
+        //             multiple: true,
+        //             allowClear: false
+        //         });
 
-                var id_accessory_json = $('#id_accessory_json').val();
+        //         var id_accessory_json = $('#id_accessory_json').val();
                 
-                // one clears the box content and the other clears the highlighting
-                if(id_accessory_json == ''){
-                    var id_accessory = [];
-                }else{
-                    var id_accessory = JSON.parse(id_accessory_json);
+        //         // one clears the box content and the other clears the highlighting
+        //         if(id_accessory_json == ''){
+        //             var id_accessory = [];
+        //         }else{
+        //             var id_accessory = JSON.parse(id_accessory_json);
 
-                }
-                $('#id_accessory').val(id_accessory);
-                $('#id_accessory').trigger('change');
-                // $('.select2-selection__rendered').html();
+        //         }
+        //         $('#id_accessory').val(id_accessory);
+        //         $('#id_accessory').trigger('change');
+        //         // $('.select2-selection__rendered').html();
 
                 
              
-                var id_color_json = $('#id_color_json').val();
+        //         var id_color_json = $('#id_color_json').val();
 
-                if(id_color_json == ''){
-                    var id_color = [];
-                }else{
-                    var id_color = JSON.parse(id_color_json);
+        //         if(id_color_json == ''){
+        //             var id_color = [];
+        //         }else{
+        //             var id_color = JSON.parse(id_color_json);
 
-                }
+        //         }
             
-                // one clears the box content and the other clears the highlighting
-                $('#id_color').val(id_color);
-                $('#id_color').trigger('change');
-                // one clears the box content and the other clears the highlighting
-                // $('.select2-selection__rendered').html('');
-        });
+        //         // one clears the box content and the other clears the highlighting
+        //         $('#id_color').val(id_color);
+        //         $('#id_color').trigger('change');
+        //         // one clears the box content and the other clears the highlighting
+        //         // $('.select2-selection__rendered').html('');
+        // });
         
         tinymce.init({
             selector: '#txtFull',

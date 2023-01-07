@@ -43,7 +43,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12">
+                {{-- <div class="col-lg-12">
                     <div class="input-group mb-3">
                         <div  class="input-group-prepend">
                             <span style="width: 127px" class="input-group-text">Phụ kiện</span>
@@ -54,9 +54,9 @@
                                @endforeach
                             </select>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="col-lg-12">
+                {{-- <div class="col-lg-12">
                     <div class="input-group mb-3">
                         <div  class="input-group-prepend">
                             <span style="width: 127px" class="input-group-text">Màu sắc</span>
@@ -67,7 +67,7 @@
                                @endforeach
                             </select>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="col-lg-12 mb-2">
                     <div class="form-check-inline">

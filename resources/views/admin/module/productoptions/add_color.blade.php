@@ -79,8 +79,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" style="width: 170px">Đơn giá:</span>
                                     </div>
-                                    <input required min="{{$productoption->value}}" type="number" name="value" id="value" placeholder="Nhập đơn giá" class="form-control" value="{{ 
-                                    trim($productoption->value) }}" />
+                                    <input required  type="number" name="value" id="value" placeholder="Nhập đơn giá" class="form-control" value="0" />
 
                                 </div>
                             </div>

@@ -75,6 +75,17 @@ class CartController extends Controller
         $colors = Color::all()->pluck('name_color', 'id_color')->toArray();
         $accessories = Accessory::all()->pluck('name_accessory', 'id_accessory')->toArray();
 
+        
+        if(!empty($id_color_detail)){
+            $color_detail = ColorDetail::where('id_color_detail' , $id_color_detail)->first();
+            $color = $color_detail->color->name_color;
+        }
+
+        if(!empty($id_accessory_color)){
+            $accessory_color = AccessoryDetail::where('id_accessory_detail' , $id_accessory_color)->first();
+            $accessory = $accessory_color->accessory->name_accessory;
+        }
+
         //Cart::remove('1f9c72245d8a36709a96d76a6145a164 ');
         //print_r(compact('content'));die;
         return view('frontend.pages.cart.list', compact('content', 'colors', 'accessories'));
