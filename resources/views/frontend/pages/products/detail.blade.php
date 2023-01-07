@@ -162,7 +162,13 @@ input[type="radio"]:checked + label {
           @endif
           <div class="price-box">
     	<span class="special-price">
-    		<span class="price">{!! number_format($data['value']) !!}₫
+			
+			<input hidden type="text"  value="{{$data['value']}}"  id="default_price" >
+
+
+    		<span  id="default_price_show" class="price">{!! number_format($data['value']) !!}
+    	</span>
+		<span  id="default_price_show" class="price">₫
     	</span>
     	</span>
             <span class="old-price">
@@ -172,31 +178,34 @@ input[type="radio"]:checked + label {
           <div class="short-description">
             <p class="rte"> {!! $data['sumary'] !!} </p>
           </div> 
-		  
-        @if(!empty($group_color))
+        @if(count($group_color) > 0)
           
           <div class="short-description">
               <p id="color_des" class="rte">
                 Nhóm màu :		
               </p>
           </div>
+		  <input hidden type="number"  value='0' id="sub_price_color">
       
             <p id="color_error" style="display: none;color: red; " class="rte">
               Vui lòng chọn màu sản phẩm	
             </p>
 
-			
-			@foreach ($group_color as $co)
+			@foreach ($group_color as $detailColor)
+	
 			
 
 				<label class="label_color">
 					@php
+            $co = $detailColor->color;
 						$color_picker = data_get($co, 'color_picker');
 						$id_color = data_get($co, 'id_color');
 					@endphp
+
+				
 					
 					<input  class="test" value="{!! $color_picker !!}" color_name="{!! data_get($co, 'name_color') !!}" for="{!! $color_picker !!}" type="radio" name="color"
-					id_color="{!! $id_color !!}" id="{!! $color_picker !!}" value="{{ $id_color }}">
+					id_color="{!!  data_get($detailColor, 'id_color_detail') !!}" id="{!! $color_picker !!}" value="{{ $id_color }}" sub_price="{!!  data_get($detailColor, 'value') !!}">
 
 					<label class="a">
 						<input type="color" id="" name="color_picker"  class="color_picker" disabled value="{!! $color_picker !!}"><br><br>    
@@ -210,7 +219,7 @@ input[type="radio"]:checked + label {
 		
 	
 
-		@if(!empty($group_accessory))
+		@if(count($group_accessory) > 0)
 
 		
 		<div class="short-description">
@@ -222,14 +231,19 @@ input[type="radio"]:checked + label {
 			Vui lòng chọn phụ kiện đi kèm	
 		</p>
 
-    
-		@foreach ($group_accessory as $acc)
-		
+    	<input hidden type="number"  value='0' id="sub_price_accessory">
+
+		@foreach ($group_accessory as $detailAccessory)
+			@php
+				$acc = $detailAccessory->accessory;
+			@endphp
 
 			<label class="label_accessory">
 				<input  class="test" value="{!! data_get($acc, 'id_accessory') !!}" name_accessory="{!! data_get($acc, 'name_accessory') !!}" for="{!! data_get($acc, 'id_accessory') !!}" type="radio" name="accessory"
-				id_accessory="{!! data_get($acc, 'id_accessory') !!}"
-				id="{!! data_get($acc, 'id_accessory') !!}" value="{{data_get($acc, 'id_accessory')}}">
+				id_accessory="{!! data_get($detailAccessory, 'id_accessory_detail') !!}"
+				id="{!! data_get($acc, 'id_accessory') !!}" value="{{data_get($acc, 'id_accessory')}}"
+				sub_price="{!!  data_get($detailAccessory, 'value') !!}"
+				>
 
 				<label class="">
 					<input style="min-height: 29px;" type="text" id="{!! data_get($acc, 'id_accessory') !!}" name=""  class="" disabled value="{!! data_get($acc, 'name_accessory') !!}"><br><br>    
@@ -462,6 +476,8 @@ input[type="radio"]:checked + label {
 
   <script type="text/javascript">
 
+var price = 0;
+
 $("#review").val("");
 
 $('.label_color').click(function(){
@@ -469,11 +485,31 @@ $('.label_color').click(function(){
 	$(this).find('input[name="color"]').prop('checked', true);
 	let color_des = $(this).find('input[type="radio"]').attr("color_name");
 	let id_color = $(this).find('input[type="radio"]').attr("id_color");
-	console.log(color_des)
+	let sub_price = $(this).find('input[type="radio"]').attr("sub_price");
+	
+	$("#sub_price_color").val(sub_price);
+	
+
+
+	console.log(sub_price, price)
 	$("#color_des").html(`Nhóm màu : ${color_des}`);
 	$('input[name="color"]').val(id_color);
 
+	sumSubPrice()
+
 });
+
+function sumSubPrice()
+{
+	var sub_price_color = $("#sub_price_color").val();
+	var sub_price_accessory = $("#sub_price_accessory").val();
+	var default_price = $("#default_price").val();
+	total = parseInt(sub_price_color) + parseInt(sub_price_accessory) + parseInt(default_price)
+
+	total = total.toLocaleString('en-US') 
+	$('#default_price_show').html(	total )
+
+}
 
 
 $('.label_accessory').click(function(){
@@ -481,10 +517,15 @@ $('.label_accessory').click(function(){
 	$(this).find('input[name="accessory"]').prop('checked', true);
 	let name_accessory = $(this).find('input[type="radio"]').attr("name_accessory");
 	let id_accessory = $(this).find('input[type="radio"]').attr("id_accessory");
-	console.log(id_accessory)
+	let sub_price = $(this).find('input[type="radio"]').attr("sub_price");
+	
+	$("#sub_price_accessory").val(sub_price);
+
 	$("#accessory_des").html(`Phụ kiện : ${name_accessory}`);
 	$('input[name="accessory"]').val(id_accessory);
 	// $('.toggle img').attr('src', 'something.jpg');
+
+	sumSubPrice()
 
 });
     // $("#input-id").rating();

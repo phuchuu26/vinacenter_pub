@@ -67,13 +67,13 @@
                                 <br>
                                 @if(!empty($item->options['id_color']))
                                     <p>
-                                        Màu sắc : {{ data_get($colors, $item->options['id_color'], '')}}
+                                        Màu sắc : {{ $color ?? ''}}
                                     </p>
                                     @endif
 
                                 @if(!empty($item->options['id_accessory']))
                                     <p>
-                                      Phụ kiện : {{ data_get($accessories, $item->options['id_accessory'], '')}}
+                                      Phụ kiện : {{ $accessory ?? '' }}
                                     </p>
                                 @endif
                             </td>

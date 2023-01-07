@@ -24,13 +24,13 @@ class ProductOption extends Model
 
     public function colorDetail()
     {
-        return $this->hasOne(ColorDetail::class, 'id_product_option', 'id');
+        return $this->hasMany(ColorDetail::class, 'id_product_option', 'id');
     }
     
     
     public function accessoryDetail()
     {
-        return $this->hasOne(AccessoryDetail::class, 'id_product_option', 'id');
+        return $this->hasMany(AccessoryDetail::class, 'id_product_option', 'id');
     }
 
 }

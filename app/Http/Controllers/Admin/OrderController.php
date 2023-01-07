@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accessory;
+use App\Models\AccessoryDetail;
 use App\Models\Color;
+use App\Models\ColorDetail;
 use App\Models\Customer;
 use App\Models\District;
 use App\Models\OrderDetail;
@@ -250,21 +252,36 @@ class OrderController extends Controller
                 // {{number_format($detail->qty*($price_ - $detail->dealer ) + $detail->discount )}}
 
                 $prices = $prices + ($price_ * $de->qty);
+
+                if(!empty(data_get($de, 'id_color'))){
+                    $colors = ColorDetail::where('id_color_detail' , data_get($de, 'id_color'))->first();
+                    $de->colorDetail = $colors; 
+                    $colors = $colors->color;
+                    $de->colors = $colors ; 
+                    
+                  
+                }
+
+
+                if(!empty(data_get($de, 'id_accessory'))){
+                    $accessories = AccessoryDetail::where('id_accessory_detail' , data_get($de, 'id_accessory'))->first();
+                    $de->accessoryDetail = $accessories; 
+                    $accessories = $accessories->accessory;
+                    $de->accessories = $accessories; 
+                }
             }
             $customer->bon = $bon;
             $customer->prices = $prices;
             $customer->depo = $depo[0]->depo;
             
-            $colors = Color::all()->pluck('name_color', 'id_color')->toArray();
-            $accessories = Accessory::all()->pluck('name_accessory', 'id_accessory')->toArray();
 
             return view('admin.module.orders.detail', [
                 'customer' => $customer,
                 'data' => $detail->toArray(),
                 'user' => $user,
                 'order_id' => $id,
-                'colors' => $colors,
-                'accessories' => $accessories
+                'colors' => $colors ?? '',
+                'accessories' => $accessories ?? ''
             ]);
         } catch (ModelNotFoundException $e) {
             return redirect()->back();

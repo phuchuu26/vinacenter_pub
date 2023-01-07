@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Requests\CartAddCompleteRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Accessory;
+use App\Models\AccessoryDetail;
 use App\Models\Color;
+use App\Models\ColorDetail;
 use App\Models\ProductOption;
 use Cart;
 use App\Models\OrderProduct;
@@ -30,16 +32,30 @@ class CartController extends Controller
         //Cart::destroy();die;
         //echo Cart::tax();die;
         $params = $request->all();
-        // if($request->)
+       
+
+
         $product_buy = ProductOption::where('id', $id)->first();
-        
+        $price = $product_buy->value;
+
+
+        if(data_get($params, 'id_color')){
+            $colorDetail = ColorDetail::where('id_color_detail', data_get($params, 'id_color'))->first();
+            $price += (int) data_get($colorDetail, 'value');
+        }
+
+        if(data_get($params, 'id_accessory')){
+            $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', data_get($params, 'id_accessory'))->first();
+            $price += (int) data_get($AccessoryDetail, 'value');
+        }
+
         Cart::add(
             array(
                 'id' => $id,
                 'name' => $product_buy->name,
                 'qty' => 1,
                 'test' =>2,
-                'price' => $product_buy->value,
+                'price' => $price,
                 'options' => array(
                     'yprice' => '',
                     'ycoc' => '',
@@ -110,20 +126,38 @@ class CartController extends Controller
         $data = [];
         $content = Cart::content();
         foreach ($content as $item) {
+            // dd($item);
+
             $count_option = ProductOption::select('amount','value')->where('id', $item->id)->first();
+            
             $count_order_detail = OrderDetail::where('product_id', $item->id)->get()->sum('qty');
             $total = $count_option['amount'] - $count_order_detail;
             $amount = $total > 0 ? $total : 0;
 
             $item->amount = $amount;
-            $item->summary = $item->qty * $count_option['value'];
+            $item->summary = $item->qty *  data_get($item, 'price');
+            // $item->summary = $item->qty * $count_option['value'];
 
             array_push($data, $item);
+            $id_color_detail =  $item->options['id_color'] ?? '';
+            $id_accessory_color =  $item->options['id_accessory'] ?? '';
+
+            if(!empty($id_color_detail)){
+                $color_detail = ColorDetail::where('id_color_detail' , $id_color_detail)->first();
+                $color = $color_detail->color->name_color;
+            }
+
+            if(!empty($id_accessory_color)){
+                $accessory_color = AccessoryDetail::where('id_accessory_detail' , $id_accessory_color)->first();
+                $accessory = $accessory_color->accessory->name_accessory;
+            }
+          
+
         }
         $total = Cart::total();
         $user = User::select('id', 'name', 'username')->orderBy('id', 'ASC')->get()->toArray();
-        $colors = Color::all()->pluck('name_color', 'id_color')->toArray();
-        $accessories = Accessory::all()->pluck('name_accessory', 'id_accessory')->toArray();
+        // $colors = Color::all()->pluck('name_color', 'id_color')->toArray();
+        // $accessories = Accessory::all()->pluck('name_accessory', 'id_accessory')->toArray();
 
         $user_admin = User::select('id', 'name', 'username')->where('role', 1)->orderBy('id', 'ASC')->first();
 
@@ -133,8 +167,8 @@ class CartController extends Controller
             'user_admin' => $user_admin,
             'user' => $user,
             'provinces' => $provinces,
-            'colors' => $colors,
-            'accessories' => $accessories
+            'color' => $color ?? '',
+            'accessory' => $accessory ?? ''
         ]);
     }
 

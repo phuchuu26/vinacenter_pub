@@ -124,15 +124,17 @@
                                     <td>
                                         {!! $detail->product_name !!}
                                      
-                                        @if(!empty( data_get($detail, 'id_color') ))
+                                        @if(!empty( data_get($detail, 'colors') ))
                                             <p>
-                                                Màu sắc : {{ data_get($colors, data_get($detail, 'id_color'), '')}}
+                                                Màu sắc : {{data_get($detail->colors, 'name_color') }}
+                                                ( + {{ number_format(data_get($detail->colorDetail, 'value'))  }} đ )
                                             </p>
                                             @endif
         
-                                        @if(!empty(data_get($detail, 'id_accessory')))
+                                        @if(!empty(data_get($detail, 'accessories')))
                                             <p>
-                                            Phụ kiện : {{ data_get($accessories, data_get($detail, 'id_accessory'), '')}}
+                                            Phụ kiện : {{ data_get($detail->accessories, 'name_accessory') }}
+                                             ( + {{ number_format(data_get($detail->accessoryDetail, 'value'))  }} đ )
                                             </p>
                                         @endif
 

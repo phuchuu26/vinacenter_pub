@@ -153,22 +153,24 @@ class ProductController extends Controller
             $total = $count_option['amount'] - $count_order_detail;
 
             $dataPro = Product::findOrFail($data['product_id'])->toArray();
-
-            $id_color = data_get($dataPro, 'id_color') ;
+            // $id_color = data_get($dataPro, 'id_color') ;
+            // $id_color_detail = $data->colorDetail;
+            // dd($id_color_detail);
             $id_accessory = data_get($dataPro, 'id_accessory') ;
             $group_color = [];
             $group_accessory = [];
 
-            if(!empty($id_color)){
-                $id_color = json_decode($id_color);
-                $group_color = Color::whereIn('id_color', $id_color)->get();
-                
+            if(!empty($data->colorDetail)){
+                // $id_color = json_decode($id_color);
+                // $group_color = Color::whereIn('id_color', $id_color)->get();
+                // dd($dataPro, $id_color, $id_color , $group_color);
+                $group_color =  $data->colorDetail;
             }
-            
-            if(!empty($id_accessory)){
-                $id_accessory = json_decode($id_accessory);
-                $group_accessory = Accessory::whereIn('id_accessory', $id_accessory)->get();
-                
+            // dd($group_color );
+            if(!empty( $data->accessoryDetail)){
+                // $id_accessory = json_decode($id_accessory);
+                // $group_accessory = Accessory::whereIn('id_accessory', $id_accessory)->get();
+                $group_accessory = $data->accessoryDetail;
             }
             // $groupColor =  
             $dataCate = Cate::findOrFail($dataPro['category_id'])->toArray();
