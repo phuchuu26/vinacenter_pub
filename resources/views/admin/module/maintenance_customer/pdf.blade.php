@@ -68,7 +68,8 @@ table {
   <tr>
     {{-- <th>STT</th> --}}
     <th>Tên hàng</th>
-    <th>Tình trạng máy khi nhận</th>
+    {{-- <th></th> --}}
+    <th style="font-weight: unset;"> {!! $maintenance->product_name !!}</th>
     {{-- <th>Số lượng</th> --}}
     {{-- <th>Đơn giá</th>
     <th>Thành tiền</th> --}}
@@ -76,33 +77,94 @@ table {
   </tr>
   {{-- @foreach ($data as $key => $detail) --}}
           
-        <tr>
-            {{-- <td>{{++$key}}</td> --}}
-            <td>
-                {!! $maintenance->product_name !!}
-            </td>
-            
-            <td>
-                {!! $maintenance->condition !!}
-            </td>
-            
-            {{-- <td>
-             {{ $maintenance->qty }}
-            </td> --}}
+    <tr>
+        {{-- <td>{{++$key}}</td> --}}
+        <td style="font-weight: bold; text-align: center;">
+            Tình trạng máy khi nhận
+        </td>
+        
+        <td style=" text-align: center;">
+            {!! $maintenance->condition !!}
+        </td>
+        
+    </tr>
+    <tr> 
+        <td colspan="2" style="font-weight: bold; text-align: left;">
+            Cấu hình
+        </td>
+    </tr>
 
-            {{-- <td>
-                {{number_format($price_ ) .' đ'}}
-            </td> --}}
-            
-            {{-- <td>
-                {{number_format($price_ * $detail->qty ) .' đ'}}
-            </td>
-                 --}}
-            {{-- <td>
-                {!! number_format($detail->warranty) !!} tháng
-            </td> --}}
-   
-        </tr>
+    <tr>
+        {{-- <td>{{++$key}}</td> --}}
+        <td style="font-weight: bold; text-align: center;">
+            CPU 
+        </td>
+        
+        <td style=" text-align: center;">
+            {!! $maintenance->cpu !!}
+        </td>
+        
+    </tr>
+
+    <tr>
+        {{-- <td>{{++$key}}</td> --}}
+        <td style="font-weight: bold; text-align: center;">
+            PIN  
+        </td>
+        
+        <td style=" text-align: center;">
+            {!! $maintenance->pin  !!}
+        </td>
+        
+    </tr>
+    
+    <tr>
+        {{-- <td>{{++$key}}</td> --}}
+        <td style="font-weight: bold; text-align: center;">
+            RAM  
+        </td>
+        
+        <td style=" text-align: center;">
+            {!! $maintenance->ram  !!}
+        </td>
+        
+    </tr>
+
+     <tr>
+        {{-- <td>{{++$key}}</td> --}}
+        <td style="font-weight: bold; text-align: center;">
+            DVD   
+        </td>
+        
+        <td style=" text-align: center;">
+            {!! $maintenance->dvd   !!}
+        </td>
+        
+    </tr>
+
+    <tr>
+        {{-- <td>{{++$key}}</td> --}}
+        <td style="font-weight: bold; text-align: center;">
+            HDD    
+        </td>
+        
+        <td style=" text-align: center;">
+            {!! $maintenance->hdd   !!}
+        </td>
+        
+    </tr>
+    
+    <tr>
+        {{-- <td>{{++$key}}</td> --}}
+        <td style="font-weight: bold; text-align: center;">
+            ADAPTER     
+        </td>
+        
+        <td style=" text-align: center;">
+            {!! $maintenance->adapter    !!}
+        </td>
+        
+    </tr>
   {{-- @endforeach --}}
 
   {{-- <tr>
@@ -124,7 +186,6 @@ table {
     <td>Griffin</td>
   </tr> --}}
   <br>
-<br>
 <br>
 </table>
 
@@ -184,15 +245,7 @@ table {
         </td>    
     </tr> --}}
     </table>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
     <p style="font-size: 12px; margin-bottom:0px  ">
         * Công ty không giải quyết các trường hợp mất biên nhận, thông tin không rõ ràng, có dấu hiệu sửa, xóa và dữ liệu trong máy.    
     </p>

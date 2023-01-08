@@ -50,6 +50,14 @@ class ServiceCustomerController extends Controller
 		$serviceCustomer->service_type = data_get($params, 'service_type');
 		$serviceCustomer->method = 1; //tinh phi
 
+		//cau hinh san pham
+		$serviceCustomer->cpu = data_get($params, 'cpu', '');
+		$serviceCustomer->ram = data_get($params, 'ram', '');
+		$serviceCustomer->hdd = data_get($params, 'hdd', '');
+		$serviceCustomer->pin = data_get($params, 'pin', '');
+		$serviceCustomer->dvd = data_get($params, 'dvd', '');
+		$serviceCustomer->adapter = data_get($params, 'adapter', '');
+
 		$serviceCustomer->save();
 
 
@@ -100,6 +108,14 @@ class ServiceCustomerController extends Controller
 		$serviceCustomer->condition = data_get($params, 'condition');
 		$serviceCustomer->service_type = data_get($params, 'service_type');
 		$serviceCustomer->method = 1; //tinh phi
+		
+		//cau hinh san pham
+		$serviceCustomer->cpu = data_get($params, 'cpu', '');
+		$serviceCustomer->ram = data_get($params, 'ram', '');
+		$serviceCustomer->hdd = data_get($params, 'hdd', '');
+		$serviceCustomer->pin = data_get($params, 'pin', '');
+		$serviceCustomer->dvd = data_get($params, 'dvd', '');
+		$serviceCustomer->adapter = data_get($params, 'adapter', '');
 
 		$serviceCustomer->save();
 

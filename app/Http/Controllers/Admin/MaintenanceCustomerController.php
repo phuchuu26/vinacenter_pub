@@ -63,6 +63,16 @@ class MaintenanceCustomerController extends Controller
 		$serviceCustomer->phone_customer = data_get($params, 'phone_customer');
 		$serviceCustomer->product_name = data_get($params, 'product_name');
 		$serviceCustomer->condition = data_get($params, 'condition');
+		
+		//cau hinh san pham
+		$serviceCustomer->cpu = data_get($params, 'cpu', '');
+		$serviceCustomer->ram = data_get($params, 'ram', '');
+		$serviceCustomer->hdd = data_get($params, 'hdd', '');
+		$serviceCustomer->pin = data_get($params, 'pin', '');
+		$serviceCustomer->dvd = data_get($params, 'dvd', '');
+		$serviceCustomer->adapter = data_get($params, 'adapter', '');
+
+
 		// $serviceCustomer->service_type = data_get($params, 'service_type');
 		$serviceCustomer->method = 2; //bao hanh
 		
@@ -117,6 +127,15 @@ class MaintenanceCustomerController extends Controller
 		$serviceCustomer->phone_customer = data_get($params, 'phone_customer');
 		$serviceCustomer->product_name = data_get($params, 'product_name');
 		$serviceCustomer->condition = data_get($params, 'condition');
+
+		//cau hinh san pham
+		$serviceCustomer->cpu = data_get($params, 'cpu', '');
+		$serviceCustomer->ram = data_get($params, 'ram', '');
+		$serviceCustomer->hdd = data_get($params, 'hdd', '');
+		$serviceCustomer->pin = data_get($params, 'pin', '');
+		$serviceCustomer->dvd = data_get($params, 'dvd', '');
+		$serviceCustomer->adapter = data_get($params, 'adapter', '');
+
 
 		$serviceCustomer->save();
 
@@ -200,6 +219,8 @@ class MaintenanceCustomerController extends Controller
 		$user = $customer;
         $current_time = 'Ngày '. date("d",time()).' Tháng ' .date("m",time()). ' Năm ' . date("Y",time());
         
+		// return view('admin.module.maintenance_customer.pdf',   compact('customer', 'maintenance', 'user', 'order_id', 'current_time'));
+
         $pdf = \PDF::loadView('admin.module.maintenance_customer.pdf',   compact('customer', 'maintenance', 'user', 'order_id', 'current_time'));
    
 		$fileName = 'Phieu_bao_hanh_' . date('dmY', time()) . '.pdf';

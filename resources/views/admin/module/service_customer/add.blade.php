@@ -198,6 +198,90 @@
 
                 </tr>
 
+                  <tr class="cus_det_data">
+                    <td width="100%">
+                       Cấu hình :
+                    </td>
+
+                    <td width="100%">
+                        <div class="row">
+                            
+                            <div class="col-lg-4">
+                                <div class="input-group mb-6">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 200px">CPU :</span>
+                                    </div>
+
+                                    <input type="text" name="cpu" class="form-control" value="{!! $data->cpu ?? old('cpu') !!} " />
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="input-group mb-6">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 200px">RAM :</span>
+                                    </div>
+
+                                    <input type="text" name="ram" class="form-control" value="{!! $data->ram ?? old('ram') !!} " />
+
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="input-group mb-6">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 200px">HDD :</span>
+                                    </div>
+
+                                    <input type="text" name="hdd" class="form-control" value="{!! $data->hdd ?? old('hdd') !!} " />
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-lg-4">
+                                <div class="input-group mb-6">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 200px">PIN :</span>
+                                    </div>
+
+                                    <input type="text" name="pin" class="form-control" value="{!! $data->pin ?? old('pin') !!} " />
+
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="input-group mb-6">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 200px">DVD :</span>
+                                    </div>
+
+                                    <input type="text" name="dvd" class="form-control" value="{!! $data->dvd ?? old('dvd') !!} " />
+
+                                </div>
+                            </div>
+                         
+                            <div class="col-lg-4">
+                                <div class="input-group mb-6">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 200px">ADAPTER :</span>
+                                    </div>
+
+                                    <input type="text" name="adapter" class="form-control" value="{!! $data->adapter ?? old('adapter') !!} " />
+
+                                </div>
+                            </div>
+
+                            
+
+                        </div>
+                    </td>
+
+                </tr>
+
+
                 </tbody>
             </table>
 
