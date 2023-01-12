@@ -104,7 +104,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-12">
+                {{-- <div class="col-lg-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" style="width: 200px">Thuộc bộ sưu tập</span>
@@ -115,7 +115,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-lg-12">
                     <button type="submit" name="btnProAdd" class="btn btn-success pull-right">Thêm</button>
                 </div>

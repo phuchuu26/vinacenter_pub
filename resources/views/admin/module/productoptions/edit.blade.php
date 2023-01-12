@@ -102,7 +102,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="col-lg-12">
+		{{-- <div class="col-lg-12">
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<span class="input-group-text" style="width: 250px">Thuộc lọai sản phẩm</span>
@@ -117,7 +117,7 @@
 					@endforeach
 				</select>
 			</div>
-		</div>
+		</div> --}}
 		<div class="col-lg-12">
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">

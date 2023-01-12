@@ -56,7 +56,7 @@ class ProductOptionController extends Controller
 	    	$productoption->product_id        = $id;
             $productoption->saleoff           = $request->txtsaleoff;
             $productoption->salestop_salesoff = $request->sltSales;
-            $productoption->collection_at     = $request->sltCollect;
+            $productoption->collection_at     = $request->sltCollect ?? null;
 	    	$productoption->user_id           = Auth::user()->username;
 	    	$productoption->created_at        = new DateTime;            
             $productoption->indextop          = $request->txtindextop;
@@ -153,7 +153,7 @@ class ProductOptionController extends Controller
         $productoption->saleoff = $request->txtsaleoff;
         $productoption->sumary = $request->txtIntro;
         $productoption->salestop_salesoff = $request->sltSales; 
-        $productoption->collection_at = $request->sltCollect;          
+        $productoption->collection_at = $request->sltCollect ?? null;          
         $productoption->updated_at = new DateTime();
         $productoption->indextop = $request->txtindextop;
 

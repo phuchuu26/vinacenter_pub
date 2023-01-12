@@ -302,12 +302,16 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="express_human">Mã vận đơn:</label>
+                                           <input  value="{!! isset($customer->lading_code) ? $customer->lading_code : null !!}" type="text" name="lading_code" class="form-control">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row mt-2">
-                                    <div class="col-lg-12">
-                                        Mã vận đơn:
-                                        <input  value="{!! isset($customer->lading_code) ? $customer->lading_code : null !!}" type="text" name="lading_code" class="form-control">
-                                    </div>
+                                  
                                     <div class="col-lg-12">
                                         <hr></div>
                                     <div class="col-lg-12">
