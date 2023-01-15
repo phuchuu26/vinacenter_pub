@@ -104,7 +104,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="col-lg-12">
+		{{-- <div class="col-lg-12">
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<span class="input-group-text" style="width: 250px">Thuộc bộ sưu tập</span>
@@ -119,7 +119,7 @@
 					@endforeach
 				</select>
 			</div>
-		</div>
+		</div> --}}
 		<input type="hidden" name="product_id" value="{!! $productoption["product_id"] !!}" />
 		<input type="hidden" id="amount" value="{!! $productoption["amount"] !!}" />
 		<div class="col-lg-12"><input type="submit" name="btnProAdd" value="Duyệt Option Sản phẩm" class="btn btn-success pull-right btn_option_update" /></div>

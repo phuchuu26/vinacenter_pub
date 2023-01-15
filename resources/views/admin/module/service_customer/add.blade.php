@@ -198,7 +198,7 @@
 
                 </tr>
 
-                  <tr class="cus_det_data">
+                <tr class="cus_det_data">
                     <td width="100%">
                        Cấu hình :
                     </td>

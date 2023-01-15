@@ -7,13 +7,22 @@
         }
     </style>
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-12 mb-4">
             <h6>Tổng tiền chiếc khấu <span class="badge badge-secondary">{{number_format($total_bonus)}} VNĐ</span></h6>
         </div>
-        <div class="col-lg-4">
+
+        <div class="col-lg-12 mb-4">
             <h6>Tổng tiền ship <span class="badge badge-danger">{{number_format($total_fee)}} VNĐ</span></h6>
         </div>
-        <div class="col-lg-4 mb-2">
+      
+
+        <div class="col-lg-12 mb-4">
+            <h6>Tổng tiền chiếc khấu đã trừ ship <span class="badge badge-info">
+          {{number_format($total_bonus - $total_fee)}} VNĐ
+        </span></h6>
+        </div>
+
+        {{-- <div class="col-lg-12">
             <form action="{!! route('postUpdateBonus') !!}" method="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="col-lg-12">
@@ -24,12 +33,7 @@
                 </div>
             </form>
         </div>
-
-        <div class="col-lg-12 mb-4">
-            <h6>Tổng tiền chiếc khấu đã trừ ship <span class="badge badge-info">
-          {{number_format($total_bonus - $total_fee)}} VNĐ
-        </span></h6>
-        </div>
+         --}}
         <div class="col-lg-12">
             <table>
                 <tr>
@@ -76,6 +80,23 @@
                             </div>
                         </td>
                     </form>
+
+                    <td>
+
+                        <div style="margin-top: -16px;" class="form-group complete">
+                            <form action="{!! route('postUpdateBonus') !!}" method="POST">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <div class="col-lg-12">
+                                    <input type="hidden" name="from" value="{{Request('from')}}">
+                                    <input type="hidden" name="to" value="{{Request('to')}}">
+                                    <input type="hidden" name="username" value="{{Request('username')}}">
+                                    <button type="submit" class="btn btn-success pull-right">Hoàn tất</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </td>
+                        
                 </tr>
             </table>
         </div>
