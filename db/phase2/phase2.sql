@@ -115,3 +115,12 @@ ADD COLUMN `id_color` varchar(255) NULL AFTER `id_accessory`;
 ALTER TABLE `thitr318_vinacenter_demo`.`order_detail` 
 ADD COLUMN `id_color` varchar(255) NULL COMMENT 'nullable' AFTER `discount`,
 ADD COLUMN `id_accessory` varchar(255) NULL COMMENT 'nullable' AFTER `id_color`;
+
+
+-- update loai sp ban chay -> thong thuong
+UPDATE product_option
+SET salestop_salesoff = 1
+WHERE  salestop_salesoff = 2
+
+INSERT INTO `thitr318_vinacenter`.`product_type`(`id`, `name`) VALUES (4, 'Sản phẩm đã qua sử dụng');
+

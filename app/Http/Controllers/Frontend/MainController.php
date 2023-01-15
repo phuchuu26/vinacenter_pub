@@ -25,7 +25,7 @@ class MainController extends Controller
     		'alias')
     	->inRandomOrder()->limit(12)->get()->toArray();
 
-        $productSaleTop = ProductOption::where('salestop_salesoff',2)->limit(12)->orderBy('indextop', 'asc')->get()->toArray();
+        $productSaleTop = ProductOption::where('salestop_salesoff',4)->limit(12)->orderBy('indextop', 'asc')->get()->toArray();
     	$productSale = ProductOption::where('salestop_salesoff',3)->limit(12)->orderBy('indextop', 'asc')->get()->toArray();
     	
         $productRan = ProductOption::orderBy('indextop', 'asc')->take(12)->get()->toArray();

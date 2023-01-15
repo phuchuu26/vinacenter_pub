@@ -27,7 +27,7 @@ class ProductOptionEditRequest extends FormRequest
             'txtName' => 'required',
             'txtValue' => 'required|integer',
             'txtIntro' => 'required',
-            'amount_discount' => 'required_with:code|integer'
+            'amount_discount' => 'required_with:code'
         ];
     }
     public function messages()

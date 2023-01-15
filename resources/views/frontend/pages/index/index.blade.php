@@ -113,7 +113,7 @@
       <div style="padding-top: 5px;padding-bottom: 5px; border-bottom: 1px solid #CCCCCC;width: 100%;">
         <i class="fas fa-shopping-bag"></i>
         <span style="color: black;font-family: tahoma;font-weight: bold;padding-right: 5px;color: red;">
-       Bán chạy nhất
+          Sản phẩm đã qua sử dụng
     </span>
       </div>
       <div>&nbsp</div>

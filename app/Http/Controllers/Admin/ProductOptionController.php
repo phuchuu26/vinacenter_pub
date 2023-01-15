@@ -26,7 +26,7 @@ class ProductOptionController extends Controller
     	try{
     		$data = Product::findOrFail($id)->toArray();
             $productImg = ProductImage::where('product_id',$id)->get()->toArray();
-            $productType = ProductType::get()->toArray();
+            $productType = ProductType::where('id', '!=', 2)->get()->toArray();
             $productCollection = ProductCollection::get()->toArray();
     		return view('admin.module.productoptions.add',[
                 'product'               => $data,
@@ -118,7 +118,7 @@ class ProductOptionController extends Controller
 
     public function getProductOptionEdit($id,$pro_id){
         try{
-            $productType = ProductType::get()->toArray();
+            $productType = ProductType::where('id', '!=', 2)->get()->toArray();
             $productCollection = ProductCollection::get()->toArray();
             $data = ProductOption::findOrFail($id)->toArray();
             $color_details =  ColorDetail::where('id_product_option', $id)->get();
