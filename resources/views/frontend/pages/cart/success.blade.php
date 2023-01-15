@@ -24,7 +24,7 @@
   <div class="main-container col2-right-layout">
     <div class="main container">
       <div class="row">
-        <section class="col-main col-md-9 col-sm-8">
+        <section class="col-main col-md-12 col-sm-8 alert alert-success alert-dismissible">
               <h2>TẠO ĐƠN HÀNG THÀNH CÔNG.</h2>
               <h5>Quý khách Thanh toán khi nhận hàng (COD)</h5>
               <p>Xin cảm ơn Quý khách đã đặt hàng, chúng tôi sẽ liên hệ với Quý khách trong thời gian sớm nhất. Xin trân trọng cảm ơn!</p>              
