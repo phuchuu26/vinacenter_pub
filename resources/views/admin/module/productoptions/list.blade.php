@@ -53,11 +53,25 @@
                                 <?php \Carbon\Carbon::setLocale('vi'); ?>
                                 {!! \Carbon\Carbon::createFromTimeStamp(strtotime($item["created_at"]))->diffForHumans() !!}
                             </td>
-                            <td class="list_td aligncenter">
-                                <a href="{!! route('getProductOptionEdit',['id' => $item["id"],'pro_id' => $productName['id']]) !!}"><img
-                                            src="{!! asset('/public/vnc_admin/images/edit.png') !!}"/></a>&nbsp;&nbsp;&nbsp;
+                            
+                            {{-- approve roi ko edit nua --}}
+                            @if (\Auth::user()->role == 1)
+                                        
+                                <td class="list_td aligncenter">
+                                    <a href="{!! route('getProductOptionEdit',['id' => $item["id"],'pro_id' => $productName['id']]) !!}"><img
+                                        src="{!! asset('/public/vnc_admin/images/edit.png') !!}"/></a>&nbsp;&nbsp;&nbsp;
+                                        
+                                </td>
+                                  
+                            @else
+                                    @if ( $item["is_approved"] != 1)
+                                        <td class="list_td aligncenter">
+                                            <a href="{!! route('getProductOptionEdit',['id' => $item["id"],'pro_id' => $productName['id']]) !!}"><img
+                                                src="{!! asset('/public/vnc_admin/images/edit.png') !!}"/></a>&nbsp;&nbsp;&nbsp;
+                                        </td>   
+                                    @endif
+                            @endif
 
-                            </td>
                             <td class="list_td aligncenter">
                                 <a href="{!! route('getProductOptionDelete',['id' => $item["id"]]) !!}"
                                    onclick="return xacnhanxoa('Bạn thật sự muốn xóa danh mục này?')">

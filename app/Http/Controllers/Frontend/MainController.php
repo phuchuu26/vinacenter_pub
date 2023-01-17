@@ -8,6 +8,7 @@ use App\Models\News;
 use App\Models\ProductOption;
 use App\Models\Statics;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Arr;
 
 class MainController extends Controller
 {
@@ -25,12 +26,14 @@ class MainController extends Controller
     		'alias')
     	->inRandomOrder()->limit(12)->get()->toArray();
 
-        $productSaleTop = ProductOption::where('salestop_salesoff',4)->limit(12)->orderBy('indextop', 'asc')->get()->toArray();
-    	$productSale = ProductOption::where('salestop_salesoff',3)->limit(12)->orderBy('indextop', 'asc')->get()->toArray();
-    	
-        $productRan = ProductOption::orderBy('indextop', 'asc')->take(12)->get()->toArray();
-        //$productTop = ProductOption::where('salestop_salesoff',1)->limit(15)->orderBy('id','DESC')->get()->toArray();
-        //$productSales = ProductOption::where('salestop_salesoff',2)->limit(6)->orderBy('id','DESC')->get()->toArray();          
+        $productSaleTop = ProductOption::where('salestop_salesoff',4)->with('user')->where('is_approved', 1)->orderBy('indextop', 'asc')->get()->toArray();
+    	$productSaleTop = $this->filterProductOptionAdmin($productSaleTop);
+
+		$productSale = ProductOption::where('salestop_salesoff',3)->with('user')->where('is_approved', 1)->orderBy('indextop', 'asc')->get()->toArray();
+    	$productSale = $this->filterProductOptionAdmin($productSale);
+    
+        $productRan = ProductOption::orderBy('indextop', 'asc')->with('user')->where('is_approved', 1)->get()->toArray();
+		$productRan = $this->filterProductOptionAdmin($productRan);
         
     	return view('frontend.pages.index.index',
     		[
@@ -44,4 +47,16 @@ class MainController extends Controller
                
     		]);
     }
+
+	public function filterProductOptionAdmin($array, $take = 12)
+	{
+		$arrayFilter = array_filter($array, function ($value) {
+			return empty(data_get($value, 'user')) || (data_get($value['user'], 'role', '') == 1);
+		});
+
+		$arrayFilter = array_values($arrayFilter);
+		$arrayFilter = array_slice($arrayFilter, 0, $take);
+
+		return $arrayFilter;
+	}
 }

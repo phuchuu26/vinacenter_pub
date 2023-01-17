@@ -45,7 +45,7 @@ class ProductController extends Controller
                
             }           
         }
-        $data = ProductOption::select('id','product_id','name','value','image','alias')->orderBy($key,$value)->paginate(16);
+        $data = ProductOption::select('id','product_id','name','value','image','alias')->where('is_approved', 1)->orderBy($key,$value)->paginate(16);
         return view('frontend.pages.products.all',['data' => $data,'title' => $title]); 
     }
     public function getProductNew(Request $request){
@@ -73,7 +73,7 @@ class ProductController extends Controller
                
             }           
         }
-        $data = ProductOption::select('id','product_id','name','value','image','alias')->limit(24)->orderBy($key,$value)->paginate(16);
+        $data = ProductOption::select('id','product_id','name','value','image','alias')->where('is_approved', 1)->limit(24)->orderBy($key,$value)->paginate(16);
         return view('frontend.pages.products.all',['data' => $data,'title' => $title]);
     }
     public function getProductTop(Request $request){
@@ -101,7 +101,7 @@ class ProductController extends Controller
                
             }           
         }
-        $data = ProductOption::where('salestop_salesoff',1)->orderBy($key,$value)->paginate(16);
+        $data = ProductOption::where('salestop_salesoff',1)->where('is_approved', 1)->orderBy($key,$value)->paginate(16);
         return view('frontend.pages.products.all',['data' => $data,'title' => $title]);
     }
     public function getProductSales(Request $request){
@@ -129,7 +129,7 @@ class ProductController extends Controller
                
             }           
         }
-        $data = ProductOption::where('salestop_salesoff',2)->orderBy($key,$value)->paginate(16);
+        $data = ProductOption::where('salestop_salesoff',2)->where('is_approved', 1)->orderBy($key,$value)->paginate(16);
         return view('frontend.pages.products.all',['data' => $data,'title' => $title]);
     }
     public function getProductDetail($alias){
@@ -238,56 +238,56 @@ class ProductController extends Controller
         switch ($para1) {
             case '0-3tr':
                 $price = 3000000;              
-                $data = ProductOption::where('value','<=', $price)->where('category_alias',$alias)->limit(16)->get();  
+                $data = ProductOption::where('value','<=', $price)->where('is_approved', 1)->where('category_alias',$alias)->limit(16)->get();  
                 break;
             case '3tr-5tr':
                 $min_price = 3000000;
                 $max_price = 5000000;               
-                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('category_alias',$alias)->limit(16)->get();
+                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('is_approved', 1)->where('category_alias',$alias)->limit(16)->get();
                 break;
             case '5tr-7tr':
                 $min_price = 5000000;
                 $max_price = 7000000;               
-                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('category_alias',$alias)->limit(16)->get();
+                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('is_approved', 1)->where('category_alias',$alias)->limit(16)->get();
                 break;
             case '7tr-10tr':
                 $min_price = 7000000;
                 $max_price = 10000000;               
-                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('category_alias',$alias)->limit(16)->get();
+                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('is_approved', 1)->where('category_alias',$alias)->limit(16)->get();
                 break;
             case '10tr-13tr':
                 $min_price = 10000000;
                 $max_price = 13000000;               
-                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('category_alias',$alias)->limit(16)->get();
+                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('is_approved', 1)->where('category_alias',$alias)->limit(16)->get();
                 break;
             case '13tr-15tr':
                 $min_price = 13000000;
                 $max_price = 15000000;               
-                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('category_alias',$alias)->limit(16)->get();
+                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('is_approved', 1)->where('category_alias',$alias)->limit(16)->get();
                 break;
             case '15tr-20tr':
                 $min_price = 15000000;
                 $max_price = 20000000;               
-                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('category_alias',$alias)->limit(16)->get();
+                $data = ProductOption::whereBetween('value', [$min_price, $max_price])->where('is_approved', 1)->where('category_alias',$alias)->limit(16)->get();
                 break;
             case 'tren-20tr':
                 $price = 20000000;
-                $data = ProductOption::where('value','>', $price)->where('category_alias',$alias)->limit(16)->get();
+                $data = ProductOption::where('value','>', $price)->where('is_approved', 1)->where('category_alias',$alias)->limit(16)->get();
                 break;
             case 'tang-dan':                
-                $data = ProductOption::where('category_alias',$alias)->orderBy('value','ASC')->limit(16)->get();
+                $data = ProductOption::where('category_alias',$alias)->where('is_approved', 1)->orderBy('value','ASC')->limit(16)->get();
                 break;
             case 'giam-dan':                
-                $data = ProductOption::where('category_alias',$alias)->orderBy('value','DASC')->limit(16)->get();
+                $data = ProductOption::where('category_alias',$alias)->where('is_approved', 1)->orderBy('value','DASC')->limit(16)->get();
                 break;
             case 'a-z':                
-                $data = ProductOption::where('category_alias',$alias)->orderBy('name','ASC')->limit(16)->get();
+                $data = ProductOption::where('category_alias',$alias)->where('is_approved', 1)->orderBy('name','ASC')->limit(16)->get();
                 break;
             case 'z-a':                
-                $data = ProductOption::where('category_alias',$alias)->orderBy('name','DASC')->limit(16)->get();
+                $data = ProductOption::where('category_alias',$alias)->where('is_approved', 1)->orderBy('name','DASC')->limit(16)->get();
                 break;
             default :
-                $data = ProductOption::where('category_alias',$alias)->orderBy($key,$value)->paginate(16);                 
+                $data = ProductOption::where('category_alias',$alias)->where('is_approved', 1)->orderBy($key,$value)->paginate(16);                 
         }    
      
 

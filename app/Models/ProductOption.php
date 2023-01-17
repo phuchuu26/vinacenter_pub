@@ -33,4 +33,9 @@ class ProductOption extends Model
         return $this->hasMany(AccessoryDetail::class, 'id_product_option', 'id');
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'username', 'user_id');
+    }
+
 }
