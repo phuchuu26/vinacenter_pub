@@ -281,7 +281,11 @@ class CartController extends Controller
 
             if ($save_success) {
                 $order_id = $order->id;
+
+                $discount_saler = 0;
+                // {{number_format($detail->qty*($price_ - $detail->dealer) + $detail->discount )}}
                 //save detail
+
                 $detail = Cart::content();
                 foreach ($detail as $item) {
                     $price = 0;
@@ -312,7 +316,8 @@ class CartController extends Controller
                     $price = $item->options->yprice != "" ? $item->options->yprice : $item->price;
                     
                     // $total =$total 
-                    
+                    $price_ = $cart->real_price > 0 ? $cart->real_price : $cart->price;
+                    $discount_saler += (($cart->qty * ($price_ - $cart->dealer)) + (int) $cart->discount);
                 }
                 if ($pay == 0) {
                     $id = 4;
@@ -333,6 +338,7 @@ class CartController extends Controller
                 'atm' => $d_atm['atm'],
                 'data' => $data,
                 'total' => $total,
+                'discount_saler' => $discount_saler,
                 'detail' => $detail,
             ]);
         }
