@@ -330,7 +330,10 @@ class CartController extends Controller
             } else {
                 return redirect()->route('getProductList')->with(['flash_level' => 'error_msg', 'flash_message' => 'Hoàn tất đơn hàng thất bại. Xin thử lại']);
             }
-
+            
+            if(!\Auth::check()){
+                $discount_saler = 0;
+            }
 
             Cart::destroy();
 
