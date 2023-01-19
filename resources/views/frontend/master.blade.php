@@ -110,6 +110,9 @@
       .col-item:hover {
           border: 1px dotted #666666 !important;
       }
+	.sticky #nav {
+		width: 1186px;
+	}
   </style>
   <title>@yield('title')</title>
 </head>
@@ -156,38 +159,57 @@
               <li class="level0 drop-menu">
                 {{-- {{dump( $it["name"] == 'DIỄN ĐÀN' ? route('getProductType',['alias' => $it["alias"]]) : '' )}} --}}
                 <a href="{!!  $it["name"] == 'DIỄN ĐÀN' ? route('getProductType',['alias' => $it["alias"]]) : '#' !!}"><span>{!! $it["name"] !!}</span> </a>
-                <ul class="level1" style="display: none;">
-                    <?php $children = App\Models\Cate::where('parent_id', $it["id"])->orderby('is_index','asc')->get()->toArray(); ?>
-                  @foreach($children as $item)
-                    <li class="level drop-menu ml-2">
-                      <a href="{!!route('getProductType',['alias' => $item["alias"]])!!}">
-                        <span>{!! $item["name"]!!} </span>
-                      </a>
-                        <?php $children1 = App\Models\Cate::where('parent_id', $item["id"])->where('is_active', 1)->get()->toArray(); ?>
-                      @if(count($children1) > 0)
-                      <ul class="level1" style="display: none;">
-                        @foreach($children1 as $item1)
-                          <li class="level pl-4">
-                          <a href="{!!route('getProductType',['alias' => $item1["alias"]])!!}">
-                            <span>{!! $item1["name"] !!}</span>
-                          </a>
-                        </li>
-                        @endforeach
-                      </ul>
-                        @endif
-                    </li>
-                  @endforeach
-                </ul>
+				@if($it["name"] != 'DIỄN ĐÀN')
+					<ul class="level1" style="display: none;">
+						<?php $children = App\Models\Cate::where('parent_id', $it["id"])->orderby('is_index','asc')->get()->toArray(); ?>
+					
+						@foreach($children as $item)
+							<li class="level drop-menu ml-2">
+								<a href="{!!route('getProductType',['alias' => $item["alias"]])!!}">
+								<span>{!! $item["name"]!!} </span>
+								</a>
+								<?php $children1 = App\Models\Cate::where('parent_id', $item["id"])->where('is_active', 1)->get()->toArray(); ?>
+									@if(count($children1) > 0)
+									<ul class="level1" style="display: none;">
+									@foreach($children1 as $item1)
+										<li class="level pl-4">
+										<a href="{!!route('getProductType',['alias' => $item1["alias"]])!!}">
+										<span>{!! $item1["name"] !!}</span>
+										</a>
+									</li>
+									@endforeach
+									</ul>
+									@endif
+								</li>
+							
+						@endforeach
+					</ul>
+				@endif
+
+                
+                
               </li>
             @endif
           @endforeach
 
+          <li class="level0 drop-menu">
+            <a  style="padding-top: 10px;padding-left: 5px;" href="">
+              <img alt="vinacenter" style="width: 35px;"
+              src="{!! asset('public/frontend/images/icon_call.png') !!}">
+         &nbsp{!! LoadStatics::getPhone()  !!}
+
+            </a>
+            {{-- <ul class="level1" >
+            </ul> --}}
+           
+          </li>
+
         </ul>
-        <div class="" style="padding-top: 10px;font-size: 15px; color: red;font-weight: bold !important;">
+        {{-- <div class="" style="padding-top: 10px;font-size: 15px; color: red;font-weight: bold !important;">
           <img alt="vinacenter" style="width: 35px;"
                src="{!! asset('public/frontend/images/icon_call.png') !!}">
           &nbsp{!! LoadStatics::getPhone()  !!}
-        </div>
+        </div> --}}
       </div>
       <div id="div-desktop">
         @include('frontend.pages.menus.cart')
