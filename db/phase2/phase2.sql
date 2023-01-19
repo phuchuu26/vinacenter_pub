@@ -5,7 +5,7 @@ ADD COLUMN `email` varchar(255) NULL AFTER `updated_at`;
 
 
 CREATE TABLE `thitr318_vinacenter_demo`.`info_users`  (
-  `id_info_user` int UNSIGNED NULL AUTO_INCREMENT,
+  `id_info_user` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_user` int NOT NULL,
   `id_province` int NULL,
   `id_district` int NULL,

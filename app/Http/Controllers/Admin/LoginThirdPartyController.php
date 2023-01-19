@@ -63,13 +63,14 @@ class LoginThirdPartyController extends Controller
  
     public function createOrGetUser($providerUser)
     {
-        $user = User::where('email', $providerUser->getEmail())->first();
+        $user = User::where('username', $providerUser->getId())->first();
+        // $user = User::where('email', $providerUser->getEmail())->whereNotNull('email')->first();
 
         if (empty($user)) {
             $user = User::create([
+                'username' => $providerUser->getId(),
                 'email' => $providerUser->getEmail(),
                 'name' => $providerUser->getName(),
-                'username' => $providerUser->getEmail(),
                 'password' => '',
                 'email' => $providerUser->getEmail(),
                 'role' => 0,
@@ -83,9 +84,35 @@ class LoginThirdPartyController extends Controller
     
     public function faceCallback()
     {
-        $user = $this->createOrGetUser(Socialite::driver('facebook')->user());
-        auth()->login($user);
-        return redirect()->route('index');
+        try{
+
+         
+        // dd(Socialite::driver('facebook')->stateless()->user());
+        // User {#415 ▼
+        //     +token: "EAAQvHehnr3QBAAFGuHpZBlZACRoLZAQG9scReoVXk3dW8rVIgxh9E6kew9T8McfR9zztZBz26d4tMOZCPpTY9X0XVmtPiBMpqVzSpgMZBE1X4CD18LiNzozlIq2GYikfYeAOFK5tEV5TTiutY6G5o3JDVij46u1 ▶"
+        //     +refreshToken: null
+        //     +expiresIn: 5182512
+        //     +id: "2009751126083026"
+        //     +nickname: null
+        //     +name: "Hữu Phúc Nguyễn"
+        //     +email: "phucnhhp98@gmail.com"
+        //     +avatar: "https://graph.facebook.com/v3.0/2009751126083026/picture?type=normal"
+        //     +user: array:3 [▼
+        //       "name" => "Hữu Phúc Nguyễn"
+        //       "email" => "phucnhhp98@gmail.com"
+        //       "id" => "2009751126083026"
+        //     ]
+        //     +"avatar_original": "https://graph.facebook.com/v3.0/2009751126083026/picture?width=1920"
+        //     +"profileUrl": null
+        //   }
+            $user = $this->createOrGetUser(Socialite::driver('facebook')->stateless()->user());
+            // dd( $user );
+            \Auth::login($user);
+            return redirect()->route('index');
+        }catch (\Exception $e) {
+            // dd($e);
+            return redirect()->route('index');
+        }
     }
 
 
