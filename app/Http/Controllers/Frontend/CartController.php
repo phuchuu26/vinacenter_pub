@@ -362,11 +362,26 @@ class CartController extends Controller
         $total = $count_option['amount'] - $count_order_detail;
         if ($total > 0) {
             $product_buy = ProductOption::where('id', $id)->first();
+
+            $price = $product_buy->value;
+    
+    
+            if(data_get($params, 'id_color')){
+                $colorDetail = ColorDetail::where('id_color_detail', data_get($params, 'id_color'))->first();
+                $price += (int) data_get($colorDetail, 'value');
+            }
+    
+            if(data_get($params, 'id_accessory')){
+                $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', data_get($params, 'id_accessory'))->first();
+                $price += (int) data_get($AccessoryDetail, 'value');
+            }
+
+            
             Cart::add(array(
                 'id' => $id,
                 'name' => $product_buy->name,
                 'qty' => 1,
-                'price' => $product_buy->value,
+                'price' =>  $price,
                 'options' => array(
                     'yprice' => '',
                     'ycoc' => '',
