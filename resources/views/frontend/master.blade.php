@@ -84,8 +84,7 @@
   <script src="{!! asset('public/frontend/js/cs.script.js') !!}" type="text/javascript"></script>
   <link href="{!! asset('public/frontend/css/flexslider.css') !!}" rel="stylesheet" type="text/css">
   {{-- <script src="{!! asset('public/frontend/js/myscript.js') !!}" type="text/javascript"></script> --}}
-  <script defer src="{!! asset('public/frontend/js/myscript.js') !!}?v=
-  <?php if( file_exists(public_path('public/frontend/js/myscript.js') )) echo filemtime( public_path('public/frontend/js/myscript.js')  ) ?>"
+  <script defer src="{!! asset('public/frontend/js/myscript.js') !!}?v=<?php if( file_exists(public_path('public/frontend/js/myscript.js') )) echo filemtime(public_path('public/frontend/js/myscript.js'))?>"
    type="text/javascript"></script>
   <script src="{!! asset('public/frontend/js/jquery.flexslider.js') !!}" type="text/javascript"></script>
   <style type="text/css">
