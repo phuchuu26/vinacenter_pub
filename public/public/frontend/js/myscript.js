@@ -185,7 +185,8 @@ function applyVoucher(e)
         let frm = $(element).attr('frm');
         var rowid = $(element).attr("id")
         var voucher = $(element).val()
-        var url = 'cap-nhat-voucher/' + rowid + '/' + voucher;
+        var product_option_id = $('#id_product_option').val()
+        var url = 'cap-nhat-voucher/' + rowid + '/' + voucher + '/' + product_option_id;
 
 
             $.ajax({

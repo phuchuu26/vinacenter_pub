@@ -59,7 +59,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($content as $key => $item)
+
+                        @foreach($content as $key => $item)
                         <tr>
                             <td width="30%">
                                 {!! $item->name !!}
@@ -81,6 +82,8 @@
                             <td id="qty_{{$item->rowId}}" width="10%">
                                 {!! $item->qty !!}
                             </td>
+                            <input type="hidden" class="" id="id_product_option" name="id_product_option"
+                            value="{{data_get($item, 'id')}}">
 
                             <td id="" class="" width="20%">
                                 <input placeholder="Nhập mã giảm giá" class="voucher-code form-control" id="{{$item->rowId}}" name="voucher"

@@ -35,7 +35,7 @@ Route::group(['prefix' => '/','namespace' => 'Frontend'],function(){
     Route::get('xoa-san-pham/{id}',['as' => 'getCartDel','uses' => 'CartController@getCartDel']);
     Route::get('xoa-sp/{id}',['as' => 'getCartDel1','uses' => 'CartController@getCartDel1']);
     Route::get('cap-nhat/{id}/{qty}',['as' => 'getCartUpdate','uses' => 'CartController@getCartUpdate']);
-    Route::post('cap-nhat-voucher/{id}/{voucher}',['as' => 'getCartUpdateVoucher','uses' => 'CartController@getCartUpdateVoucher']);
+    Route::post('cap-nhat-voucher/{id}/{voucher}/{product_option_id}',['as' => 'getCartUpdateVoucher','uses' => 'CartController@getCartUpdateVoucher']);
     Route::post('cap-nhat-don-hang/',['as' => 'postCartUpdate','uses' => 'CartController@postCartUpdate']);
     Route::post('cap-nhat-gia',['as' => 'getUpdatePrice','uses' => 'CartController@getUpdatePrice']);
     Route::post('cap-nhat-so-luong',['as' => 'getUpdateQty','uses' => 'CartController@getUpdateQty']);

@@ -460,37 +460,42 @@ class CartController extends Controller
     
     public function getCartUpdateVoucher(Request $request)
     {
-        $id = $request->id;
-        $voucher = $request->voucher;
-        $voucher = Voucher::where('code', $voucher )->first();
-        if(empty($voucher)){
+        try{
+            $id = $request->id;
+            $voucher = $request->voucher;
+            $product_option_id = $request->product_option_id;
+            $voucher = Voucher::where('code', $voucher )->where('id_product_option', $product_option_id)->first();
+            if(empty($voucher)){
+                return response()->json(['success' => false, 'description' => 'Mã voucher không tồn tại', 'rowId' => $id ]);
+            }
+ 
+            $item = Cart::get($id);
+            $is_apply_voucher = data_get($item->options, 'is_apply_voucher');
+            // dd( $item);
+            if($is_apply_voucher == true){
+                //  $option = $item->options->merge(['id_voucher' => data_get($voucher, 'id_voucher'), 'yprice' => $price_after_apply_voucher]);
+    
+                // $current_price = data_get($item->options, 'yprice') != '' ? data_get($item->options, 'yprice') : data_get($item, 'price');
+                // $price_after_apply_voucher = $current_price - ($voucher->amount_discount);
+                $summary = data_get($item->options, 'yprice')  * data_get($item, 'qty');
+                return response()->json(['success' => true, 'description' => "Đã áp dụng mã voucher giảm ". number_format($voucher->amount_discount) .' VND', 'rowId' => $id, 'summary' => $summary]);
+            }
+            // dd($item );
+            // dd( data_get($item, 'summary') - $voucher->amount_discount * data_get($item, 'qty'));
+    
+            $current_price = data_get($item->options, 'yprice') != '' ? data_get($item->options, 'yprice') : data_get($item, 'price');
+     
+            $price_after_apply_voucher = $current_price - ($voucher->amount_discount);
+            $summary = $price_after_apply_voucher  * data_get($item, 'qty');
+            $option = $item->options->merge(['is_apply_voucher' => true, 'id_voucher' => data_get($voucher, 'id_voucher'), 'yprice' => $price_after_apply_voucher]);
+    // dd( $option );
+            Cart::update($id, ['options'=>$option, 'summary'=>$summary]);
+    
+            
+            return response()->json(['success' => true, 'description' => "Đã áp dụng mã voucher giảm ". number_format($voucher->amount_discount) .' VND', 'rowId' => $id, 'summary' => $summary]);
+        }catch(\Exception $e){
             return response()->json(['success' => false, 'description' => 'Mã voucher không tồn tại', 'rowId' => $id ]);
         }
-        // dd($check_voucher);
-        $item = Cart::get($id);
-        $is_apply_voucher = data_get($item->options, 'is_apply_voucher');
-        // dd( $item);
-        if($is_apply_voucher == true){
-            //  $option = $item->options->merge(['id_voucher' => data_get($voucher, 'id_voucher'), 'yprice' => $price_after_apply_voucher]);
-
-            // $current_price = data_get($item->options, 'yprice') != '' ? data_get($item->options, 'yprice') : data_get($item, 'price');
-            // $price_after_apply_voucher = $current_price - ($voucher->amount_discount);
-            $summary = data_get($item->options, 'yprice')  * data_get($item, 'qty');
-            return response()->json(['success' => true, 'description' => "Đã áp dụng mã voucher giảm ". number_format($voucher->amount_discount) .' VND', 'rowId' => $id, 'summary' => $summary]);
-        }
-        // dd($item );
-        // dd( data_get($item, 'summary') - $voucher->amount_discount * data_get($item, 'qty'));
-
-        $current_price = data_get($item->options, 'yprice') != '' ? data_get($item->options, 'yprice') : data_get($item, 'price');
- 
-        $price_after_apply_voucher = $current_price - ($voucher->amount_discount);
-        $summary = $price_after_apply_voucher  * data_get($item, 'qty');
-        $option = $item->options->merge(['is_apply_voucher' => true, 'id_voucher' => data_get($voucher, 'id_voucher'), 'yprice' => $price_after_apply_voucher]);
-// dd( $option );
-        Cart::update($id, ['options'=>$option, 'summary'=>$summary]);
-
-        
-        return response()->json(['success' => true, 'description' => "Đã áp dụng mã voucher giảm ". number_format($voucher->amount_discount) .' VND', 'rowId' => $id, 'summary' => $summary]);
     }
 
 }
