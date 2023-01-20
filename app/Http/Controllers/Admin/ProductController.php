@@ -191,7 +191,7 @@ class ProductController extends Controller
     		        	]       	
     		        	);
     		        if($validator->passes()){
-                        $destinationPath = public_path('uploads\products');
+                        $destinationPath = public_path('uploads/products');
     			        $filename = time().'.'.$file->getClientOriginalName();
     			        $upload_success = $file->move($destinationPath, $filename);
 
@@ -201,6 +201,7 @@ class ProductController extends Controller
     			        $product_img->path =  $filename;
     			        $product_img->created_at = new DateTime;
     			        $product_img->save(); 
+
 
     		        }else{
     		        	return redirect()->back()->withInput()->withErrors($validator->messages());

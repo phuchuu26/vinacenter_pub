@@ -135,7 +135,7 @@
                 </div>
                 @if(\Auth::user()->role == '1')
                     <div class="col-lg-12">
-                        <button type="submit" class="btn btn-success pull-right"><i class="fa fa-plus" aria-hidden="true"></i> Tạo</button>
+                        <button type="submit" class="btn btn-success pull-right"><i class="fa fa-plus" aria-hidden="true"></i> Cập nhật</button>
                     </div>
                 @endif
             </div>
