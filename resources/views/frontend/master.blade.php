@@ -193,7 +193,7 @@
           @endforeach
 
           <li class="level0 drop-menu">
-            <a  style="padding-top: 10px;padding-left: 5px;" href="">
+            <a  style="padding-top: 10px;padding-left: 10px;" href="">
               <img alt="vinacenter" style="width: 35px;"
               src="{!! asset('public/frontend/images/icon_call.png') !!}">
          &nbsp{!! LoadStatics::getPhone()  !!}

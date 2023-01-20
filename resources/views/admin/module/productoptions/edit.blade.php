@@ -179,7 +179,9 @@
                                                 {{$stt}}
                                             </th>
                                             <th style="     width: 225px;     font-weight: normal;  font-size: 0.9em;">
-                                                {{$item->color->name_color}}
+                                                @if(!empty($item->color))
+													{{$item->color->name_color}}
+												@endif
                                             </th>
 
                                             <th style="   width: 225px;     font-weight: normal;  font-size: 0.9em;">

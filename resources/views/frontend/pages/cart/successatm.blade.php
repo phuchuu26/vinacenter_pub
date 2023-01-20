@@ -72,19 +72,16 @@
               <td colspan="4" style="height: 50px;text-align: right; padding-right: 10px;vertical-align:middle;">
                 Tổng cộng :
                 <span colspan="2" style="font-weight: bold;color: red;">{!! number_format($total) !!} ₫</span>
-              </td>
-
-              <td colspan="4" style="height: 50px;text-align: right; padding-right: 10px;vertical-align:middle;">
-                Tổng cộng :
-                <span colspan="2" style="font-weight: bold;color: red;">{!! number_format($total) !!} ₫</span>
-
+              
                 @if($discount_saler > 0)
-                    <br>
-                    Hoa hồng của bạn:
-                    <span colspan="2" style="font-weight: bold;color: red;">{!! number_format($discount_saler) !!} ₫</span>
-                  @endif
+                  <br>
+                  Hoa hồng của bạn:
+                  <span colspan="2" style="font-weight: bold;color: red;">{!! number_format($discount_saler) !!} ₫</span>
+                @endif
 
               </td>
+
+             
 
             </tr>
           </tbody>
