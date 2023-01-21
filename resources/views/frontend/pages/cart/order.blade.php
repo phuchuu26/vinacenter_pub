@@ -3,6 +3,13 @@
 @section('content')
     <head>
         <style>
+
+            @media only screen and (max-width: 820px) {
+                .input-group.mb-3 {
+                    margin-left: 0px!important;
+                }
+            }
+
             .input-group.mb-3 {
                 margin-left: 191px;
             }

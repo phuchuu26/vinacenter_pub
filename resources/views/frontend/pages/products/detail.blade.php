@@ -23,6 +23,10 @@
 			max-height: 30px;
 		}
 
+    .flexslider .slides img {
+        max-height: 500px;
+    }
+
   
 
 input[type="radio"] {
