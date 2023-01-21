@@ -334,11 +334,12 @@ class OrderController extends Controller
             return redirect()->route('getOrderList');
         $product = OrderProduct::findOrFail($id);
 
-        $product->pay_type = $request->input('pay_type');
+        $product->pay_type = $request->input('pay_type')  ?? '';
         $product->fee = $request->input('fee');
         $product->express_human = $request->input('express_human');
         $product->note_by = trim($request->input('note_by'));
         $product->lading_code = trim($request->input('lading_code'));
+        $product->shipping_unit = trim($request->input('shipping_unit')) ?? '';
         $product->updated_at = new DateTime();
 
         $product->save();

@@ -264,9 +264,56 @@
                                     </div>
                                 </td>
                                 <td colspan="2" class="text-center font-weight-bold"></td>
-                                <td colspan="1" class="text-left font-weight-bold">Loại thanh toán</td>
-                                {{-- <td></td> --}}
-                                <td>{{$customer->pay_type}}</td>
+                                @php 
+                                $shipping_unit = null;
+                                if(!empty($customer->shipping_unit)){
+                                   if($customer->shipping_unit == 1){
+                                       $shipping_unit = 'Giao Hàng Nhanh (GHN)';
+                                   }
+                                   if($customer->shipping_unit == 2){
+                                       $shipping_unit = 'Việt Nam Spot (VNpost / EMS';
+                                   } 
+                                   if($customer->shipping_unit == 3){
+                                       $shipping_unit = 'Viettel Post';
+                                   }
+                                   if($customer->shipping_unit == 4){
+                                       $shipping_unit = 'Giao Hàng Tiết Kiệm (GHTK)';
+                                   }
+                                   if($customer->shipping_unit == 5){
+                                       $shipping_unit = 'Lalamove';
+                                   }
+                                   if($customer->shipping_unit == 6){
+                                       $shipping_unit = 'Ahamove';
+                                   }
+                                   if($customer->shipping_unit == 7){
+                                       $shipping_unit = 'J&T Express';
+                                   }
+                                   if($customer->shipping_unit == 8){
+                                       $shipping_unit = 'GrabExpress';
+                                   }
+                                   if($customer->shipping_unit == 9){
+                                       $shipping_unit = 'Now';
+                                   }
+                                   if($customer->shipping_unit == 10){
+                                       $shipping_unit = 'Nhất Tín';
+                                   }                                                                           
+                                   if($customer->shipping_unit == 11){
+                                       $shipping_unit = 'Kerry Express';
+                                   }
+                                   if($customer->shipping_unit == 12){
+                                       $shipping_unit = 'SShip';
+                                   }
+                                }
+                               @endphp
+                                <td colspan="1" class="text-left font-weight-bold">Đơn vị vận chuyển</td>
+                                <td>
+                                    @if (!empty($shipping_unit))
+                                        
+                                        <span class="badge badge-warning">
+                                            {{$shipping_unit}}    
+                                        </span>    
+                                    @endif
+                                </td>
                                 <td class="font-weight-bold">Thành tiền</td>
                                 <td colspan="4">
                                     {!! isset($customer->deposit) ? number_format($customer->prices - $customer->deposit) : number_format($customer->prices - $customer->depo) !!}
@@ -285,14 +332,6 @@
                             <td colspan="10">
                                 <div class="row">
                                     <div class="col-lg-3">
-                                        Loại thanh Toán : <input type="text" name="pay_type" value="{!! isset($customer->pay_type) ? $customer->pay_type : null !!}"
-                                                                  class="form-control">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        Phí gửi hàng : <input class="form-control" type="number" name="fee" value="{!! isset($customer->fee) ? $customer->fee : null !!}"
-                                        >
-                                    </div>
-                                    <div class="col-lg-3">
                                         <div class="form-group">
                                             <label for="express_human">Người trả phí:</label>
                                             <select class="form-control" id="express_human" name="express_human">
@@ -304,11 +343,39 @@
                                     </div>
 
                                     <div class="col-lg-3">
+                                        Phí gửi hàng : <input class="form-control" type="number" name="fee" value="{!! isset($customer->fee) ? $customer->fee : null !!}"
+                                        >
+                                    </div>
+                               
+
+                                    <div class="col-lg-3">
                                         <div class="form-group">
                                             <label for="express_human">Mã vận đơn:</label>
                                            <input  value="{!! isset($customer->lading_code) ? $customer->lading_code : null !!}" type="text" name="lading_code" class="form-control">
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="shipping_unit">Đơn vị vận chuyển :</label>
+                                            <select class="form-control" id="shipping_unit" name="shipping_unit">
+                                                <option value="1" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 1) selected @endif >Giao Hàng Nhanh (GHN)</option>
+                                                <option value="2" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 2) selected @endif >Việt Nam Spot (VNpost / EMS)</option>
+                                                <option value="3" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 3) selected @endif >Viettel Post</option>
+                                                <option value="4" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 4) selected @endif >Giao Hàng Tiết Kiệm (GHTK)</option>
+                                                <option value="5" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 5) selected @endif >Lalamove</option>
+                                                <option value="6" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 6) selected @endif >Ahamove</option>
+                                                <option value="7" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 7) selected @endif >J&T Express</option>
+                                                <option value="8" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 8) selected @endif >GrabExpress</option>
+                                                <option value="9" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 9) selected @endif >Now</option>
+                                                <option value="10" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 10) selected @endif >Nhất Tín</option>
+                                                <option value="11" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 11) selected @endif >Kerry Express</option>
+                                                <option value="12" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 12) selected @endif >SShip</option>
+                                                <option value="13" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 13) selected @endif >Khác</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="row mt-2">
                                   

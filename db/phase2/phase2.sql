@@ -128,3 +128,7 @@ INSERT INTO `thitr318_vinacenter`.`product_type`(`id`, `name`) VALUES (4, 'Sản
 
 -- dien dan
 INSERT INTO `thitr318_vinacenter_demo`.`category`( `parent_id`, `name`, `alias`, `is_active`, `is_index`, `created_at`, `updated_at`) VALUES ( 0, 'DIỄN ĐÀN', 'a', 1, 8, '2022-11-22 22:34:57', '2022-11-22 22:34:57');
+
+
+ALTER TABLE `thitr318_vinacenter`.`vnc_product` 
+MODIFY COLUMN `description` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `alias`;
