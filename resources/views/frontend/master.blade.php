@@ -387,7 +387,7 @@
     <div class="footer-bottom">
       <div class="container">
         <div class="row">
-          <div class="col-sm-12 col-xs-12 copyright"><span class="provide">2009 - 2022 © CÔNG TY TNHH TÍCH HỢP HỆ THỐNG VI NA</span><span
+          <div class="col-sm-12 col-xs-12 copyright"><span class="provide">2009 - 2023 © CÔNG TY TNHH TÍCH HỢP HỆ THỐNG VI NA</span><span
                 class="mtinvi"> | Giấy chứng nhận ĐKKD số: 0309554860 do Sở KH & ĐT TP.HCM cấp ngày 23/11/2009, đăng ký thay đổi ngày 10/03/2021</span> </a></li></span>
           </div>
         </div>

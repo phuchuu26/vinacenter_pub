@@ -282,13 +282,13 @@ input[type="radio"]:checked + label {
                     <tr>
                       <td style="width: 30%; color: #444444;">
                         <!--<span style="color: #000000;font-weight: bold;">QUÀ TẶNG MUA CÙNG SẢN PHẨM:  </span>
-                        <span style="color: #444444;"></br><a href="http://vinacenter.net" target="_blank">- Miễn phí vận chuyển cho đơn hàng trên 1.000.000 vnđ</a></span>-->
+                        <span style="color: #444444;"></br><a href="http://vinacenter.vn" target="_blank">- Miễn phí vận chuyển cho đơn hàng trên 1.000.000 vnđ</a></span>-->
                       </td>
                     </tr>
                     <tr>
                       <td style="width: 30%; color: #444444;"> - Gọi đặt mua:
                       <span style="color: #036;font-weight: bold;">{!! LoadStatics::getPhone()  !!}</span> (Thời gian:
-                      8h:00 - 19h:00 thứ 2 đến thứ 7) or Zalo/Viber: <span style="color: #036;font-weight: bold;">0909 747 235 </span></td>
+                      8h:00 - 18h:00 thứ 2 đến thứ 7) or Zalo: <span style="color: #036;font-weight: bold;">093.77.77.638 </span></td>
                     </tr>
                     </tbody>
                   </table>
@@ -303,7 +303,7 @@ input[type="radio"]:checked + label {
 
 
           <div class="well well-sm">
-            <span style="font-weight: bold;">TÌNH TRẠNG SẢN PHẨM <i class="fas fa-box-open"></i><br></span>
+            <span style="font-weight: bold;">Chính sách bán hàng <i class="fas fa-box-open"></i><br></span>
             <span>{!! $data['saleoff'] !!}</span>
           </div>
 

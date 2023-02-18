@@ -268,16 +268,16 @@
                                 $shipping_unit = null;
                                 if(!empty($customer->shipping_unit)){
                                    if($customer->shipping_unit == 1){
-                                       $shipping_unit = 'Giao Hàng Nhanh (GHN)';
+                                       $shipping_unit = 'Giao Hàng Tiết Kiệm (GHTK)';
                                    }
                                    if($customer->shipping_unit == 2){
-                                       $shipping_unit = 'Việt Nam Spot (VNpost / EMS';
+                                       $shipping_unit = 'Việt Nam Post (VNpost / EMS';
                                    } 
                                    if($customer->shipping_unit == 3){
                                        $shipping_unit = 'Viettel Post';
                                    }
                                    if($customer->shipping_unit == 4){
-                                       $shipping_unit = 'Giao Hàng Tiết Kiệm (GHTK)';
+                                       $shipping_unit = 'Giao Hàng Nhanh (GHN)';
                                    }
                                    if($customer->shipping_unit == 5){
                                        $shipping_unit = 'Lalamove';
@@ -286,10 +286,10 @@
                                        $shipping_unit = 'Ahamove';
                                    }
                                    if($customer->shipping_unit == 7){
-                                       $shipping_unit = 'J&T Express';
+                                       $shipping_unit = 'J&T';
                                    }
                                    if($customer->shipping_unit == 8){
-                                       $shipping_unit = 'GrabExpress';
+                                       $shipping_unit = 'Grab';
                                    }
                                    if($customer->shipping_unit == 9){
                                        $shipping_unit = 'Now';
@@ -298,7 +298,7 @@
                                        $shipping_unit = 'Nhất Tín';
                                    }                                                                           
                                    if($customer->shipping_unit == 11){
-                                       $shipping_unit = 'Kerry Express';
+                                       $shipping_unit = 'Kerry';
                                    }
                                    if($customer->shipping_unit == 12){
                                        $shipping_unit = 'SShip';
@@ -359,17 +359,17 @@
                                         <div class="form-group">
                                             <label for="shipping_unit">Đơn vị vận chuyển :</label>
                                             <select class="form-control" id="shipping_unit" name="shipping_unit">
-                                                <option value="1" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 1) selected @endif >Giao Hàng Nhanh (GHN)</option>
-                                                <option value="2" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 2) selected @endif >Việt Nam Spot (VNpost / EMS)</option>
+                                                <option value="1" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 1) selected @endif >Giao Hàng Tiết Kiệm (GHTK)</option>
+                                                <option value="2" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 2) selected @endif >Việt Nam Post (VNpost / EMS)</option>
                                                 <option value="3" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 3) selected @endif >Viettel Post</option>
-                                                <option value="4" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 4) selected @endif >Giao Hàng Tiết Kiệm (GHTK)</option>
+                                                <option value="4" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 4) selected @endif >Giao Hàng Nhanh (GHN)</option>
                                                 <option value="5" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 5) selected @endif >Lalamove</option>
                                                 <option value="6" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 6) selected @endif >Ahamove</option>
-                                                <option value="7" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 7) selected @endif >J&T Express</option>
-                                                <option value="8" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 8) selected @endif >GrabExpress</option>
+                                                <option value="7" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 7) selected @endif >J&T</option>
+                                                <option value="8" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 8) selected @endif >Grab</option>
                                                 <option value="9" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 9) selected @endif >Now</option>
                                                 <option value="10" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 10) selected @endif >Nhất Tín</option>
-                                                <option value="11" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 11) selected @endif >Kerry Express</option>
+                                                <option value="11" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 11) selected @endif >Kerry</option>
                                                 <option value="12" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 12) selected @endif >SShip</option>
                                                 <option value="13" @if(isset($customer->shipping_unit) && $customer->shipping_unit == 13) selected @endif >Khác</option>
                                             </select>
