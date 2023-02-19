@@ -302,8 +302,7 @@ class CartController extends Controller
                         $cart->voucher_code = null;
                     }
 
-                    $cart->dealer = $item->options->dealer;
-                    $cart->price = $item->price;
+                    // $cart->dealer = $item->options->dealer;
                     $cart->qty = $item->qty;
                     $cart->order_id = $order_id;
                     $cart->real_price = $item->options->yprice != ""  ? $item->options->yprice : 0;
@@ -312,6 +311,21 @@ class CartController extends Controller
                     $cart->id_color = $item->options->id_color ?? '';
                     $cart->id_accessory = $item->options->id_accessory ?? '';
                     $cart->created_at = new DateTime();
+                    
+                    $price_color = 0;
+                    if(!empty($cart->id_color)){
+                        $colorDetail = ColorDetail::where('id_color_detail', $cart->id_color)->first();
+                        $price_color = (int) data_get($colorDetail, 'value');
+                    }
+                    
+                    $price_accessory = 0;
+                    if(!empty($cart->id_accessory)){
+                        $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', $cart->id_accessory)->first();
+                        $price_accessory = (int) data_get($AccessoryDetail, 'value');
+                    }
+
+                    $cart->price = $item->price;
+                    $cart->dealer =  $price_accessory +  $price_color + $item->options->dealer;
                     $cart->save();
                     $price = $item->options->yprice != "" ? $item->options->yprice : $item->price;
                     
