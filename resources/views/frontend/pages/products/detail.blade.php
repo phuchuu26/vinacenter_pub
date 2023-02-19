@@ -545,20 +545,24 @@ var route_mua_ngay  = $('#route_mua_ngay').val();
 	// mua-hang
 	$( document ).ready(function() {
 		// Handler for .ready() called.
-		
-		$( "#mua-hang" ).click(function() {
 
+		$( 'input[name="accessory"]' ).prop( "checked", false );
+    
+		$( "#mua-hang" ).click(function() {
+      // console.log($( 'input[name="accessory"]' ), $('input[name="accessory"]').val(),
+      // $('input[name=accessory]:checked').val()
+      // )
 			if(!$('input[name="color"]').is(':checked')  && $('input[name="color"]').length > 0 ) { 
 				
 				$("#color_error").css({"display": "block"});
 				return;
 			}
 
-			if(!$('input[name="accessory"]').is(':checked') && $('input[name="accessory"]').length > 0) { 
+			// if(!$('input[name="accessory"]').is(':checked') && $('input[name="accessory"]').length > 0) { 
 				
-				$("#accessory_error").css({"display": "block"});
-				return;
-			}
+			// 	$("#accessory_error").css({"display": "block"});
+			// 	return;
+			// }
 
 			let id_color = '';
 			let id_accessory = '';
@@ -568,7 +572,11 @@ var route_mua_ngay  = $('#route_mua_ngay').val();
 			}
 			
 			if($('input[name="accessory"]').length > 0){
-				id_accessory = $('input[name="accessory"]').val();
+				id_accessory =  $('input[name=accessory]:checked').val();
+        if(id_accessory == undefined){
+          id_accessory = '';
+        }
+				// id_accessory = $('input[name="accessory"]').val();
 			}
 			
 			window.location.href = mua_hang_path + '?id_color=' + id_color + '&id_accessory=' + id_accessory
@@ -594,11 +602,11 @@ var route_mua_ngay  = $('#route_mua_ngay').val();
 				return;
 			}
 
-			if(!$('input[name="accessory"]').is(':checked')  && $('input[name="accessory"]').length > 0  ) { 
+			// if(!$('input[name="accessory"]').is(':checked')  && $('input[name="accessory"]').length > 0  ) { 
 				
-				$("#accessory_error").css({"display": "block"});
-				return;
-			}
+			// 	$("#accessory_error").css({"display": "block"});
+			// 	return;
+			// }
 
 			let id_color = '';
 			let id_accessory = '';
@@ -608,7 +616,12 @@ var route_mua_ngay  = $('#route_mua_ngay').val();
 			}
 			
 			if($('input[name="accessory"]').length > 0){
-				id_accessory = $('input[name="accessory"]').val();
+				// id_accessory = $('input[name="accessory"]').val();
+        id_accessory =  $('input[name=accessory]:checked').val();
+
+        if(id_accessory == undefined){
+          id_accessory = '';
+        }
 			}
 			
 

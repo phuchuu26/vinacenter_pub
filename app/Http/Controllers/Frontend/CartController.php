@@ -33,8 +33,6 @@ class CartController extends Controller
         //echo Cart::tax();die;
         $params = $request->all();
        
-
-
         $product_buy = ProductOption::where('id', $id)->first();
         $price = $product_buy->value;
 
@@ -44,7 +42,8 @@ class CartController extends Controller
             $price += (int) data_get($colorDetail, 'value');
         }
 
-        if(data_get($params, 'id_accessory')){
+        // có thể ko mua hoặc mua phụ kiện
+        if(data_get($params, 'id_accessory') && data_get($params, 'id_accessory') != 'undefined'){
             $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', data_get($params, 'id_accessory'))->first();
             $price += (int) data_get($AccessoryDetail, 'value');
         }
@@ -137,8 +136,7 @@ class CartController extends Controller
         $data = [];
         $content = Cart::content();
         foreach ($content as $item) {
-            // dd($item);
-
+            
             $count_option = ProductOption::select('amount','value')->where('id', $item->id)->first();
             
             $count_order_detail = OrderDetail::where('product_id', $item->id)->get()->sum('qty');
