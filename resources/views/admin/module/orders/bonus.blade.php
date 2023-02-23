@@ -191,7 +191,8 @@
                                                 </div>
                                                 <div class="col-lg-2">
                            <span class="badge badge-success">
-                             {{number_format($detail->qty*($price_ - $detail->dealer))}}
+                            {{number_format($detail->qty*($price_ - $detail->dealer ) + $detail->discount )}}
+                             {{-- {{number_format($detail->qty*($price_ - $detail->dealer))}} --}}
                            </span>
                                                 </div>
                                                 <div class="col-lg-2">
