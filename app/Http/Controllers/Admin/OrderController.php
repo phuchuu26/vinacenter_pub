@@ -438,7 +438,8 @@ class OrderController extends Controller
                 } else {
                     $price_ = $de->price;
                 }
-                $bon = $bon + $de->qty * ($price_ - $de->dealer);
+                $bon = $bon + $de->qty * ($price_ - $de->dealer ) + $de->discount;
+                // $bon = $bon + $de->qty * ($price_ - $de->dealer);
                 $prices = $prices + ($price_ * $de->qty);
             }
             $item->totals = $prices;
