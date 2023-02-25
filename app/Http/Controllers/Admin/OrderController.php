@@ -138,8 +138,10 @@ class OrderController extends Controller
                             $fee = 0;
                         }
 
-                        $total = ($total + $dt->qty * ($price - $dt->dealer)) - $fee;
+                        // $total = ($total + $dt->qty * ($price - $dt->dealer)) - $fee;
+                        $total = $total + $dt->qty * ($price - $dt->dealer ) + $dt->discount - $fee;
                     }
+                    // dd( $total,123);
                 }
             } else {
                 $data = DB::table('order_product')
