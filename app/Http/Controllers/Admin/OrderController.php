@@ -264,26 +264,39 @@ class OrderController extends Controller
                   
                 }
 
+// dd(data_get($de, 'id_accessory'), json_decode(''));
+                $name_accessory = '';
+                $total_amout_accessory = 0;
 
-                if(!empty(data_get($de, 'id_accessory'))){
-                    $accessories = AccessoryDetail::where('id_accessory_detail' , data_get($de, 'id_accessory'))->first();
-                    $de->accessoryDetail = $accessories; 
-                    $accessories = $accessories->accessory;
-                    $de->accessories = $accessories; 
+                if(!empty( $ac = json_decode(data_get($de, 'id_accessory')) )){
+                    $accessory = [];
+
+                    foreach($ac as $a){
+
+                        $accessories = AccessoryDetail::where('id_accessory_detail' ,$a)->first();
+                        $accessory[] = $accessories->accessory->name_accessory;
+                        $total_amout_accessory += (int) data_get($accessories, 'value');
+                        
+                    }
+
+                    $name_accessory = implode(", ", $accessory);
+
+
                 }
             }
             $customer->bon = $bon;
             $customer->prices = $prices;
             $customer->depo = $depo[0]->depo;
             
-
+            // dd($detail,  $name_accessory,  $total_amout_accessory);
             return view('admin.module.orders.detail', [
                 'customer' => $customer,
                 'data' => $detail->toArray(),
                 'user' => $user,
                 'order_id' => $id,
                 'colors' => $colors ?? '',
-                'accessories' => $accessories ?? ''
+                'name_accessory' => $name_accessory ?? '',
+                'total_amout_accessory' => $total_amout_accessory ?? ''
             ]);
         } catch (ModelNotFoundException $e) {
             return redirect()->back();

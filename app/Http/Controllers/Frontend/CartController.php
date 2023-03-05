@@ -32,6 +32,7 @@ class CartController extends Controller
         //Cart::destroy();die;
         //echo Cart::tax();die;
         $params = $request->all();
+        $params['id_accessory'] = json_decode($params['id_accessory']);
        
         $product_buy = ProductOption::where('id', $id)->first();
         $price = $product_buy->value;
@@ -42,10 +43,16 @@ class CartController extends Controller
             $price += (int) data_get($colorDetail, 'value');
         }
 
-        // có thể ko mua hoặc mua phụ kiện
-        if(data_get($params, 'id_accessory') && data_get($params, 'id_accessory') != 'undefined'){
-            $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', data_get($params, 'id_accessory'))->first();
-            $price += (int) data_get($AccessoryDetail, 'value');
+        // // có thể ko mua hoặc mua phụ kiện
+        // if(data_get($params, 'id_accessory') && data_get($params, 'id_accessory') != 'undefined'){
+        //     $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', data_get($params, 'id_accessory'))->first();
+        //     $price += (int) data_get($AccessoryDetail, 'value');
+        // }
+        if( !empty($params['id_accessory'])){
+            foreach($params['id_accessory'] as $key => $value){
+                $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', $value)->first();
+                $price += (int) data_get($AccessoryDetail, 'value');
+            }
         }
 
         Cart::add(
@@ -62,7 +69,8 @@ class CartController extends Controller
                     'img' => $product_buy->image,
                     'alias' => $product_buy->alias, 
                     'id_color' => $params['id_color'] ?? '',
-                    'id_accessory' => $params['id_accessory'] ?? ''
+                    'id_accessory' => !empty($params['id_accessory'] )  ? $params['id_accessory'] : ''
+                    // 'id_accessory' => $params['id_accessory'] ?? ''
                 )));
         return redirect()->route('getCartList');
     }
@@ -149,20 +157,26 @@ class CartController extends Controller
 
             array_push($data, $item);
             $id_color_detail =  $item->options['id_color'] ?? '';
-            $id_accessory_color =  $item->options['id_accessory'] ?? '';
+            $id_accessory_colors =  $item->options['id_accessory'] ?? '';
+           
 
             if(!empty($id_color_detail)){
                 $color_detail = ColorDetail::where('id_color_detail' , $id_color_detail)->first();
                 $color = $color_detail->color->name_color;
             }
 
-            if(!empty($id_accessory_color)){
-                $accessory_color = AccessoryDetail::where('id_accessory_detail' , $id_accessory_color)->first();
-                $accessory = $accessory_color->accessory->name_accessory;
+            if(!empty($id_accessory_colors)){
+                $accessory = [];
+                foreach($id_accessory_colors as $value ){
+                    $accessory_color = AccessoryDetail::where('id_accessory_detail' , $value)->first();
+                    $accessory[] = $accessory_color->accessory->name_accessory;
+                }
+                $accessory = implode(", ", $accessory);
             }
           
 
         }
+
         $total = Cart::total();
         $user = User::select('id', 'name', 'username')->orderBy('id', 'ASC')->get()->toArray();
         // $colors = Color::all()->pluck('name_color', 'id_color')->toArray();
@@ -285,6 +299,7 @@ class CartController extends Controller
                 //save detail
 
                 $detail = Cart::content();
+                // dd($detail);
                 foreach ($detail as $item) {
                     $price = 0;
                     $cart = new OrderDetail;
@@ -307,7 +322,7 @@ class CartController extends Controller
                     $cart->deposit = $item->options->ycoc > 0 ? $item->options->ycoc : 0;
                     $cart->product_id = $item->id;
                     $cart->id_color = $item->options->id_color ?? '';
-                    $cart->id_accessory = $item->options->id_accessory ?? '';
+                    $cart->id_accessory = !empty($item->options['id_accessory']) ? json_encode($item->options['id_accessory'])  : '';
                     $cart->created_at = new DateTime();
                     
                     $price_color = 0;
@@ -317,13 +332,17 @@ class CartController extends Controller
                     }
                     
                     $price_accessory = 0;
-                    if(!empty($cart->id_accessory)){
-                        $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', $cart->id_accessory)->first();
-                        $price_accessory = (int) data_get($AccessoryDetail, 'value');
+                    // if(!empty($item->options->id_accessory)){
+                    if(!empty($item->options['id_accessory'])){
+                        foreach($item->options['id_accessory'] as $key => $value){
+                            $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', $value)->first();
+                            $price_accessory += (int) data_get($AccessoryDetail, 'value');
+                        }
                     }
 
                     $cart->price = $item->price;
                     $cart->dealer =  $price_accessory +  $price_color + $item->options->dealer;
+                    // dd( $price_accessory ,  $price_color , $item->options->dealer);
                     $cart->save();
                     $price = $item->options->yprice != "" ? $item->options->yprice : $item->price;
                     
@@ -367,7 +386,8 @@ class CartController extends Controller
     public function getBuyNow(Request $request, $id)
     {
         $params = $request->all();
-
+        $params['id_accessory'] = json_decode($params['id_accessory']);
+        // dd($params, empty($params['id_accessory']),  !empty($params['id_accessory'] )  ? $params['id_accessory'] : '');
         $count_option = ProductOption::select('amount')->where('id', $id)->first();
         $count_order_detail = OrderDetail::where('product_id', $id)->get()->sum('qty');
 
@@ -382,11 +402,18 @@ class CartController extends Controller
                 $colorDetail = ColorDetail::where('id_color_detail', data_get($params, 'id_color'))->first();
                 $price += (int) data_get($colorDetail, 'value');
             }
-    
-            if(data_get($params, 'id_accessory')){
-                $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', data_get($params, 'id_accessory'))->first();
-                $price += (int) data_get($AccessoryDetail, 'value');
+            
+            if( !empty($params['id_accessory'])){
+                foreach($params['id_accessory'] as $key => $value){
+                    $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', $value)->first();
+                    $price += (int) data_get($AccessoryDetail, 'value');
+                }
             }
+    
+            // if(data_get($params, 'id_accessory')){
+            //     $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', data_get($params, 'id_accessory'))->first();
+            //     $price += (int) data_get($AccessoryDetail, 'value');
+            // }
 
             
             Cart::add(array(
@@ -401,7 +428,7 @@ class CartController extends Controller
                     'img' => $product_buy->image,
                     'alias' => $product_buy->alias,
                     'id_color' => $params['id_color'] ?? '',
-                    'id_accessory' => $params['id_accessory'] ?? ''
+                    'id_accessory' => !empty($params['id_accessory'] )  ? $params['id_accessory'] : ''
                     )
                 ));
             return redirect()->route('getCartOrderComplete');

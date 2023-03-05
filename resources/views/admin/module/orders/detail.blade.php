@@ -131,10 +131,10 @@
                                             </p>
                                             @endif
         
-                                        @if(!empty(data_get($detail, 'accessories')))
+                                        @if(!empty($name_accessory))
                                             <p>
-                                            Phụ kiện : {{ data_get($detail->accessories, 'name_accessory') }}
-                                             ( + {{ number_format(data_get($detail->accessoryDetail, 'value'))  }} đ )
+                                            Phụ kiện : {{ $name_accessory }}
+                                             ( + {{ number_format( $total_amout_accessory )  }} đ )
                                             </p>
                                         @endif
 

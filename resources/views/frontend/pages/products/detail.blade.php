@@ -48,6 +48,27 @@ input[type="radio"]:checked + label {
     border: 2px solid red;
 }
 
+input[type="checkbox"] {
+	/* position: absolute;
+  height: 20px;
+  width: 50px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* z-index: 0 */
+  display: none;
+}
+
+input[type="checkbox"]:checked + label {
+    border: 2px solid red;
+}
+
+input[type="checkbox"]:checked + label {
+    border: 2px solid red;
+}
+
+
 
 	</style>
   </head>
@@ -237,26 +258,33 @@ input[type="radio"]:checked + label {
 
     	<input hidden type="number"  value='0' id="sub_price_accessory">
 
-		@foreach ($group_accessory as $detailAccessory)
+		@foreach ($group_accessory as $key => $detailAccessory)
 			@php
 				$acc = $detailAccessory->accessory;
 			@endphp
 
 			<label class="label_accessory">
-				<input  class="test" value="{!! data_get($acc, 'id_accessory') !!}" name_accessory="{!! data_get($acc, 'name_accessory') !!}" for="{!! data_get($acc, 'id_accessory') !!}" type="radio" name="accessory"
+				<input  class="checkbox_{!! data_get($acc, 'id_accessory') !!}" value="{!! data_get($acc, 'id_accessory') !!}" name_accessory="{!! data_get($acc, 'name_accessory') !!}"
+         type="checkbox" name="accessory[]"
 				id_accessory="{!! data_get($detailAccessory, 'id_accessory_detail') !!}"
 				id="{!! data_get($acc, 'id_accessory') !!}" value="{{data_get($acc, 'id_accessory')}}"
 				sub_price="{!!  data_get($detailAccessory, 'value') !!}"
 				>
 
-				<label class="">
-					<input style="min-height: 29px;" type="text" id="{!! data_get($acc, 'id_accessory') !!}" name=""  class="" disabled value="{!! data_get($acc, 'name_accessory') !!}"><br><br>    
+        <label for="{!! data_get($acc, 'id_accessory') !!}" class="">
+					<input style="min-height: 29px;" type="text" name="checkbox_{!! data_get($acc, 'id_accessory') !!}"  class="" disabled value="{!! data_get($acc, 'name_accessory') !!}"><br><br>    
 				</label>
 				
 			</label>
 
 		@endforeach 
-
+{{-- 
+    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+    <label for="vehicle1"> I have a bike</label><br>
+    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+    <label for="vehicle2"> I have a car</label><br>
+    <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+    <label for="vehicle3"> I have a boat</label><br> --}}
 	@endif
 
 
@@ -495,7 +523,7 @@ $('.label_color').click(function(){
 	
 
 
-	console.log(sub_price, price)
+	// console.log(sub_price, price)
 	$("#color_des").html(`Nhóm màu : ${color_des}`);
 	$('input[name="color"]').val(id_color);
 
@@ -524,21 +552,66 @@ function sumSubPrice()
 
 
 $('.label_accessory').click(function(){
-	$('input[name="accessory"]').prop('checked', false);
-	$(this).find('input[name="accessory"]').prop('checked', true);
-	let name_accessory = $(this).find('input[type="radio"]').attr("name_accessory");
-	let id_accessory = $(this).find('input[type="radio"]').attr("id_accessory");
-	let sub_price = $(this).find('input[type="radio"]').attr("sub_price");
-	
-	$("#sub_price_accessory").val(sub_price);
 
-	$("#accessory_des").html(`Phụ kiện : ${name_accessory}`);
-	$('input[name="accessory"]').val(id_accessory);
-	// $('.toggle img').attr('src', 'something.jpg');
+	// $('input[name="accessory"]').prop('checked', false);
+  // console.log($(this).find('input[type="checkbox"]').prop('checked'));
+
+	$(this).find('input[name="accessory[]"]').prop('checked', !$(this).find('input[type="checkbox"]').prop('checked'));
+
+	
+  $("#sub_price_accessory").val(0);
+  var name_accessory = '';
+  var length = $("input:checkbox[name='accessory[]']:checked").length;
+  // console.log(length)
+  if(length == 0){
+    $("#accessory_des").html(`Phụ kiện : `);
+  }
+    $("input:checkbox[name='accessory[]']:checked").each(function(key, value){
+        
+        // console.log($(this).val());
+        name_accessory_sub =  $(value).attr("name_accessory");
+        // console.log( key, value, $(value).attr("name_accessory"), name_accessory_sub)
+        var isLastElement = key == $("input:checkbox[name='accessory[]']:checked").length -1;
+        // if (key != 0) {
+        //    console.log(2)
+        //     name_accessory = name_accessory + ', ' + $(value).attr("name_accessory") ;    
+        // }
+        // else if(key == 0)(
+        //     name_accessory = $(value).attr("name_accessory") ;    
+        //     // name_accessory =  name_accessory_sub; 
+        //     console.log(1)
+        // )
+
+        if (key != 0) {
+          // console.log(2)
+          name_accessory =  name_accessory + ', ' ;    
+        }
+        name_accessory = name_accessory + $(value).attr("name_accessory") ;    
+
+        // if(isLastElement){
+        //     name_accessory = name_accessory + '.';
+        // }
+
+
+        
+        let id_accessory = $(value).attr("id_accessory");
+        let sub_price = parseInt($(value).attr("sub_price"));
+        let sub_price_accessory = parseInt($("#sub_price_accessory").val());
+
+        // let sub_price = $(this).find('input[type="checkbox"]').attr("sub_price");
+        // console.log(name_accessory, id_accessory, sub_price, sub_price_accessory, parseInt(sub_price + sub_price_accessory))
+        $("#sub_price_accessory").val(sub_price_accessory + sub_price);
+
+        $("#accessory_des").html(`Phụ kiện : ${name_accessory}`);
+        // $('input[name="accessory"]').val(id_accessory);
+  });
+
 
 	sumSubPrice()
 
 });
+
+
     // $("#input-id").rating();
 var mua_hang_path  = $('#route_mua_hang').val();
 var route_mua_ngay  = $('#route_mua_ngay').val();
@@ -565,19 +638,36 @@ var route_mua_ngay  = $('#route_mua_ngay').val();
 			// }
 
 			let id_color = '';
-			let id_accessory = '';
+      let id_accessory = [];
 			
 			if($('input[name="color"]').length > 0){
 				id_color = $('input[name="color"]').val();
 			}
 			
-			if($('input[name="accessory"]').length > 0){
-				id_accessory =  $('input[name=accessory]:checked').val();
-        if(id_accessory == undefined){
-          id_accessory = '';
-        }
+			// if($('input[name="accessory"]').length > 0){
+			// 	id_accessory =  $('input[name=accessory]:checked').val();
+      //   if(id_accessory == undefined){
+      //     id_accessory = '';
+      //   }
+			// 	// id_accessory = $('input[name="accessory"]').val();
+			// }
+
+      var length_accessory =  $("input:checkbox[name='accessory[]']:checked").length;
+			if( length_accessory > 0){
 				// id_accessory = $('input[name="accessory"]').val();
-			}
+        // id_accessory =  $("input:checkbox[name='accessory[]']:checked").val();
+        $("input:checkbox[name='accessory[]']:checked").each(function(key, value){
+          // id_accessory[] = $(value).attr("id_accessory");
+          id_accessory.push($(value).attr("id_accessory"));
+        });
+
+          if(id_accessory == undefined){
+            id_accessory = '';
+          }
+        }
+
+        id_accessory = encodeURIComponent(JSON.stringify(id_accessory));
+
 			
 			window.location.href = mua_hang_path + '?id_color=' + id_color + '&id_accessory=' + id_accessory
 			// $.ajax({
@@ -595,7 +685,7 @@ var route_mua_ngay  = $('#route_mua_ngay').val();
 		});
 
 		$( "#mua-ngay" ).click(function() {
-
+      // console.log(1)
 			if(!$('input[name="color"]').is(':checked') && $('input[name="color"]').length > 0 ) { 
 				
 				$("#color_error").css({"display": "block"});
@@ -609,22 +699,28 @@ var route_mua_ngay  = $('#route_mua_ngay').val();
 			// }
 
 			let id_color = '';
-			let id_accessory = '';
+			let id_accessory = [];
 
 			if($('input[name="color"]').length > 0){
 				id_color = $('input[name="color"]').val();
 			}
-			
-			if($('input[name="accessory"]').length > 0){
+
+      var length_accessory =  $("input:checkbox[name='accessory[]']:checked").length;
+			if( length_accessory > 0){
 				// id_accessory = $('input[name="accessory"]').val();
-        id_accessory =  $('input[name=accessory]:checked').val();
+        // id_accessory =  $("input:checkbox[name='accessory[]']:checked").val();
+        $("input:checkbox[name='accessory[]']:checked").each(function(key, value){
+          // id_accessory[] = $(value).attr("id_accessory");
+          id_accessory.push($(value).attr("id_accessory"));
+        });
 
-        if(id_accessory == undefined){
-          id_accessory = '';
+          if(id_accessory == undefined){
+            id_accessory = '';
+          }
         }
-			}
-			
 
+        id_accessory = encodeURIComponent(JSON.stringify(id_accessory));
+        
 			window.location.href = route_mua_ngay + '?id_color=' + id_color + '&id_accessory=' + id_accessory
 			});
 

@@ -31,6 +31,8 @@ Route::group(['prefix' => '/','namespace' => 'Frontend'],function(){
     
     //shopping cart
     Route::get('mua-hang/{id}/{tensanpham}',['as' => 'getBuyProduct','uses' => 'CartController@getBuyProduct']);
+
+
     Route::get('gio-hang',['as' => 'getCartList','uses' => 'CartController@getCartList']);
     Route::get('xoa-san-pham/{id}',['as' => 'getCartDel','uses' => 'CartController@getCartDel']);
     Route::get('xoa-sp/{id}',['as' => 'getCartDel1','uses' => 'CartController@getCartDel1']);
@@ -42,7 +44,10 @@ Route::group(['prefix' => '/','namespace' => 'Frontend'],function(){
     Route::post('get-total-cart',['as' => 'getTotalCart','uses' => 'CartController@getTotalCart']);
     Route::get('dat-hang',['as' => 'getCartOrderComplete','uses' => 'CartController@getCartOrderComplete']);
     Route::post('dat-hang',['as' => 'postCartOrderComplete','uses' => 'CartController@postCartOrderComplete']);
+
+
     Route::get('mua-ngay/{id}/{tensanpham}',['as' => 'getBuyNow','uses' => 'CartController@getBuyNow']);
+    
     Route::post('mua-ngay/{id}/{tensanpham}',['as' => 'postBuyNow','uses' => 'CartController@postBuyNow']);
     
     Route::get('duoi-3-trieu',['as' => 'get1Filter','uses' => 'FilterController@get1Filter']);
