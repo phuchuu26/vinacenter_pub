@@ -254,12 +254,15 @@ class OrderController extends Controller
                 // {{number_format($detail->qty*($price_ - $detail->dealer ) + $detail->discount )}}
 
                 $prices = $prices + ($price_ * $de->qty);
-
+                // dd(data_get($de, 'id_color'));
                 if(!empty(data_get($de, 'id_color'))){
                     $colors = ColorDetail::where('id_color_detail' , data_get($de, 'id_color'))->first();
-                    $de->colorDetail = $colors; 
-                    $colors = $colors->color;
-                    $de->colors = $colors ; 
+                 
+                    if(!empty($colors)){
+                        $de->colorDetail = $colors; 
+                        $colors = $colors->color;
+                        $de->colors = $colors ; 
+                    }
                     
                   
                 }
@@ -270,16 +273,29 @@ class OrderController extends Controller
 
                 if(!empty( $ac = json_decode(data_get($de, 'id_accessory')) )){
                     $accessory = [];
+                    
+                    if(is_array($ac)){
 
-                    foreach($ac as $a){
-
-                        $accessories = AccessoryDetail::where('id_accessory_detail' ,$a)->first();
-                        $accessory[] = $accessories->accessory->name_accessory;
-                        $total_amout_accessory += (int) data_get($accessories, 'value');
+                        foreach($ac as $a){
+                            
+                            $accessories = AccessoryDetail::where('id_accessory_detail' ,$a)->first();
+                            if(!empty($accessories)){
+                                $accessory[] = $accessories->accessory->name_accessory;
+                                $total_amout_accessory += (int) data_get($accessories, 'value');
+                            }
+                            
+                        }
+                    }else{
+                        $accessories = AccessoryDetail::where('id_accessory_detail' ,$ac)->first();
                         
+                            if(!empty($accessories)){
+                                $accessory[] = $accessories->accessory->name_accessory;
+                                $total_amout_accessory += (int) data_get($accessories, 'value');
+                            }
                     }
 
                     $name_accessory = implode(", ", $accessory);
+                    // dd( $name_accessory, $total_amout_accessory);
 
 
                 }
