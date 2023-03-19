@@ -443,9 +443,22 @@ class CartController extends Controller
 
         $yprice = (float)str_replace(',', '', $request->only('yprice')['yprice']);
 
+        $item = Cart::get($id);
+    
+        if(!empty(data_get(data_get($item, 'options'), 'id_color'))){
+            $colorDetail = ColorDetail::where('id_color_detail', data_get(data_get($item, 'options'), 'id_color') )->first();
+            $yprice += (int) data_get($colorDetail, 'value');
+        }
+        
+        if( !empty(data_get(data_get($item, 'options'), 'id_accessory'))){
+            foreach(data_get(data_get($item, 'options'), 'id_accessory') as $key => $value){
+                $AccessoryDetail = AccessoryDetail::where('id_accessory_detail', $value)->first();
+                $yprice += (int) data_get($AccessoryDetail, 'value');
+            }
+        }
+
         $ycoc = 0;
 
-        $item = Cart::get($id);
         $option = $item->options->merge(['yprice'=>$yprice,'ycoc'=>$ycoc]);
 
         // dump($item);

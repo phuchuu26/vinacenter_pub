@@ -39,8 +39,10 @@ Route::group(['prefix' => '/','namespace' => 'Frontend'],function(){
     Route::get('cap-nhat/{id}/{qty}',['as' => 'getCartUpdate','uses' => 'CartController@getCartUpdate']);
     Route::post('cap-nhat-voucher/{id}/{voucher}/{product_option_id}',['as' => 'getCartUpdateVoucher','uses' => 'CartController@getCartUpdateVoucher']);
     Route::post('cap-nhat-don-hang/',['as' => 'postCartUpdate','uses' => 'CartController@postCartUpdate']);
+    //
     Route::post('cap-nhat-gia',['as' => 'getUpdatePrice','uses' => 'CartController@getUpdatePrice']);
     Route::post('cap-nhat-so-luong',['as' => 'getUpdateQty','uses' => 'CartController@getUpdateQty']);
+    //
     Route::post('get-total-cart',['as' => 'getTotalCart','uses' => 'CartController@getTotalCart']);
     Route::get('dat-hang',['as' => 'getCartOrderComplete','uses' => 'CartController@getCartOrderComplete']);
     Route::post('dat-hang',['as' => 'postCartOrderComplete','uses' => 'CartController@postCartOrderComplete']);
